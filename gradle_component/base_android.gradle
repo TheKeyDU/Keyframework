@@ -1,0 +1,28 @@
+// 各个组件所使用的基本配置。定义在此。便于对多版本进行统一修改更新
+apply from: 'dependencys.gradle'
+android {
+    compileSdkVersion m_config.COMPILE_SDK_VERSION
+    buildToolsVersion m_config.BUILD_TOOLS_VERSION
+
+    defaultConfig {
+
+        minSdkVersion m_config.MIN_SDK_VERSION
+        targetSdkVersion m_config.TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility m_config.JAVA_VERSION
+        targetCompatibility m_config.JAVA_VERSION
+    }
+}
+

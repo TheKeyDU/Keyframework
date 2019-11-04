@@ -1,0 +1,10 @@
+// 将所有的apt插件库统一加入。
+apply plugin: 'com.jakewharton.butterknife'
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation "junit:junit:$m_depen.junit"
+    implementation "com.android.support:appcompat-v7:$m_config.COMPONENT_VERSION"
+    androidTestImplementation "com.android.support.test:runner:$m_depen.test_runner"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$m_depen.test_espresso"
+}
