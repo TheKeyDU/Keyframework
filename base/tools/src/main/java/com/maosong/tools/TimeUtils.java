@@ -3,10 +3,11 @@ package com.maosong.tools;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -1230,80 +1231,26 @@ public class TimeUtils {
         return getUSWeek(new Date(millis));
     }
 
-    /**
-     * Returns the value of the given calendar field.
-     * <p>The pattern is {@code yyyy-MM-dd HH:mm:ss}.</p>
-     *
-     * @param time  The formatted time string.
-     * @param field The given calendar field.
-     *              <ul>
-     *              <li>{@link Calendar#ERA}</li>
-     *              <li>{@link Calendar#YEAR}</li>
-     *              <li>{@link Calendar#MONTH}</li>
-     *              <li>...</li>
-     *              <li>{@link Calendar#DST_OFFSET}</li>
-     *              </ul>
-     * @return the value of the given calendar field
-     */
+
     public static int getValueByCalendarField(final String time, final int field) {
         return getValueByCalendarField(string2Date(time, getDefaultFormat()), field);
     }
 
-    /**
-     * Returns the value of the given calendar field.
-     *
-     * @param time   The formatted time string.
-     * @param format The format.
-     * @param field  The given calendar field.
-     *               <ul>
-     *               <li>{@link Calendar#ERA}</li>
-     *               <li>{@link Calendar#YEAR}</li>
-     *               <li>{@link Calendar#MONTH}</li>
-     *               <li>...</li>
-     *               <li>{@link Calendar#DST_OFFSET}</li>
-     *               </ul>
-     * @return the value of the given calendar field
-     */
+
     public static int getValueByCalendarField(final String time,
                                               @NonNull final DateFormat format,
                                               final int field) {
         return getValueByCalendarField(string2Date(time, format), field);
     }
 
-    /**
-     * Returns the value of the given calendar field.
-     *
-     * @param date  The date.
-     * @param field The given calendar field.
-     *              <ul>
-     *              <li>{@link Calendar#ERA}</li>
-     *              <li>{@link Calendar#YEAR}</li>
-     *              <li>{@link Calendar#MONTH}</li>
-     *              <li>...</li>
-     *              <li>{@link Calendar#DST_OFFSET}</li>
-     *              </ul>
-     * @return the value of the given calendar field
-     */
+
     public static int getValueByCalendarField(final Date date, final int field) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(field);
     }
 
-    /**
-     * Returns the value of the given calendar field.
-     *
-     * @param millis The milliseconds.
-     * @param field  The given calendar field.
-     *               <ul>
-     *               <li>{@link Calendar#ERA}</li>
-     *               <li>{@link Calendar#YEAR}</li>
-     *               <li>{@link Calendar#MONTH}</li>
-     *               <li>...</li>
-     *               <li>{@link Calendar#DST_OFFSET}</li>
-     *               </ul>
-     * @return the value of the given calendar field
-     */
+
     public static int getValueByCalendarField(final long millis, final int field) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(millis);

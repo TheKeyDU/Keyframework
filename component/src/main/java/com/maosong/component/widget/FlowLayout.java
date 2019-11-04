@@ -1,18 +1,22 @@
 package com.maosong.component.widget;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.RestrictTo;
-import android.support.v4.view.MarginLayoutParamsCompat;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.RestrictTo;
+import androidx.core.view.MarginLayoutParamsCompat;
+import androidx.core.view.ViewCompat;
+
 import com.maosong.component.R;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+
 
 /**
  * create by colin
@@ -160,7 +164,7 @@ public class FlowLayout extends ViewGroup {
             return;
         }
 
-        boolean isRtl = ViewCompat.getLayoutDirection(this) == LAYOUT_DIRECTION_RTL;
+        @SuppressLint("WrongConstant") boolean isRtl = ViewCompat.getLayoutDirection(this) == LAYOUT_DIRECTION_RTL;
         int paddingStart = isRtl ? getPaddingRight() : getPaddingLeft();
         int paddingEnd = isRtl ? getPaddingLeft() : getPaddingRight();
         int childStart = paddingStart;
