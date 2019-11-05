@@ -1,4 +1,4 @@
-package com.maosong.component;
+package com.maosong.component.Base;
 
 import com.maosong.component.view.BaseListPresenter;
 import com.maosong.component.view.BaseListView;

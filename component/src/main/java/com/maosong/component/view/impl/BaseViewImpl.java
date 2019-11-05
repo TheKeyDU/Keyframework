@@ -47,7 +47,7 @@ public class BaseViewImpl implements BaseView {
     @Override
     public void dismissLoading() {
         if (mLoadDialog != null && mLoadDialog.isShowing())
-            mLoadDialog.dismiss();
+        {mLoadDialog.dismiss();}
     }
 
     @Override
@@ -72,9 +72,11 @@ public class BaseViewImpl implements BaseView {
     public void showNetErrorMsg(Throwable throwable) {
         if (throwable instanceof ApiException) {
             ApiException exception = (ApiException) throwable;
-            if (exception.getCode() != 500)
-                showTipMessage(exception.getMsg());
-            else showTipMessage(mContext.getString(R.string.http_error) + mContext.getString(R.string.server_500));
+            if (exception.getCode() != 500){
+                showTipMessage(exception.getMsg());}
+            else {
+                showTipMessage(mContext.getString(R.string.http_error) + mContext.getString(R.string.server_500));
+            }
         } else if (throwable instanceof HttpException) {
             showTipMessage(mContext.getString(R.string.http_error));
         } else if (throwable instanceof TokenException) {

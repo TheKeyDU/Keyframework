@@ -1,4 +1,4 @@
-package com.maosong.component;
+package com.maosong.component.Base;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.maosong.tools.StatusBarUtils;
 
 import com.maosong.tools.StatusBarUtils;
 
@@ -102,4 +104,33 @@ public class ImmersionActivity extends AppCompatActivity {
     protected boolean needStatusPlaceHolder() {
         return false;
     }
+
+    /**
+     * 获取RootView
+     *
+     * @return 返回contentView
+     */
+    public View getRootView() {
+        return rootView;
+    }
+
+    /**
+     * 是否状态栏文字白色
+     *
+     * @return 默认否
+     */
+    protected boolean isStatusDark() {
+        return false;
+    }
+
+    /**
+     * 是否全屏
+     *
+     * @return 默认非全屏
+     */
+    protected boolean isFullScreen() {
+        return false;
+    }
+
+
 }

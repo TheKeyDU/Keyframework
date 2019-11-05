@@ -1,6 +1,7 @@
-package com.maosong.component;
+package com.maosong.component.Base;
 
 import android.content.Context;
+
 import com.maosong.component.view.BasePresenter;
 import com.maosong.component.view.BaseView;
 
