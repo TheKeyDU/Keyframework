@@ -5,6 +5,9 @@ android {
     compileSdkVersion m_config.COMPILE_SDK_VERSION
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.keyframework"
         minSdkVersion 21

@@ -1,5 +1,6 @@
 package com.maosong.component.Base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,26 +14,29 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.maosong.component.R;
 import com.maosong.component.event.ForceFinishEvent;
 import com.maosong.component.event.MessageEvent;
 import com.maosong.component.net.RxNetLife;
 import com.maosong.component.view.BaseView;
+import com.maosong.component.view.impl.BaseViewImpl;
 import com.maosong.tools.AppLifeCircleUtil;
 import com.maosong.tools.LogUtil;
 import com.maosong.tools.SPUtils;
+import com.maosong.tools.ToastUtils;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+
 public abstract class BaseActivity extends ImmersionActivity implements BaseView {
     protected BaseFragment mFragment;
     protected Activity activity;
@@ -43,8 +47,8 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState ) {
+        super.onCreate(savedInstanceState);
         activity = this;
         EventBus.getDefault().register(this);
         setContentView(getContentViewRes());
@@ -60,6 +64,7 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
     private void initInner() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.layout_simple_empty_view, null, false);
         TextView tv = mEmptyView.findViewById(R.id.tv_empty_text);
+        mBaseViewImpl=new BaseViewImpl(this);
 
     }
 
@@ -75,8 +80,8 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         isAlive = false;
     }
 
-    public abstract @LayoutRes
-    int getContentViewRes();
+    public abstract   int getContentViewRes();
+
 
     @Override
     public void onBackPressed() {
@@ -95,9 +100,9 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
     }
 
     public BaseFragment getCurrentFragment() {
-        int contextViewId = getContextViewId();
+        int contextViewId = getContentViewRes();
         if (contextViewId != 0) {
-            return (BaseFragment) getSupportFragmentManager().findFragmentById(getContextViewId());
+            return (BaseFragment) getSupportFragmentManager().findFragmentById(getContentViewRes());
         } else {
 
             return null;
@@ -107,10 +112,6 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
     public void startFragment(BaseFragment fragment) {
     }
 
-    public @IdRes
-    int getContextViewId() {
-        return 0;
-    }
 
     protected boolean isFirstRunning() {
         return isFirstRunning(true);
@@ -236,10 +237,6 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         mBaseViewImpl.showTipMessage(msg);
     }
 
-    @Override
-    public void showNetErrorMsg(Throwable throwable) {
-        mBaseViewImpl.showNetErrorMsg(throwable);
-    }
 
 
 

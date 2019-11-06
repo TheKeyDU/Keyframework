@@ -2,7 +2,6 @@ package com.maosong.component.Base;
 
 import android.os.Build;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,9 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.maosong.component.R;
 import com.maosong.tools.StatusBarUtils;
 
-import com.maosong.tools.StatusBarUtils;
-
-
-/**
- * 沉浸式上层Activity, 可独立出来
- * 默认状态栏 theme底 黑字 留出状态栏高度.
- *
- * @author zhouhao
- * @since 2018/7/10
- */
 public class ImmersionActivity extends AppCompatActivity {
 
     protected View rootView;
@@ -30,7 +20,6 @@ public class ImmersionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         if (needStatusPlaceHolder()) {
             // 添加RootView
@@ -47,13 +36,11 @@ public class ImmersionActivity extends AppCompatActivity {
 
         // 设置状态栏
         mPhoneType = StatusBarUtils.setStatusTheme(this, isStatusDark(), isFullScreen());
+        super.onCreate(savedInstanceState);
+
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        View view = LayoutInflater.from(this).inflate(layoutResID, null, false);
-        setContentView(view);
-    }
+
 
     @Override
     public void setContentView(View view) {
@@ -67,7 +54,6 @@ public class ImmersionActivity extends AppCompatActivity {
         }
         super.setContentView(rootView);
     }
-
 
     /**
      * 获取RootView
@@ -104,33 +90,4 @@ public class ImmersionActivity extends AppCompatActivity {
     protected boolean needStatusPlaceHolder() {
         return false;
     }
-
-    /**
-     * 获取RootView
-     *
-     * @return 返回contentView
-     */
-    public View getRootView() {
-        return rootView;
-    }
-
-    /**
-     * 是否状态栏文字白色
-     *
-     * @return 默认否
-     */
-    protected boolean isStatusDark() {
-        return false;
-    }
-
-    /**
-     * 是否全屏
-     *
-     * @return 默认非全屏
-     */
-    protected boolean isFullScreen() {
-        return false;
-    }
-
-
 }

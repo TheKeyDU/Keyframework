@@ -61,38 +61,14 @@ public class BaseViewImpl implements BaseView {
         return "";
     }
 
-    @Override
-    public void toLoginActBySessionError(TokenException te) {
-        showTipMessage(mContext.getString(R.string.token_error));
-        SPUtils.getInstance().clear(true);
-        SPUtils.getInstance("loginTemp").clear(true);
-    }
 
-    @Override
-    public void showNetErrorMsg(Throwable throwable) {
-        if (throwable instanceof ApiException) {
-            ApiException exception = (ApiException) throwable;
-            if (exception.getCode() != 500){
-                showTipMessage(exception.getMsg());}
-            else {
-                showTipMessage(mContext.getString(R.string.http_error) + mContext.getString(R.string.server_500));
-            }
-        } else if (throwable instanceof HttpException) {
-            showTipMessage(mContext.getString(R.string.http_error));
-        } else if (throwable instanceof TokenException) {
-            toLoginActBySessionError((TokenException) throwable);
-        } else {
-            showTipMessage(mContext.getString(R.string.some_thing) + throwable.getMessage());
-            throwable.printStackTrace();
-        }
-    }
 
-    @Override
+
+
     public void showAlertDialog(String message) {
         showAlertDialog(message, (dialog, which) -> dialog.dismiss());
     }
 
-    @Override
     public void showAlertDialog(String message, DialogInterface.OnClickListener listener) {
         new AlertDialog.Builder(mContext)
                 .setMessage(message)

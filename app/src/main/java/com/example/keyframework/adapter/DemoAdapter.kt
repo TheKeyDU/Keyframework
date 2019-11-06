@@ -7,7 +7,6 @@ import com.example.keyframework.bean.UserBean
 
 class DemoAdapter(data: MutableList<UserBean>?) : BaseQuickAdapter<UserBean, BaseViewHolder>(R.layout.activity_main, data) {
     override fun convert(helper: BaseViewHolder?, item: UserBean?) {
-        helper?.setText(R.id.demo, item?.name)
 
     }
 }

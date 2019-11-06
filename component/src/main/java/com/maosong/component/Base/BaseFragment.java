@@ -130,17 +130,6 @@ public abstract class  BaseFragment extends Fragment implements BaseView {
         mBaseViewImpl.showTipMessage(msg);
     }
 
-    @Override
-    public void showNetErrorMsg(Throwable throwable) {
-        mBaseViewImpl.showNetErrorMsg(throwable);
-    }
-
-    @Override
-    public void showAlertDialog(String message) {
-        mBaseViewImpl.showAlertDialog(message);
-    }
-
-
 
 
 

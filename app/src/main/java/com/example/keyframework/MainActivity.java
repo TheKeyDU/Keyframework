@@ -1,14 +1,20 @@
 package com.example.keyframework;
 
-import androidx.appcompat.app.AppCompatActivity;
+
+
+
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.annotation.Nullable;
+
+import com.maosong.component.Base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getContentViewRes() {
+        return R.layout.activity_main;
     }
 }
