@@ -172,7 +172,7 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         activity = null;
         EventBus.getDefault().unregister(this);
         RxNetLife.getNetLife().clear(getNetKey());
-        setFirstRuned();
+        //setFirstRuned();
         super.onDestroy();
     }
 
