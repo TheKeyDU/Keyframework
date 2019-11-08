@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity {
         ARouter.getInstance().build(ARouterPage.MAIN_ACTIVITY).navigation(this, new NavCallback() {
             @Override
             public void onArrival(Postcard postcard) {
-                onDestroy();
+              //  onDestroy();
 
             }
         });

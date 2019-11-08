@@ -6,6 +6,8 @@ import com.example.keyframework.Constants.ARouterPage;
 import com.example.keyframework.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.maosong.component.Base.BaseActivity;
+import com.maosong.tools.AppLifeCircleUtil;
+
 import androidx.annotation.NonNull;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class MainActivity extends BaseActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
     }
 
     @Override

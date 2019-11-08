@@ -14,7 +14,7 @@ import java.util.Stack;
 public class AppLifeCircleUtil {
 
 
-    private static Stack<Activity> activityStack;
+    public static Stack<Activity> activityStack;
 
     private static AppLifeCircleUtil instance;
 
