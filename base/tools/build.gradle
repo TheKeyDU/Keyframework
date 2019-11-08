@@ -19,12 +19,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
 
     compileOptions {
         sourceCompatibility m_config.JAVA_VERSION
         targetCompatibility m_config.JAVA_VERSION
     }
+
 }
 
 dependencies {

@@ -8,6 +8,11 @@ android {
         targetSdkVersion m_config.TARGET_SDK_VERSION
         versionCode 100
         versionName "1.0.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
 
     buildTypes {
@@ -39,7 +44,8 @@ dependencies {
     api "io.reactivex.rxjava2:rxandroid:$m_depen.rxandroid"
     api("com.alibaba:fastjson:$m_depen.fastjson")
     implementation project(':base:tools')
-
+    api 'com.alibaba:arouter-api:1.3.1'
+    annotationProcessor'com.alibaba:arouter-compiler:1.1.4'
     api "org.greenrobot:eventbus:$m_depen.eventbus"
 
     //刷新

@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:screenOrientation">portrait</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,9 +17,13 @@
     </style>
 
 
-
-    <style name="MainActivity"  parent="Theme.AppCompat.DayNight.DarkActionBar">
+<!--启动页面-->
+    <style name="SplashActivity"  parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowBackground">@mipmap/frist_page</item>
+        <item name="windowActionBar">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 

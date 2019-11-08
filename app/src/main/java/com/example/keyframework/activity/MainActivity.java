@@ -1,17 +1,16 @@
 package com.example.keyframework.activity;
 
-import android.os.Bundle;
-
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.keyframework.Constants.ARouterPage;
 import com.example.keyframework.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.appcompat.app.AppCompatActivity;
+import com.maosong.component.Base.BaseActivity;
 import androidx.annotation.NonNull;
-
 import android.view.MenuItem;
 import android.widget.TextView;
-
-public class MainActivity extends AppCompatActivity {
+@Route(path = ARouterPage.MAIN_ACTIVITY)
+public class MainActivity extends BaseActivity {
     private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -34,13 +33,22 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mainbot);
+    public void initView() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public int getContentViewRes() {
+        return R.layout.activity_mainbot;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }

@@ -1,27 +1,18 @@
 package com.maosong.component.Base;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.maosong.component.R;
 import com.maosong.component.event.ForceFinishEvent;
 import com.maosong.component.event.MessageEvent;
@@ -31,8 +22,6 @@ import com.maosong.component.view.impl.BaseViewImpl;
 import com.maosong.tools.AppLifeCircleUtil;
 import com.maosong.tools.LogUtil;
 import com.maosong.tools.SPUtils;
-import com.maosong.tools.ToastUtils;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -51,15 +40,18 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         super.onCreate(savedInstanceState);
         activity = this;
         EventBus.getDefault().register(this);
-        setContentView(getContentViewRes());
         AppLifeCircleUtil.getInstance().pushActivity(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ARouter.getInstance().inject(this);
+        if (getContentViewRes()!=0)
+        {
+        setContentView(getContentViewRes());
+        }
         initView();
 
     }
 
-    private void initView() {
-    }
+    public abstract void initView();
 
     private void initInner() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.layout_simple_empty_view, null, false);
@@ -67,7 +59,11 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         mBaseViewImpl=new BaseViewImpl(this);
 
     }
-
+public boolean jumpActivity(String path )
+{
+    ARouter.getInstance().build(path).navigation();
+    return true;
+}
     @Override
     protected void onResume() {
         super.onResume();
