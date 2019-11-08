@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Administrator\\AppData\\Local\\Android\\Sdk\\sources\\android-23\\android\\Keyframework\\jpush\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-v3\\values-zh-v3.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Administrator\\AppData\\Local\\Android\\Sdk\\sources\\android-23\\android\\Keyframework\\jpush\\res\\values-zh-v3\\style.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "106",
+                        "endLines": "7",
+                        "endColumns": "12",
+                        "endOffsets": "346"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "100",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "334"
+                    }
+                }
+            ]
+        }
+    ]
+}

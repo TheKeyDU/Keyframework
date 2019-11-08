@@ -1,12 +1,15 @@
 package com.example.keyframework;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.maosong.tools.LogUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+
+import org.android.agoo.xiaomi.MiPushRegistar;
 
 public class MyApplication extends Application {
 
@@ -15,6 +18,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         initUmengPush();
+        initMIUIPush();
     }
 
     private void initUmengPush() {
@@ -36,5 +40,8 @@ public class MyApplication extends Application {
 
             }
         });
+    }
+    private void initMIUIPush(){
+        MiPushRegistar.register(this,MyConstant.xiaomiID,MyConstant.xiaomiAppKey);
     }
 }
