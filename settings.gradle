@@ -1,1 +1,1 @@
-include ':app', ':base:tools', 'component', 'gradle_component', ':jpush'
+include ':app', ':base:tools', ':androiddemo', 'component', 'gradle_component', ':jpush'

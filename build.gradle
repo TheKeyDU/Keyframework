@@ -24,6 +24,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven { url "http://localhost:8081/repository/duqijian/" }
         mavenCentral()
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }

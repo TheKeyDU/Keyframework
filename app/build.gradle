@@ -1,19 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'maven'
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion m_config.COMPILE_SDK_VERSION
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion   m_config.COMPILE_SDK_VERSION
+    buildToolsVersion   m_config.BUILD_TOOLS_VERSION
+
     dataBinding {
         enabled = true
     }
     defaultConfig {
         applicationId "com.example.keyframework"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion m_config.MIN_SDK_VERSION
+        targetSdkVersion m_config.TARGET_SDK_VERSION
+        versionCode m_config.VERSION_CODE
+        versionName m_config.VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility m_config.JAVA_VERSION
