@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.maosong.component.R;
+import com.itkey.component.R;
 import com.maosong.component.event.ForceFinishEvent;
 import com.maosong.component.event.MessageEvent;
 import com.maosong.component.net.RxNetLife;

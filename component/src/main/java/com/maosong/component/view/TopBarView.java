@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.maosong.component.R;
+import com.itkey.component.R;
 
 /**
  * create by colin on 2019-05-08

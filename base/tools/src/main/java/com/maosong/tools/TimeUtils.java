@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.itkey.tools.R;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;

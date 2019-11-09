@@ -1,7 +1,6 @@
 package com.example.keyframework.activity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.Constants.ARouterPage;
 import com.example.keyframework.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

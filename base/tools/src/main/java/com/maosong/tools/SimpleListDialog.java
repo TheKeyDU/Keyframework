@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.itkey.tools.R;
+
 import java.util.ArrayList;
 import java.util.List;
 

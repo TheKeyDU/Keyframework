@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.maosong.component.R;
+import com.itkey.component.R;
 import com.maosong.tools.QMUIDisplayHelper;
 
 /**

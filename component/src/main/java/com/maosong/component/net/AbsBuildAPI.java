@@ -26,7 +26,7 @@ public class AbsBuildAPI {
      */
     public static <T> T buildApiServers(Class<T> service) {
         if (headerRetrofit == null) {
-            headerRetrofit = new Retrofit.Builder().baseUrl(Environment.BASE_HOST)
+            headerRetrofit = new Retrofit.Builder().baseUrl("")
                     .addConverterFactory(GsonConverterFactory.create())
                     //这个用来发起网络请求
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

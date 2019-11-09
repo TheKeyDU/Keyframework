@@ -18,8 +18,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
+import com.itkey.component.R;
 
-import com.maosong.component.R;
 import com.maosong.tools.QMUIDisplayHelper;
 
 public class SettingItemView extends LinearLayout {

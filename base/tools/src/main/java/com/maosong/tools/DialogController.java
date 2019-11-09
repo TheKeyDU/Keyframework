@@ -7,16 +7,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.itkey.tools.R;
 
 import java.util.List;
 

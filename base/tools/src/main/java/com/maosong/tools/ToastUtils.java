@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itkey.tools.R;
+
 public class ToastUtils {
     private static Toast toast;//实现不管我们触发多少次Toast调用，都只会持续一次Toast显示的时长
     private static Toast redToast;

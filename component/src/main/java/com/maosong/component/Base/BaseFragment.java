@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import com.maosong.component.R;
+import com.itkey.component.R;
 import com.maosong.component.view.BaseView;
 import com.maosong.component.view.impl.BaseViewImpl;
 import com.maosong.tools.SPUtils;

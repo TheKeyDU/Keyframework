@@ -13,7 +13,7 @@ import androidx.annotation.RestrictTo;
 import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.core.view.ViewCompat;
 
-import com.maosong.component.R;
+import com.itkey.component.R;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 

@@ -5,13 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
-import com.maosong.component.R;
-import com.maosong.component.net.ApiException;
-import com.maosong.component.net.TokenException;
 import com.maosong.component.view.BaseView;
-import com.maosong.tools.SPUtils;
 import com.maosong.tools.ToastUtils;
-import retrofit2.HttpException;
+import com.itkey.component.R;
 
 /**
  * create by colin on 2019-05-08

@@ -10,7 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.maosong.component.R;
+import com.itkey.component.R;
+
 
 /**
  * @author zhouhao

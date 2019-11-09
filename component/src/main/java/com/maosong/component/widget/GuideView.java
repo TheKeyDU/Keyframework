@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import com.maosong.component.R;
+import com.itkey.component.R;
 
 import java.util.List;
 
