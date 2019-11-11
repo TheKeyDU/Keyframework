@@ -1,7 +1,10 @@
 package com.example.keyframework;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Looper;
@@ -27,6 +30,7 @@ import org.android.agoo.xiaomi.MiPushRegistar;
  */
 public class MyApplication extends Application {
     private boolean isDebug = true;
+    private Context context = MyApplication.this;
 
     @Override
     public void onCreate() {
@@ -44,12 +48,25 @@ public class MyApplication extends Application {
                 if (!handleException(e) &&
                         Thread.getDefaultUncaughtExceptionHandler() != null) {
                     Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);
+                    AppLifeCircleUtil.getInstance().appExit(MyApplication.this);
+
                 } else {
                     try {
-                        Thread.sleep(2000);
-                        AppLifeCircleUtil.getInstance().appExit(MyApplication.this);
-                        Intent intent = new Intent(MyApplication.this, SplashActivity.class);
-                        startActivity(intent);
+                        Thread.sleep(1000);
+                       /* AppLifeCircleUtil.getInstance().finishAllActivity();
+                        AppLifeCircleUtil.getInstance().appExit(MyApplication.this);*/
+                        // android.os.Process.killProcess(android.os.Process.myPid());
+                        // System.exit(0);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
+                                getApplicationContext(), 0, intent,
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //退出程序
+                        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                                restartIntent);
+                      //  AppLifeCircleUtil.getInstance().finishAllActivity();
+                        android.os.Process.killProcess(android.os.Process.myPid());
                     } catch (InterruptedException e1) {
                         e1.printStackTrace();
                     }
