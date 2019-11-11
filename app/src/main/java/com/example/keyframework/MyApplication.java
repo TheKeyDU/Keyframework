@@ -52,24 +52,22 @@ public class MyApplication extends Application {
 
                 } else {
                     try {
-                        Thread.sleep(1000);
-                       /* AppLifeCircleUtil.getInstance().finishAllActivity();
-                        AppLifeCircleUtil.getInstance().appExit(MyApplication.this);*/
-                        // android.os.Process.killProcess(android.os.Process.myPid());
-                        // System.exit(0);
-                        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                        @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
-                                getApplicationContext(), 0, intent,
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                        //退出程序
-                        AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
-                                restartIntent);
-                      //  AppLifeCircleUtil.getInstance().finishAllActivity();
-                        android.os.Process.killProcess(android.os.Process.myPid());
+                        Thread.sleep(2000);
+
                     } catch (InterruptedException e1) {
                         e1.printStackTrace();
                     }
+                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
+                            getApplicationContext(), 0, intent,
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                            restartIntent);
+                    AppLifeCircleUtil.getInstance().finishAllActivity();
+                    System.exit(0);
+                    System.gc();
+
 
                 }
 
