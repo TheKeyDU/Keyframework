@@ -30,7 +30,7 @@ import org.android.agoo.xiaomi.MiPushRegistar;
  */
 public class MyApplication extends Application {
     private boolean isDebug = true;
-    private Context context = MyApplication.this;
+    private Context mContext = MyApplication.this;
 
     @Override
     public void onCreate() {
@@ -57,13 +57,13 @@ public class MyApplication extends Application {
                         AppLifeCircleUtil.getInstance().appExit(MyApplication.this);*/
                         // android.os.Process.killProcess(android.os.Process.myPid());
                         // System.exit(0);
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                         @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
                                 getApplicationContext(), 0, intent,
                                 Intent.FLAG_ACTIVITY_NEW_TASK);
                         //退出程序
-                        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                        AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
                                 restartIntent);
                       //  AppLifeCircleUtil.getInstance().finishAllActivity();
                         android.os.Process.killProcess(android.os.Process.myPid());
