@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 
 android {
@@ -33,10 +35,15 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api "com.android.support:appcompat-v7:$m_config.COMPONENT_VERSION"
    implementation "com.android.support:design:$m_config.COMPONENT_VERSION"
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
     //    implementation "com.squareup.okhttp3:okhttp:$m_depen.okhttp"
     //    implementation "com.squareup.okio:okio:$m_depen.okio"
     //    implementation "com.google.code.gson:gson:$m_depen.gson"
 
+}
+repositories {
+    mavenCentral()
 }

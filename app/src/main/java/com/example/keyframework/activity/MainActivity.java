@@ -6,8 +6,11 @@ import com.example.keyframework.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.ToastUtils;
 
 import androidx.annotation.NonNull;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 @Route(path = ARouterPage.MAIN_ACTIVITY)
@@ -22,9 +25,12 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
+
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
+                    String a=null;
+            String                     b=a.toString();
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
@@ -42,7 +48,8 @@ public class MainActivity extends BaseActivity {
         mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
-    }
+
+   }
 
     @Override
     public int getContentViewRes() {

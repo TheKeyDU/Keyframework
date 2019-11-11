@@ -19,7 +19,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
-    jumpAndKillSelf();
+        jumpAndKillSelf();
     }
 
     private void jumpAndKillSelf() {

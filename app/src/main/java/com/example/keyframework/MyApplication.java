@@ -1,29 +1,83 @@
 package com.example.keyframework;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.Constants.MyConstant;
+import com.example.keyframework.activity.MainActivity;
+import com.example.keyframework.activity.SplashActivity;
+import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.ToastUtils;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
 
+/**
+ * @author Administrator
+ */
 public class MyApplication extends Application {
     private boolean isDebug = true;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        initCrashWithReboot();
         initUmengPush();
         initMIUIPush();
         initARout();
+    }
+
+    private void initCrashWithReboot() {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
+                if (!handleException(e) &&
+                        Thread.getDefaultUncaughtExceptionHandler() != null) {
+                    Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);
+                } else {
+                    try {
+                        Thread.sleep(2000);
+                        AppLifeCircleUtil.getInstance().appExit(MyApplication.this);
+                        Intent intent = new Intent(MyApplication.this, SplashActivity.class);
+                        startActivity(intent);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
+
+    }
+
+    private boolean handleException(Throwable e) {
+        if (e == null) {
+            return false;
+        }
+        new Thread() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void run() {
+                super.run();
+                if (Looper.myLooper() == null) {
+                    Looper.prepare();
+                }
+                Toast.makeText(MyApplication.this, e.toString(), 2000).show();
+                Looper.loop();
+            }
+        }.start();
+        return true;
     }
 
     @Override
@@ -84,4 +138,6 @@ public class MyApplication extends Application {
     private void initMIUIPush() {
         MiPushRegistar.register(this, MyConstant.xiaomiID, MyConstant.xiaomiAppKey);
     }
+
+
 }
