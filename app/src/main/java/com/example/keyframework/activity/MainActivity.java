@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void itemViewStartAnimation(View view) {
-        startCircularReveal(constraintLayout, (int) view.getX(), constraintLayout.getHeight(), constraintLayout.getHeight(), 200);
+        startCircularReveal(constraintLayout, (int) view.getX()+view.getWidth()/2, constraintLayout.getHeight(), constraintLayout.getHeight(), 200);
     }
 
     private void startCircularReveal(View view,
