@@ -14,23 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.animation.Animator;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import java.util.logging.Handler;
-
-import io.reactivex.internal.schedulers.NewThreadWorker;
 
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity {
@@ -83,7 +72,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void itemViewStartAnimation(View view) {
-        startCircularReveal(constraintLayout, (int) view.getX()+view.getWidth()/2, constraintLayout.getHeight(), constraintLayout.getHeight(), 200);
+        startCircularReveal(constraintLayout, (int) view.getX() + view.getWidth() / 2, constraintLayout.getHeight(), constraintLayout.getHeight(), 200);
     }
 
     private void startCircularReveal(View view,

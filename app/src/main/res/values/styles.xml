@@ -19,7 +19,7 @@
 
 <!--启动页面-->
     <style name="SplashActivity"  parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="android:windowBackground">@mipmap/frist_page</item>
+        <item name="android:windowBackground">@mipmap/bg_lunch</item>
         <item name="windowActionBar">true</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="windowNoTitle">true</item>
