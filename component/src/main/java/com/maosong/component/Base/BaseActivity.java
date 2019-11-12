@@ -48,10 +48,11 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         setContentView(getContentViewRes());
         }
         initView();
-
+        initDate();
     }
 
     public abstract void initView();
+    public abstract void initDate();
 
     private void initInner() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.layout_simple_empty_view, null, false);

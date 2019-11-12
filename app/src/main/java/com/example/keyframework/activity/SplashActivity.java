@@ -20,6 +20,7 @@ public class SplashActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         jumpAndKillSelf();
+
     }
 
     private void jumpAndKillSelf() {
@@ -35,6 +36,11 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
+    }
+
+    @Override
+    public void initDate() {
 
     }
 
