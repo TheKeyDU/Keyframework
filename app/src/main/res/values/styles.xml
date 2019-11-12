@@ -17,8 +17,16 @@
     </style>
 
 
-<!--启动页面-->
-    <style name="SplashActivity"  parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <!--背景透明-->
+    <style name="MyTransparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
+
+    <!--启动页面-->
+    <style name="SplashActivity" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowBackground">@mipmap/bg_lunch</item>
         <item name="windowActionBar">true</item>
         <item name="android:fitsSystemWindows">true</item>
@@ -27,9 +35,17 @@
     </style>
 
 
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

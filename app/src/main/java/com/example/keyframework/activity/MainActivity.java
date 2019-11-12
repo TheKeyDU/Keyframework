@@ -3,27 +3,21 @@ package com.example.keyframework.activity;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.keyframework.Constants.ARouterPage;
 import com.example.keyframework.R;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
-import com.maosong.tools.ToastUtils;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.animation.Animator;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.TextView;
 
 
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity {
-    private TextView mTextMessage;
     Animator animator = null;
     ConstraintLayout constraintLayout = null;
     BottomNavigationView navView = null;
@@ -35,15 +29,12 @@ public class MainActivity extends BaseActivity {
             BottomNavigationMenuView itemViews = (BottomNavigationMenuView) navView.getChildAt(0);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
                     itemViewStartAnimation(itemViews.getChildAt(0));
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
                     itemViewStartAnimation(itemViews.getChildAt(1));
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
                     itemViewStartAnimation(itemViews.getChildAt(2));
                     return true;
             }
@@ -55,7 +46,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         navView = findViewById(R.id.nav_view);
-        mTextMessage = findViewById(R.id.message);
         constraintLayout = findViewById(R.id.container);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
