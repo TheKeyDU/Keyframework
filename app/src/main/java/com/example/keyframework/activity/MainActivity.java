@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -118,7 +119,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -140,6 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public int getContentViewRes() {
         return R.layout.activity_main;
@@ -159,8 +160,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
@@ -173,6 +172,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.dwl_root);
