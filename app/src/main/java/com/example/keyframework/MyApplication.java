@@ -14,11 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.keyframework.Constants.MyConstant;
-import com.example.keyframework.activity.MainActivity;
-import com.example.keyframework.activity.SplashActivity;
+import com.example.keyframework.constants.MyConstant;
+import com.example.keyframework.activitys.SplashActivity;
 import com.maosong.tools.AppLifeCircleUtil;
-import com.maosong.tools.ToastUtils;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;

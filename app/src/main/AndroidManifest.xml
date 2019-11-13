@@ -34,10 +34,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activitys.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activitys.SplashActivity"
             android:launchMode="singleTask"
             android:theme="@style/SplashActivity">
             <intent-filter>

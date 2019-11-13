@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import android.util.Log
-import com.example.keyframework.activity.SplashActivity
+import com.example.keyframework.activitys.SplashActivity
 import com.maosong.tools.AppLifeCircleUtil
 import com.maosong.tools.ToastUtils
 import com.maosong.tools.ToolsApp

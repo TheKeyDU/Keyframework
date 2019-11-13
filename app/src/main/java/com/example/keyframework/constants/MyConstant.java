@@ -1,4 +1,4 @@
-package com.example.keyframework.Constants;
+package com.example.keyframework.constants;
 
 public class MyConstant {
   //友盟推送

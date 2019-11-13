@@ -1,8 +1,10 @@
-package com.example.keyframework.activity;
+package com.example.keyframework.activitys;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.example.keyframework.Constants.ARouterPage;
+import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
+import com.example.keyframework.adapter.HomePagerFragmentAdapter;
+import com.example.keyframework.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -14,6 +16,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
 import android.view.Menu;
@@ -22,11 +26,17 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     Animator animator = null;
+    HomePagerFragmentAdapter homePagerFragmentAdapter = null;
     androidx.drawerlayout.widget.DrawerLayout mDrawerLayout = null;
+    List<Fragment> fragments = null;
     BottomNavigationView navView = null;
+    ViewPager mViewPager = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -51,6 +61,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void initView() {
+        initViewPagerWithFragments();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -63,6 +74,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView = findViewById(R.id.nav_bot);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
+    }
+
+    private void initViewPagerWithFragments() {
+        mViewPager = findViewById(R.id.vp_container);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
+        mViewPager.setAdapter(homePagerFragmentAdapter);
+
     }
 
     @Override
