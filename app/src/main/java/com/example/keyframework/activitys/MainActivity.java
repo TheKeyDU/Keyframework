@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -18,25 +17,25 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import android.animation.Animator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Route(path = ARouterPage.MAIN_ACTIVITY)
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Animator animator = null;
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        Animator.AnimatorListener {
+
     HomePagerFragmentAdapter homePagerFragmentAdapter = null;
     androidx.drawerlayout.widget.DrawerLayout mDrawerLayout = null;
     List<Fragment> fragments = null;
     BottomNavigationView navView = null;
     ViewPager mViewPager = null;
+    private int whichAnimation = 0;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -45,19 +44,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             BottomNavigationMenuView itemViews = (BottomNavigationMenuView) navView.getChildAt(0);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    itemViewStartAnimation(itemViews.getChildAt(0));
+                    setWhichAnimationTag(0);
+                    startBig2samllAnimation(400, mDrawerLayout.getWidth(), 0, MainActivity.this);
                     return true;
                 case R.id.navigation_dashboard:
-                    itemViewStartAnimation(itemViews.getChildAt(1));
+                    setWhichAnimationTag(1);
+                    startBig2samllAnimation(401, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
                     return true;
                 case R.id.navigation_notifications:
-                    itemViewStartAnimation(itemViews.getChildAt(2));
+                    setWhichAnimationTag(2);
+                    startBig2samllAnimation(402, 0, 0, MainActivity.this);
                     return true;
             }
             return false;
         }
     };
 
+    private synchronized void setWhichAnimationTag(int tag) {
+        whichAnimation = tag;
+    }
+
+    private synchronized int getWhichAnimationTag() {
+        return whichAnimation;
+    }
 
     @Override
     public void initView() {
@@ -79,7 +88,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
         List<Fragment> fragments = new ArrayList<>();
-         
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 
@@ -90,49 +103,46 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startCircularReveal(mDrawerLayout, mDrawerLayout.getWidth() / 2, 0, mDrawerLayout.getHeight(), 700);
+                startCircularReveal(mDrawerLayout, mDrawerLayout.getWidth() / 2, 0, 0, mDrawerLayout.getHeight(), 500);
             }
         }, 100);
     }
 
     private void itemViewStartAnimation(View view) {
-        startCircularReveal(mDrawerLayout, (int) view.getX() + view.getWidth() / 2, mDrawerLayout.getHeight(), mDrawerLayout.getHeight(), 200);
+        startCircularReveal(mDrawerLayout,
+                (int) view.getX() + view.getWidth() / 2,
+                mDrawerLayout.getHeight(),
+                mDrawerLayout.getWidth() / 4,
+                mDrawerLayout.getHeight(),
+                300);
+    }
+
+    private void startBig2samllAnimation(int time, int x, int y, Animator.AnimatorListener listener) {
+        Animator anim = ViewAnimationUtils.createCircularReveal(
+                mDrawerLayout,
+                x,
+                y,
+                mDrawerLayout.getHeight(), 0);
+        anim.setDuration(time);
+        anim.setInterpolator(new AccelerateInterpolator());
+        anim.addListener(listener);
+        anim.start();
     }
 
     private void startCircularReveal(View view,
                                      int x,
                                      int y,
+                                     int sr,
                                      int redius,
                                      int time
     ) {
-        animator = ViewAnimationUtils.createCircularReveal(
+        Animator animator = ViewAnimationUtils.createCircularReveal(
                 view,
                 x,
                 y,
-                0, redius);
+                sr, redius);
         animator.setDuration(time);
         animator.setInterpolator(new AccelerateInterpolator());
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mDrawerLayout.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
         animator.start();
 
 
@@ -199,7 +209,55 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            onBackPressed();
+            super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation, boolean isReverse) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation, boolean isReverse) {
+
+
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        BottomNavigationMenuView itemViews = (BottomNavigationMenuView) navView.getChildAt(0);
+
+        switch (getWhichAnimationTag()) {
+            case 0: {
+                itemViewStartAnimation(itemViews.getChildAt(0));
+                break;
+            }
+            case 1: {
+                itemViewStartAnimation(itemViews.getChildAt(1));
+                break;
+
+            }
+            case 2: {
+                itemViewStartAnimation(itemViews.getChildAt(2));
+                break;
+
+            }
+        }
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
     }
 }
