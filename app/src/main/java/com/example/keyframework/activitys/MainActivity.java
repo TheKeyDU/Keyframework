@@ -29,7 +29,9 @@ import java.util.List;
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         Animator.AnimatorListener {
-
+    private int FristPageAnimation=400;
+    private int MenuViewItemBig2Small=400;
+    private int MenuViewItemSmall2Big=200;
     HomePagerFragmentAdapter homePagerFragmentAdapter = null;
     androidx.drawerlayout.widget.DrawerLayout mDrawerLayout = null;
     List<Fragment> fragments = null;
@@ -45,15 +47,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     setWhichAnimationTag(0);
-                    startBig2samllAnimation(400, mDrawerLayout.getWidth(), 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemSmall2Big, mDrawerLayout.getWidth(), 0, MainActivity.this);
                     return true;
                 case R.id.navigation_dashboard:
                     setWhichAnimationTag(1);
-                    startBig2samllAnimation(401, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemSmall2Big, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
                     return true;
                 case R.id.navigation_notifications:
                     setWhichAnimationTag(2);
-                    startBig2samllAnimation(402, 0, 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemSmall2Big, 0, 0, MainActivity.this);
                     return true;
             }
             return false;
@@ -103,7 +105,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startCircularReveal(mDrawerLayout, mDrawerLayout.getWidth() / 2, 0, 0, mDrawerLayout.getHeight(), 500);
+                startCircularReveal(mDrawerLayout,
+                        mDrawerLayout.getWidth() / 2, 0, 0,
+                        mDrawerLayout.getHeight(),
+                        FristPageAnimation);
             }
         }, 100);
     }
@@ -114,7 +119,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 mDrawerLayout.getHeight(),
                 mDrawerLayout.getWidth() / 4,
                 mDrawerLayout.getHeight(),
-                300);
+                MenuViewItemSmall2Big
+                );
     }
 
     private void startBig2samllAnimation(int time, int x, int y, Animator.AnimatorListener listener) {
