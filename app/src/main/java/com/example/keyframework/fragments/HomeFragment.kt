@@ -11,7 +11,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun setFragmentView(): Int {
-        return R.layout.activity_main
+        return R.layout.app_bar_main
     }
 
 }

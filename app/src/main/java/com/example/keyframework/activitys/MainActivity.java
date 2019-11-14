@@ -79,10 +79,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+         
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 
