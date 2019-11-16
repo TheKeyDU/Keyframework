@@ -12,6 +12,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
 import com.maosong.tools.ToastUtils;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -23,17 +24,18 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int MenuViewItemBig2Small = 400;
     private int MenuViewItemSmall2Big = 200;
     private Context mContext;
+    ImageView imageView = null;
+
 
     Toolbar toolbar = null;
     HomePagerFragmentAdapter homePagerFragmentAdapter = null;
@@ -87,7 +91,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void initView() {
         initViewPagerWithFragments();
-        mContext=MainActivity.this;
+        mContext = MainActivity.this;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -107,19 +111,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         try {
             Field field = toolbar.getClass().getDeclaredField("mLogoView");
             field.setAccessible(true);
-            ImageView imageView = (ImageView) field.get(toolbar);
-            imageView.setTransitionName("SEIV");
-            imageView.setId(R.id.tool_bar_log);
+            imageView = (ImageView) field.get(toolbar);
+           // imageView.setId(R.id.tool_bar_log);
+            //imageView.setTransitionName("SEIV");
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Pair<View, String>[] pairs = new Pair[]{
-                            Pair.create(mDrawerLayout.findViewById(R.id.tool_bar_log), "SEIV")};
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(AppLifeCircleUtil.activityStack.get(0), pairs);
-                    ToastUtils.showLongToast("2");
-                    ARouter.getInstance().build(ARouterPage.MYPAGE_ACTIVITY).withOptionsCompat(options)
-                            .navigation(MainActivity.this);
+                  /*  ARouter.getInstance()
+                            .build(ARouterPage.MYPAGE_ACTIVITY)
+                            .with(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                    imageView,
+                                    "SEIV")
+                                    .toBundle())
+                            .navigation(MainActivity.this);*/
+                   /* startActivity(new Intent(MainActivity.this, MyPage.class),
+                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                    imageView,
+                                    "SEIV")
+                                    .toBundle());*/
                 }
             });
 
@@ -127,7 +136,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
-            ToastUtils.showLongToast("1");
 
             e.printStackTrace();
         }
@@ -312,4 +320,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onAnimationRepeat(Animator animation) {
 
     }
+
+    public void jump(View view) {
+        imageView = (ImageView) findViewById(R.id.Login_ico);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,view,"SEIV");
+        startActivity(new Intent(MainActivity.this, MyPage.class), options.toBundle());
+    }
+
 }
