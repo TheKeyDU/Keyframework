@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.constants.MyConstant;
 import com.example.keyframework.activitys.SplashActivity;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.ToolsApp;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -32,6 +33,7 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
+        ToolsApp.initContext(this);
         super.onCreate();
         initCrashWithReboot();
         initUmengPush();

@@ -1,6 +1,7 @@
 package com.example.keyframework.activitys;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
@@ -10,28 +11,41 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.ToastUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
 import android.animation.Animator;
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         Animator.AnimatorListener {
-    private int FristPageAnimation=400;
-    private int MenuViewItemBig2Small=400;
-    private int MenuViewItemSmall2Big=200;
+    private int FristPageAnimation = 400;
+    private int MenuViewItemBig2Small = 400;
+    private int MenuViewItemSmall2Big = 200;
+    private Context mContext;
+
+    Toolbar toolbar = null;
     HomePagerFragmentAdapter homePagerFragmentAdapter = null;
     androidx.drawerlayout.widget.DrawerLayout mDrawerLayout = null;
     List<Fragment> fragments = null;
@@ -47,15 +61,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     setWhichAnimationTag(0);
-                    startBig2samllAnimation(MenuViewItemSmall2Big, mDrawerLayout.getWidth(), 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth(), 0, MainActivity.this);
                     return true;
                 case R.id.navigation_dashboard:
                     setWhichAnimationTag(1);
-                    startBig2samllAnimation(MenuViewItemSmall2Big, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
                     return true;
                 case R.id.navigation_notifications:
                     setWhichAnimationTag(2);
-                    startBig2samllAnimation(MenuViewItemSmall2Big, 0, 0, MainActivity.this);
+                    startBig2samllAnimation(MenuViewItemBig2Small, 0, 0, MainActivity.this);
                     return true;
             }
             return false;
@@ -73,7 +87,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void initView() {
         initViewPagerWithFragments();
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        mContext=MainActivity.this;
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mDrawerLayout = findViewById(R.id.dwl_root);
@@ -85,11 +100,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView = findViewById(R.id.nav_bot);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
+        initListener();
+    }
+
+    private void initListener() {
+        try {
+            Field field = toolbar.getClass().getDeclaredField("mLogoView");
+            field.setAccessible(true);
+            ImageView imageView = (ImageView) field.get(toolbar);
+            imageView.setTransitionName("SEIV");
+            imageView.setId(R.id.tool_bar_log);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Pair<View, String>[] pairs = new Pair[]{
+                            Pair.create(mDrawerLayout.findViewById(R.id.tool_bar_log), "SEIV")};
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(AppLifeCircleUtil.activityStack.get(0), pairs);
+                    ToastUtils.showLongToast("2");
+                    ARouter.getInstance().build(ARouterPage.MYPAGE_ACTIVITY).withOptionsCompat(options)
+                            .navigation(MainActivity.this);
+                }
+            });
+
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            ToastUtils.showLongToast("1");
+
+            e.printStackTrace();
+        }
     }
 
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
-        List<Fragment> fragments = new ArrayList<>();
+        fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
         fragments.add(new HomeFragment());
@@ -120,7 +166,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 mDrawerLayout.getWidth() / 4,
                 mDrawerLayout.getHeight(),
                 MenuViewItemSmall2Big
-                );
+        );
     }
 
     private void startBig2samllAnimation(int time, int x, int y, Animator.AnimatorListener listener) {
