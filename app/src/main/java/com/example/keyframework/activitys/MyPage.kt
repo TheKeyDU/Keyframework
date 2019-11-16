@@ -1,6 +1,7 @@
 package com.example.keyframework.activitys
 
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.example.keyframework.R
 import com.example.keyframework.constants.ARouterPage
 import com.maosong.component.Base.BaseActivity
 
@@ -13,6 +14,6 @@ class MyPage: BaseActivity() {
     }
 
     override fun getContentViewRes(): Int {
-        return 0
+        return R.layout.activity_my_page
     }
 }
