@@ -10,20 +10,19 @@
 
 
     <ImageView
-        android:onClick="jump"
-        android:transitionName="SEIV"
+        android:transitionName="sharedView"
         android:id="@+id/Login_ico"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:backgroundTint="#177c6f"
         android:textSize="30dp"
         app:elevation="20dp"
         tools:ignore="MissingPrefix" />
 
 
     <Button
+        android:onClick="jump"
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

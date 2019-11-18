@@ -35,6 +35,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$m_config.KOTLIN_VERSION"
     api "com.android.support:appcompat-v7:$m_config.COMPONENT_VERSION"
     api "com.android.support:recyclerview-v7:$m_config.COMPONENT_VERSION"
+
     api("com.squareup.retrofit2:retrofit:$m_depen.retrofit") {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }

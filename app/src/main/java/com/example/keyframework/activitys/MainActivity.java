@@ -112,11 +112,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Field field = toolbar.getClass().getDeclaredField("mLogoView");
             field.setAccessible(true);
             imageView = (ImageView) field.get(toolbar);
-           // imageView.setId(R.id.tool_bar_log);
-            //imageView.setTransitionName("SEIV");
+            imageView.setId(R.id.tool_bar_log);
+            imageView.setTransitionName("sharedView");
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, MyPage.class),
+                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                    imageView, "sharedView").toBundle());
                   /*  ARouter.getInstance()
                             .build(ARouterPage.MYPAGE_ACTIVITY)
                             .with(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
@@ -322,9 +325,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     public void jump(View view) {
-        imageView = (ImageView) findViewById(R.id.Login_ico);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,view,"SEIV");
-        startActivity(new Intent(MainActivity.this, MyPage.class), options.toBundle());
+
+
     }
 
 }
