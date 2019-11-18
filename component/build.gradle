@@ -58,10 +58,12 @@ dependencies {
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$m_depen.recycleview_adapter"
 
     // chuck 在通知栏查看网络请求
-    debugImplementation("com.readystatesoftware.chuck:library:$m_depen.chuck") {
+/*    debugImplementation("com.readystatesoftware.chuck:library:$m_depen.chuck") {
         exclude group: 'com.android.support'
     }
-    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$m_depen.chuck"
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$m_depen.chuck"*/
+    // chuck 在通知栏查看网络请求
+
 
 //    implementation "com.squareup.okhttp3:okhttp:$m_depen.okhttp"
 //    implementation "com.squareup.okio:okio:$m_depen.okio"

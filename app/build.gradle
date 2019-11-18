@@ -77,4 +77,10 @@ dependencies {
 //PushSDK
     api 'com.umeng.umsdk:push:6.0.1'
     implementation 'androidx.cardview:cardview:1.0.0'
+    // chuck 在通知栏查看网络请求
+    debugImplementation("com.readystatesoftware.chuck:library:$m_depen.chuck") {
+        exclude group: 'com.android.support'
+    }
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$m_depen.chuck"
+
 }
