@@ -1,7 +1,6 @@
 package com.example.keyframework.activitys;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.example.keyframework.bean.HomeListBean;
 import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
@@ -12,8 +11,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.tools.AppLifeCircleUtil;
-import com.maosong.tools.ToastUtils;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +18,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -32,18 +28,9 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.internal.operators.observable.ObservableOnErrorNext;
 
 
 @Route(path = ARouterPage.MAIN_ACTIVITY)
@@ -112,23 +99,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
         initListener();
-        initNetRequset();
     }
 
-    private void initNetRequset() {
-        Disposable disposable = netModules.getHomeList()
-                .subscribe(
-                        homeListBean -> {
 
-                        }, throwable -> {
-
-                        }, () -> {
-
-                        },disposable1 -> {
-
-                        }
-                );
-    }
 
     private void initListener() {
         try {
@@ -171,10 +144,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mViewPager = findViewById(R.id.vp_container);
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 
