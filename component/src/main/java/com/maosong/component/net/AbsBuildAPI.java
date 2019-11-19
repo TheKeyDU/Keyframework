@@ -1,7 +1,7 @@
 package com.maosong.component.net;
 
 import com.maosong.tools.*;
-import com.readystatesoftware.chuck.ChuckInterceptor;
+//import com.readystatesoftware.chuck.ChuckInterceptor;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,7 +68,7 @@ public class AbsBuildAPI {
                 .addNetworkInterceptor(new SignatureInterceptor())
                 .addNetworkInterceptor(new HttpLogInterceptor("httpLog", AbsStaticConstants.IS_DEBUG))
                 .addInterceptor(new ResponseInterceptor())
-                .addInterceptor(new ChuckInterceptor(ToolsApp.getAppContext()))
+              //  .addInterceptor(new ChuckInterceptor(ToolsApp.getAppContext()))
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

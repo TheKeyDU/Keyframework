@@ -2,6 +2,8 @@ package com.example.keyframework.net;
 
 import com.example.keyframework.constants.EnvironmentConstants;
 import com.maosong.component.net.HttpLogInterceptor;
+import com.maosong.tools.Constants;
+import com.maosong.tools.SPUtils;
 import com.maosong.tools.ToolsApp;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 
@@ -39,9 +41,9 @@ public class BuildAPI {
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request()
                                 .newBuilder()
-                                /* .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                                 .addHeader("Accept", "application/json;charset=UTF-8")
-                                 .addHeader("device", "android")*/
+                                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                                .addHeader("Accept", "application/json;charset=UTF-8")
+                                 .addHeader("Accept-Encoding", "identity")
                                 .build();
                         return chain.proceed(request);
                     }
