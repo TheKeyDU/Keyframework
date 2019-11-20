@@ -10,15 +10,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
+import com.maosong.component.widget.Rotate3dAnimation;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.LogUtil;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
 import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -29,7 +34,9 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.widget.ImageView;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void initView() {
         netModules = new NetModules();
         initViewPagerWithFragments();
-        mContext = MainActivity.this;
+        mContext = this.getContext();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -102,7 +109,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
         initListener();
     }
-
 
 
     private void initListener() {
@@ -148,9 +154,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         fragments.add(new HomeFragment());
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
-     /*   ConstraintLayout constraintLayout=new ConstraintLayout(this,);
-        constraintLayout.setMaxWidth(mDrawerLayout.getHeight()-findViewById(R.id.abl_tool).getHeight()-navView.getHeight());
-        mViewPager.getLayoutParams().*/
+
 
     }
 
@@ -163,6 +167,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         mDrawerLayout.getWidth() / 2, 0, 0,
                         mDrawerLayout.getHeight(),
                         FristPageAnimation);
+                int maxHeigh = mDrawerLayout.getHeight() - findViewById(R.id.abl_tool).getHeight() - findViewById(R.id.nav_bot).getHeight();
+                LogUtil.d("----1"+ mDrawerLayout.getHeight() );
+                LogUtil.d("----2"+ findViewById(R.id.abl_tool).getHeight());
+                LogUtil.d("----3"+ findViewById(R.id.nav_bot).getHeight());
+                LogUtil.d("----4"+ maxHeigh );
+                ConstraintLayout.LayoutParams layoutParams= (ConstraintLayout.LayoutParams) mViewPager.getLayoutParams();
+                layoutParams.height=maxHeigh;
+                mViewPager.setLayoutParams(layoutParams);
             }
         }, 100);
     }
@@ -323,6 +335,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void jump(View view) {
 
+        final float centerX = mDrawerLayout.getWidth() / 2.0f;
+        final float centerY = mDrawerLayout.getHeight() / 2.0f;
+        //括号内参数分别为（上下文，开始角度，结束角度，x轴中心点，y轴中心点，深度，是否扭曲）
+        final Rotate3dAnimation rotation = new Rotate3dAnimation(mContext, 0, 45, centerX, centerY, 1.0f, true);
+        rotation.setDuration(1500);                               //设置动画时长
+        rotation.setFillAfter(true);                              //保持旋转后效果
+        rotation.setInterpolator(new AccelerateInterpolator());   //设置插值器
+
+        rotation.setAnimationListener(new Animation.AnimationListener() {   //设置监听器
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+        });
+        // mDrawerLayout.startAnimation(rotation);
 
     }
 

@@ -1,5 +1,6 @@
 package com.maosong.component.widget;
 
+import android.content.Context;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.util.Log;
@@ -22,7 +23,7 @@ public class Rotate3dAnimation extends Animation {
     private final boolean mReverse;
     // 摄像头
     private Camera mCamera;
-    ContextThemeWrapper context;
+    Context context;
     //新增--像素比例（默认值为1）
     float scale = 1;
 
@@ -35,7 +36,7 @@ public class Rotate3dAnimation extends Animation {
      * @param depthZ		深度
      * @param reverse		是否扭曲
      */
-    public Rotate3dAnimation(ContextThemeWrapper context, float fromDegrees, float toDegrees, float centerX, float centerY, float depthZ, boolean reverse) {
+    public Rotate3dAnimation(Context context, float fromDegrees, float toDegrees, float centerX, float centerY, float depthZ, boolean reverse) {
         this.context = context;
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
@@ -107,5 +108,32 @@ public class Rotate3dAnimation extends Animation {
     }
 
 
+/*使用方法
+*  // 计算中心点（这里是使用view的中心作为旋转的中心点）
+		final float centerX = view.getWidth() / 2.0f;
+		final float centerY = view.getHeight() / 2.0f;
 
+        //括号内参数分别为（上下文，开始角度，结束角度，x轴中心点，y轴中心点，深度，是否扭曲）
+		final Rotate3dAnimation rotation = new Rotate3dAnimation(this, start, end, centerX, centerY, 1.0f, true);
+		rotation.setDuration(1500);                               //设置动画时长
+		rotation.setFillAfter(true);                              //保持旋转后效果
+		rotation.setInterpolator(new AccelerateInterpolator());   //设置插值器
+
+		rotation.setAnimationListener(new AnimationListener() {   //设置监听器
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+			}
+		});
+		view.startAnimation(rotation);                            //开始动画
+*
+* */
 }

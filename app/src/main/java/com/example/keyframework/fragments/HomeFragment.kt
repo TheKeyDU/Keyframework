@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment() {
         val disposable = netModules!!.getHomeList()
                 .subscribe(
                         { homeListBean ->
-                            mHomeListAdapter=HomeListAdapter(homeListBean.newslist)
+                            mHomeListAdapter = HomeListAdapter(homeListBean.newslist)
                             var mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                             rec_home_lsit.adapter = mHomeListAdapter
                             rec_home_lsit.layoutManager = mLinearLayoutManager
