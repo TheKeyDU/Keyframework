@@ -60,7 +60,7 @@ class MyPage : BaseActivity() {
                     var offY=lastY-y
                     if(offY>0)
                     {
-
+                    fl_bottom.offsetTopAndBottom(offY)
                     }
                 }
                 MotionEvent.ACTION_UP -> {
