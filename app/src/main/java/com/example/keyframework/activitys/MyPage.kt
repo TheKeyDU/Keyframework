@@ -60,18 +60,24 @@ class MyPage : BaseActivity() {
                     var offY = y - lastY
                     if (fl_bottom.y + offY >= 0 && fl_bottom.y + offY <= cl_top.height) {
                         fl_bottom.offsetTopAndBottom(offY)
-                        cl_top.alpha = (fl_bottom.y + offY) / cl_top.height+0.3f
+                        cl_top.alpha = (fl_bottom.y + offY) / cl_top.height + 0.3f
                     }
                     lastX = x
                     lastY = y
-                    iv_clbg.scaleX=((0.5+0.5*cl_top.alpha).toFloat())
-                    iv_clbg.scaleY=((0.5+0.5*cl_top.alpha).toFloat())
+                    iv_clbg.scaleX = ((0.5 + 0.5 * cl_top.alpha).toFloat())
+                    iv_clbg.scaleY = ((0.5 + 0.5 * cl_top.alpha).toFloat())
                 }
                 MotionEvent.ACTION_UP -> {
                     if (fl_bottom.y < cl_top.height / 2) {
-                        ElasticSlide(fl_bottom.y,0,300,fl_bottom)
+                        ElasticSlide(fl_bottom.y, 0, 300, fl_bottom, object : slideCallBack {
+                            override fun callback(percent: Float) {
+                            }
+                        })
                     } else {
-                        ElasticSlide(fl_bottom.y,cl_top.height,300,fl_bottom)
+                        ElasticSlide(fl_bottom.y, cl_top.height, 300, fl_bottom, object : slideCallBack {
+                            override fun callback(percent: Float) {
+                            }
+                        })
 
                     }
 
@@ -85,16 +91,20 @@ class MyPage : BaseActivity() {
 
     }
 
-    fun ElasticSlide(fromY: Float, ToY: Int, DurTime: Long, mView:View) {
+    fun ElasticSlide(fromY: Float, ToY: Int, DurTime: Long, mView: View, callBack: slideCallBack) {
         var mValueAnimator = ValueAnimator.ofFloat(fromY.toFloat(), ToY.toFloat())
         mValueAnimator.setDuration(DurTime)
         mValueAnimator.addUpdateListener {
             val curValueFloat = it.getAnimatedValue() as Float
             val curValue = curValueFloat.toInt()
             fl_bottom.layout(mView.left, curValue, mView.right, curValue + mView.height)
-
+            callBack.callback(percent = curValue / (ToY - fromY))
         }
         mValueAnimator.start()
 
+    }
+
+    interface slideCallBack {
+        fun callback(percent: Float)
     }
 }
