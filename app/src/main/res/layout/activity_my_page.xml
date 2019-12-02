@@ -31,7 +31,6 @@
         android:layout_marginTop="300dp"
         app:layout_constraintTop_toTopOf="parent"
         >
-
     </com.google.android.material.circularreveal.CircularRevealFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
