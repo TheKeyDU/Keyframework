@@ -28,7 +28,7 @@
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="800dp"
         android:background="#18818D"
         android:maxHeight="300dp"
         android:layout_marginTop="300dp"

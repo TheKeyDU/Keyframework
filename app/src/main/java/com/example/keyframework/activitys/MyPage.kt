@@ -56,12 +56,14 @@ class MyPage : BaseActivity() {
                     lastY = y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    var offX = lastX -x
-                    var offY=lastY-y
-                    if(offY>0)
-                    {
-                    fl_bottom.offsetTopAndBottom(offY)
+                    var offX = x - lastX
+                    var offY = y - lastY
+                    if (fl_bottom.y + offY >= 0&&fl_bottom.y+offY<=cl_top.height) {
+                        fl_bottom.offsetTopAndBottom(offY)
+                        cl_top.alpha= (fl_bottom.y+offY)/cl_top.height
                     }
+                    lastX = x
+                    lastY = y
                 }
                 MotionEvent.ACTION_UP -> {
                 }
@@ -69,7 +71,8 @@ class MyPage : BaseActivity() {
             }
         }
 
-        return super.onTouchEvent(event)
+
+        return true
 
     }
 }
