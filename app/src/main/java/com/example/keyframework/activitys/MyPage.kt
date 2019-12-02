@@ -1,15 +1,14 @@
 package com.example.keyframework.activitys
 
-import android.app.usage.UsageEvents
+import android.animation.ValueAnimator
 import android.view.MotionEvent
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.keyframework.R
 import com.example.keyframework.constants.ARouterPage
 import com.maosong.component.Base.BaseActivity
-import com.maosong.tools.QMUIDeviceHelper
-import com.maosong.tools.QMUIDisplayHelper
 import kotlinx.android.synthetic.main.activity_my_page.*
+import android.view.View
+
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)
 class MyPage : BaseActivity() {
@@ -23,6 +22,7 @@ class MyPage : BaseActivity() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
+
     }
 
     override fun initDate() {
@@ -58,14 +58,21 @@ class MyPage : BaseActivity() {
                 MotionEvent.ACTION_MOVE -> {
                     var offX = x - lastX
                     var offY = y - lastY
-                    if (fl_bottom.y + offY >= 0&&fl_bottom.y+offY<=cl_top.height) {
+                    if (fl_bottom.y + offY >= 0 && fl_bottom.y + offY <= cl_top.height) {
                         fl_bottom.offsetTopAndBottom(offY)
-                        cl_top.alpha= (fl_bottom.y+offY)/cl_top.height
+                        cl_top.alpha = (fl_bottom.y + offY) / cl_top.height
                     }
                     lastX = x
                     lastY = y
                 }
                 MotionEvent.ACTION_UP -> {
+                    if (fl_bottom.y < cl_top.height / 2) {
+                        ElasticSlide(fl_bottom.y,0,300,fl_bottom)
+                    } else {
+                        ElasticSlide(fl_bottom.y,cl_top.height,300,fl_bottom)
+
+                    }
+
                 }
 
             }
@@ -73,6 +80,18 @@ class MyPage : BaseActivity() {
 
 
         return true
+
+    }
+
+    fun ElasticSlide(fromY: Float, ToY: Int, DurTime: Long, mView:View) {
+        var mValueAnimator = ValueAnimator.ofFloat(fromY.toFloat(), ToY.toFloat())
+        mValueAnimator.setDuration(DurTime)
+        mValueAnimator.addUpdateListener {
+            val curValueFloat = it.getAnimatedValue() as Float
+            val curValue = curValueFloat.toInt()
+            fl_bottom.layout(mView.left, curValue, mView.right, curValue + mView.height)
+        }
+        mValueAnimator.start()
 
     }
 }
