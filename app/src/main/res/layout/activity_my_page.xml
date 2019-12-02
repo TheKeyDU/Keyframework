@@ -10,9 +10,15 @@
         android:id="@+id/cl_top"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@mipmap/nv_bg"
         app:layout_constraintTop_toTopOf="parent">
+<ImageView
+    android:id="@+id/iv_clbg"
+    android:scaleType="fitXY"
+    android:src="@mipmap/nv_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+</ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
