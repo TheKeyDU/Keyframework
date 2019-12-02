@@ -1,6 +1,7 @@
 package com.example.keyframework.activitys
 
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.keyframework.R
@@ -8,6 +9,8 @@ import com.example.keyframework.constants.ARouterPage
 import com.maosong.component.Base.BaseActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 import android.view.View
+import com.maosong.tools.LogUtil
+import com.maosong.tools.QMUIDisplayHelper
 
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)
@@ -18,6 +21,7 @@ class MyPage : BaseActivity() {
     var bottomH = 0
     var lastX = 0
     var lastY = 0
+
     override fun initView() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
@@ -61,21 +65,26 @@ class MyPage : BaseActivity() {
                     if (fl_bottom.y + offY >= 0 && fl_bottom.y + offY <= cl_top.height) {
                         fl_bottom.offsetTopAndBottom(offY)
                         cl_top.alpha = (fl_bottom.y + offY) / cl_top.height + 0.3f
+
                     }
                     lastX = x
                     lastY = y
-                    iv_clbg.scaleX = ((0.5 + 0.5 * cl_top.alpha).toFloat())
-                    iv_clbg.scaleY = ((0.5 + 0.5 * cl_top.alpha).toFloat())
+                    iv_clbg.scaleX = (fl_bottom.y + offY) / cl_top.height
+                    iv_clbg.scaleY = (fl_bottom.y + offY) / cl_top.height
                 }
                 MotionEvent.ACTION_UP -> {
-                    if (fl_bottom.y < cl_top.height / 2) {
+                    if (fl_bottom.y < cl_top.height / 1.5) {
                         ElasticSlide(fl_bottom.y, 0, 300, fl_bottom, object : slideCallBack {
                             override fun callback(percent: Float) {
+                                iv_clbg.scaleX = percent
+                                iv_clbg.scaleY = percent
                             }
                         })
                     } else {
                         ElasticSlide(fl_bottom.y, cl_top.height, 300, fl_bottom, object : slideCallBack {
                             override fun callback(percent: Float) {
+                                iv_clbg.scaleX = percent
+                                iv_clbg.scaleY = percent
                             }
                         })
 
@@ -95,10 +104,12 @@ class MyPage : BaseActivity() {
         var mValueAnimator = ValueAnimator.ofFloat(fromY.toFloat(), ToY.toFloat())
         mValueAnimator.setDuration(DurTime)
         mValueAnimator.addUpdateListener {
-            val curValueFloat = it.getAnimatedValue() as Float
-            val curValue = curValueFloat.toInt()
-            fl_bottom.layout(mView.left, curValue, mView.right, curValue + mView.height)
-            callBack.callback(percent = curValue / (ToY - fromY))
+            val curValue = it.getAnimatedValue() as Float
+            fl_bottom.layout(mView.left, curValue.toInt(), mView.right, (curValue + mView.height).toInt())
+            //   LogUtil.e(",toY:${ToY},fromY:${fromY},inv${curValue},xxxx=${curValue / (ToY - fromY)}")
+            var percent:Float = curValue/topH
+            Log.e("**********", percent.toString())
+            callBack.callback(percent = percent )
         }
         mValueAnimator.start()
 
