@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintTop_toTopOf="parent">
-<ImageView
-    android:id="@+id/iv_clbg"
-    android:scaleType="fitXY"
-    android:src="@mipmap/nv_bg"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</ImageView>
+        <ImageView
+            android:id="@+id/iv_clbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/nv_bg">
+
+        </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -26,11 +27,9 @@
         android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
         android:layout_height="800dp"
+        android:layout_marginTop="300dp"
         android:background="#18818D"
         android:maxHeight="300dp"
-        android:layout_marginTop="300dp"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        app:layout_constraintTop_toTopOf="parent"></com.google.android.material.circularreveal.CircularRevealFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
