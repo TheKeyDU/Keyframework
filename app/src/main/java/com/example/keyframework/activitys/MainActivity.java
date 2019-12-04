@@ -5,6 +5,7 @@ import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
 import com.example.keyframework.fragments.HomeFragment;
+import com.example.keyframework.fragments.OverViewListFragment;
 import com.example.keyframework.module.NetModules;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -151,7 +152,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
         fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
+      //  fragments.add(new HomeFragment());
+        fragments.add(new OverViewListFragment());
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 

@@ -4,7 +4,7 @@
     android:id="@+id/cardView_news"
     cardUseCompatPadding="true"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/cardview_layout_hight"
+    android:layout_height="150dp"
     android:layout_margin="1dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
