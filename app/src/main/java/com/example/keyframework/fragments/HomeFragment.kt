@@ -5,6 +5,7 @@ import com.example.keyframework.R
 import com.example.keyframework.adapter.HomeListAdapter
 import com.example.keyframework.bean.UserBean
 import com.example.keyframework.module.NetModules
+import com.example.keyframework.recylerViewLayoutManager.FlowLayoutManager
 import com.maosong.component.Base.BaseFragment
 import com.maosong.tools.ToastUtils
 import kotlinx.android.synthetic.main.fragment_home_list.*
@@ -30,7 +31,8 @@ class HomeFragment : BaseFragment() {
                 .subscribe(
                         { homeListBean ->
                             mHomeListAdapter = HomeListAdapter(homeListBean.newslist)
-                            var mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                           var mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                            // var viewLayoutManager=FlowLayoutManager()
                             rec_home_lsit.adapter = mHomeListAdapter
                             rec_home_lsit.layoutManager = mLinearLayoutManager
 

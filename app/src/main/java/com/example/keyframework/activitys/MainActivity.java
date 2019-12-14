@@ -17,7 +17,6 @@ import com.maosong.tools.LogUtil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
@@ -112,6 +111,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
+
     private void initListener() {
         try {
             Field field = toolbar.getClass().getDeclaredField("mLogoView");
@@ -152,12 +152,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
         fragments = new ArrayList<>();
-      //  fragments.add(new HomeFragment());
-        fragments.add(new OverViewListFragment());
+        fragments.add(new HomeFragment());
+        //fragments.add(new OverViewListFragment());
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        netModules.getHomeList().subscribe();
     }
 
     @Override
@@ -170,12 +176,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         mDrawerLayout.getHeight(),
                         FristPageAnimation);
                 int maxHeigh = mDrawerLayout.getHeight() - findViewById(R.id.abl_tool).getHeight() - findViewById(R.id.nav_bot).getHeight();
-                LogUtil.d("----1"+ mDrawerLayout.getHeight() );
-                LogUtil.d("----2"+ findViewById(R.id.abl_tool).getHeight());
-                LogUtil.d("----3"+ findViewById(R.id.nav_bot).getHeight());
-                LogUtil.d("----4"+ maxHeigh );
-                ConstraintLayout.LayoutParams layoutParams= (ConstraintLayout.LayoutParams) mViewPager.getLayoutParams();
-                layoutParams.height=maxHeigh;
+                LogUtil.d("----1" + mDrawerLayout.getHeight());
+                LogUtil.d("----2" + findViewById(R.id.abl_tool).getHeight());
+                LogUtil.d("----3" + findViewById(R.id.nav_bot).getHeight());
+                LogUtil.d("----4" + maxHeigh);
+                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mViewPager.getLayoutParams();
+                layoutParams.height = maxHeigh;
                 mViewPager.setLayoutParams(layoutParams);
             }
         }, 100);
