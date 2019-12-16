@@ -1,6 +1,8 @@
 package com.example.keyframework.activitys;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.callback.NavCallback;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
@@ -275,6 +277,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            ARouter.getInstance().build(ARouterPage.RECYLERVIEWACTIVITY).navigation();
+
 
         }
 

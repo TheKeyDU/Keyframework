@@ -42,6 +42,9 @@
             android:name=".activitys.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activitys.RecylerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activitys.SplashActivity"
             android:launchMode="singleTask"
             android:theme="@style/SplashActivity">
