@@ -9,7 +9,7 @@
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:paddingTop="5dp"
-    app:cardBackgroundColor="#e6e6e6"
+    app:cardBackgroundColor="#00BFA5"
     app:cardCornerRadius="@dimen/cardview_cardCorner"
     app:cardElevation="@dimen/cardview_elevation"
     app:cardPreventCornerOverlap="true"

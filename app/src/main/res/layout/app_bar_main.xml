@@ -19,7 +19,7 @@
             app:titleMarginStart="50dp"
             app:logo="@mipmap/app_icon"
             app:title="@string/app_name"
-            android:background="#23000000" />
+            android:background="#1976D2" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
