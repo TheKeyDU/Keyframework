@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.constants.ARouterPage;
 import com.maosong.component.Base.BaseActivity;
+import com.maosong.tools.AppLifeCircleUtil;
 
 @Route(path = ARouterPage.SPLASH_ACTIVITY)
 public class SplashActivity extends BaseActivity {
@@ -19,10 +20,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void jumpAndKillSelf() {
-        ARouter.getInstance().build(ARouterPage.MAIN_ACTIVITY).navigation(this, new NavCallback() {
+        ARouter.getInstance().build(ARouterPage.RECYLERVIEWACTIVITY).navigation(this, new NavCallback() {
             @Override
             public void onArrival(Postcard postcard) {
-              //  onDestroy();
+               // onDestroy();
+                AppLifeCircleUtil.activityStack.get(0).finish();
 
             }
         });

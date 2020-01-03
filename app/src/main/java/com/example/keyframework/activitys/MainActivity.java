@@ -1,13 +1,11 @@
 package com.example.keyframework.activitys;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
 import com.example.keyframework.fragments.HomeFragment;
-import com.example.keyframework.fragments.OverViewListFragment;
 import com.example.keyframework.module.NetModules;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,6 +28,7 @@ import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -249,6 +248,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.action_settings) {
             return true;
         }
+        else {
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -273,6 +275,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_tools) {
+            Vibrator vibrator = (Vibrator)this.getSystemService(VIBRATOR_SERVICE);
+            long[] patter = {2, 10,2,10};
+            vibrator.vibrate(patter, 1);
 
         } else if (id == R.id.nav_share) {
 

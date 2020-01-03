@@ -121,7 +121,7 @@ public class CustomLayoutManger extends RecyclerView.LayoutManager {
 
     @Override
     public boolean canScrollHorizontally() {
-        return false;
+        return true;
     }
 
     @Override
