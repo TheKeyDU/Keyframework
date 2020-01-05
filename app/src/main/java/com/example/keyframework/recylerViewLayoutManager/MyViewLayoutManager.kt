@@ -2,26 +2,44 @@ package com.example.keyframework.recylerViewLayoutManager
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.keyframework.bean.ItemViewInfo
-import java.util.ArrayList
+
 
 class MyLayoutManager : RecyclerView.LayoutManager() {
+    private var verticalScrollOffset = 0
     private val mScale: Int = 0
     private var mHasChild: Boolean = false
     private var mItemViewHeight: Int = 0
     private var mItemViewWidth: Int = 0
     private val mItemHeightWidthRatio: Float = 0f
     private var mItemCount: Int = 0
-    private var mScrollOffset: Int = Int.MAX_VALUE
+    private var mScrollYoffset: Int = 0
+    var offsetY = 0
+    var offsetX = 0
 
     override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
+        var scrollLength = dx
+        offsetX
+        offsetY
 
-        return super.scrollHorizontallyBy(dx, recycler, state)
+        if (verticalScrollOffset + dx < 0) {
+            scrollLength = -verticalScrollOffset
+        } else if (verticalScrollOffset + dx > offsetX - getHorizontallLength()) {
+            scrollLength=offsetX-getHorizontallLength()-verticalScrollOffset
+        }
+        verticalScrollOffset+=scrollLength
+        offsetChildrenHorizontal(-scrollLength)
+
+        return  scrollLength
+    }
+
+    private fun getHorizontallLength(): Int {
+        return width - paddingRight - paddingLeft
     }
 
     override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         return super.scrollVerticallyBy(dy, recycler, state)
     }
+
     override fun canScrollHorizontally(): Boolean {
         return true
     }
@@ -48,20 +66,20 @@ class MyLayoutManager : RecyclerView.LayoutManager() {
         /*
         * 初始化偏移量
         * */
-        var offsetY = 0
-        var offsetX = 0
+        offsetY = 0
+        offsetX = 0
         for (i in 0..itemCount - 1) {
-            var View = recycler?.getViewForPosition(i)
+            val View = recycler?.getViewForPosition(i)
             addView(View)
             View?.let { measureChildWithMargins(it, 0, 0) }
-            var width = View?.let { getDecoratedMeasuredWidth(it) }
-            var heigh = View?.let { getDecoratedMeasuredHeight(it) }
-            var left = (getWidth() - width!!) / 2
+            val width = View?.let { getDecoratedMeasuredWidth(it) }
+            val heigh = View?.let { getDecoratedMeasuredHeight(it) }
+          //  var left = (getWidth() - width!!) / 2
             if (heigh != null) {
-                layoutDecorated(View!!, offsetX, 0, offsetX+width, heigh)
+                layoutDecorated(View, offsetX, 0, offsetX + width!!, heigh)
             }
-            offsetY += heigh!!
-                offsetX+=width
+           // offsetY += heigh!!
+            offsetX += width!!
         }
 
     }
