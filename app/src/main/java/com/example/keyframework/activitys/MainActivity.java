@@ -6,6 +6,7 @@ import com.example.keyframework.constants.ARouterPage;
 import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
 import com.example.keyframework.fragments.HomeFragment;
+import com.example.keyframework.fragments.OverViewListFragment;
 import com.example.keyframework.module.NetModules;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -13,12 +14,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.component.widget.Rotate3dAnimation;
 import com.maosong.tools.AppLifeCircleUtil;
-import com.maosong.tools.LogUtil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -28,12 +29,14 @@ import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+
+
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -43,6 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author Administrator
+ */
 @Route(path = ARouterPage.MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         Animator.AnimatorListener {
@@ -53,6 +59,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ImageView imageView = null;
     private NetModules netModules;
     Toolbar toolbar = null;
+    CoordinatorLayout coordinatorLayout = null;
     HomePagerFragmentAdapter homePagerFragmentAdapter = null;
     androidx.drawerlayout.widget.DrawerLayout mDrawerLayout = null;
     List<Fragment> fragments = null;
@@ -60,27 +67,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ViewPager mViewPager = null;
     private int whichAnimation = 0;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            BottomNavigationMenuView itemViews = (BottomNavigationMenuView) navView.getChildAt(0);
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    setWhichAnimationTag(0);
-                    startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth(), 0, MainActivity.this);
-                    return true;
-                case R.id.navigation_dashboard:
-                    setWhichAnimationTag(1);
-                    startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
-                    return true;
-                case R.id.navigation_notifications:
-                    setWhichAnimationTag(2);
-                    startBig2samllAnimation(MenuViewItemBig2Small, 0, 0, MainActivity.this);
-                    return true;
-            }
-            return false;
+            = item -> {
+        BottomNavigationMenuView itemViews = (BottomNavigationMenuView) navView.getChildAt(0);
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                setWhichAnimationTag(0);
+                startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth(), 0, MainActivity.this);
+                return true;
+            case R.id.navigation_dashboard:
+                setWhichAnimationTag(1);
+                startBig2samllAnimation(MenuViewItemBig2Small, mDrawerLayout.getWidth() / 2, 0, MainActivity.this);
+                return true;
+            case R.id.navigation_notifications:
+                setWhichAnimationTag(2);
+                startBig2samllAnimation(MenuViewItemBig2Small, 0, 0, MainActivity.this);
+                return true;
         }
+        return false;
     };
 
     private synchronized void setWhichAnimationTag(int tag) {
@@ -98,11 +101,45 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mContext = this.getContext();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        coordinatorLayout = findViewById(R.id.cl_center);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mDrawerLayout = findViewById(R.id.dwl_root);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
+        // mDrawerLayout.addDrawerListener(toggle);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                //    Log.e("sile--------------",slideOffset+"");
+                int w = drawerView.getWidth();
+                int h = drawerView.getHeight();
+                float scale = 0.95f;
+                if ((1 - slideOffset) > scale) {
+                    coordinatorLayout.setX(slideOffset * w);
+                } else {
+                    coordinatorLayout.setX(slideOffset * w);
+                }
+
+                final float scaleNum = (1 - slideOffset) > scale ? (1 - slideOffset) : scale;
+                coordinatorLayout.setScaleX(scaleNum);
+                coordinatorLayout.setScaleY(scaleNum);
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navView = findViewById(R.id.nav_bot);
@@ -112,7 +149,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-
     private void initListener() {
         try {
             Field field = toolbar.getClass().getDeclaredField("mLogoView");
@@ -120,25 +156,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             imageView = (ImageView) field.get(toolbar);
             imageView.setId(R.id.tool_bar_log);
             imageView.setTransitionName("sharedView");
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, MyPage.class),
-                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                    imageView, "sharedView").toBundle());
-                  /*  ARouter.getInstance()
-                            .build(ARouterPage.MYPAGE_ACTIVITY)
-                            .with(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                    imageView,
-                                    "SEIV")
-                                    .toBundle())
-                            .navigation(MainActivity.this);*/
-                   /* startActivity(new Intent(MainActivity.this, MyPage.class),
-                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                    imageView,
-                                    "SEIV")
-                                    .toBundle());*/
-                }
+            imageView.setOnClickListener(v -> {
+                startActivity(new Intent(MainActivity.this, MyPage.class),
+                        ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                imageView, "sharedView").toBundle());
+              /*  ARouter.getInstance()
+                        .build(ARouterPage.MYPAGE_ACTIVITY)
+                        .with(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                imageView,
+                                "SEIV")
+                                .toBundle())
+                        .navigation(MainActivity.this);*/
+               /* startActivity(new Intent(MainActivity.this, MyPage.class),
+                        ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                                imageView,
+                                "SEIV")
+                                .toBundle());*/
             });
 
 
@@ -154,7 +187,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mViewPager = findViewById(R.id.vp_container);
         fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
-        //fragments.add(new OverViewListFragment());
+        //  fragments.add(new OverViewListFragment());
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);
 
@@ -164,27 +197,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onStop() {
         super.onStop();
-        netModules.getHomeList().subscribe();
     }
 
     @Override
     public void initDate() {
-        mDrawerLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startCircularReveal(mDrawerLayout,
-                        mDrawerLayout.getWidth() / 2, 0, 0,
-                        mDrawerLayout.getHeight(),
-                        FristPageAnimation);
-                int maxHeigh = mDrawerLayout.getHeight() - findViewById(R.id.abl_tool).getHeight() - findViewById(R.id.nav_bot).getHeight();
-                LogUtil.d("----1" + mDrawerLayout.getHeight());
-                LogUtil.d("----2" + findViewById(R.id.abl_tool).getHeight());
-                LogUtil.d("----3" + findViewById(R.id.nav_bot).getHeight());
-                LogUtil.d("----4" + maxHeigh);
-                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mViewPager.getLayoutParams();
-                layoutParams.height = maxHeigh;
-                mViewPager.setLayoutParams(layoutParams);
-            }
+        mDrawerLayout.postDelayed(() -> {
+            startCircularReveal(mDrawerLayout,
+                    mDrawerLayout.getWidth() / 2, 0, 0,
+                    mDrawerLayout.getHeight(),
+                    FristPageAnimation);
+            int maxHeigh = mDrawerLayout.getHeight() - findViewById(R.id.abl_tool).getHeight() - findViewById(R.id.nav_bot).getHeight();
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mViewPager.getLayoutParams();
+            layoutParams.height = maxHeigh;
+            mViewPager.setLayoutParams(layoutParams);
         }, 100);
     }
 
@@ -247,8 +272,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else {
+        } else {
 
         }
 
@@ -275,8 +299,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_tools) {
-            Vibrator vibrator = (Vibrator)this.getSystemService(VIBRATOR_SERVICE);
-            long[] patter = {2, 10,2,10};
+            Vibrator vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+            long[] patter = {2, 10, 2, 10};
             vibrator.vibrate(patter, 1);
 
         } else if (id == R.id.nav_share) {
@@ -374,7 +398,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void onAnimationEnd(Animation animation) {
             }
         });
-        // mDrawerLayout.startAnimation(rotation);
 
     }
 

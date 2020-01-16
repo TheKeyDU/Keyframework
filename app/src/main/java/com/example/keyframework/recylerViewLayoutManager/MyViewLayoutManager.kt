@@ -76,13 +76,15 @@ class MyLayoutManager : RecyclerView.LayoutManager() {
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
           //  var left = (getWidth() - width!!) / 2
             if (heigh != null) {
-                layoutDecorated(View, offsetX, 0, offsetX + width!!, heigh)
+                View.rotationY=70-i*23.3f
+                layoutDecorated(View, (offsetX/1.3).toInt(), 0, (offsetX/1.3).toInt() + width!!, heigh)
             }
            // offsetY += heigh!!
             offsetX += width!!
         }
 
     }
+
 
 
 }

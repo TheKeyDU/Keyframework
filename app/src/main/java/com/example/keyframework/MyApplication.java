@@ -35,9 +35,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         ToolsApp.initContext(this);
         super.onCreate();
-        initCrashWithReboot();
-        initUmengPush();
-        initMIUIPush();
+       // initCrashWithReboot();
+      //  initUmengPush();
+       // initMIUIPush();
         initARout();
     }
 

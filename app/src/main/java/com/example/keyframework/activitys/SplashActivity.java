@@ -20,7 +20,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void jumpAndKillSelf() {
-        ARouter.getInstance().build(ARouterPage.RECYLERVIEWACTIVITY).navigation(this, new NavCallback() {
+        ARouter.getInstance().build(ARouterPage.MAIN_ACTIVITY).navigation(this, new NavCallback() {
             @Override
             public void onArrival(Postcard postcard) {
                // onDestroy();
