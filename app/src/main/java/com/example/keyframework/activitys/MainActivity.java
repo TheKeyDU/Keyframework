@@ -31,6 +31,7 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import android.graphics.Color;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
@@ -107,19 +108,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // mDrawerLayout.addDrawerListener(toggle);
+        mDrawerLayout.setScrimColor(Color.TRANSPARENT);
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 //    Log.e("sile--------------",slideOffset+"");
                 int w = drawerView.getWidth();
                 int h = drawerView.getHeight();
-                float scale = 0.95f;
+                float scale = 0.9f;
                 if ((1 - slideOffset) > scale) {
                     coordinatorLayout.setX(slideOffset * w);
                 } else {
                     coordinatorLayout.setX(slideOffset * w);
                 }
-
                 final float scaleNum = (1 - slideOffset) > scale ? (1 - slideOffset) : scale;
                 coordinatorLayout.setScaleX(scaleNum);
                 coordinatorLayout.setScaleY(scaleNum);
