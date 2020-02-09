@@ -24,14 +24,30 @@ class RLayoutManager : RecyclerView.LayoutManager() {
     private var mScaleViewInterval = 0.97f
     var offsetY = 0
     var offsetX = 0
+    var normalViewWidth = 0
+    var normalViewHeigh = 0
 
-    override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
 
-        return 0
+    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
+
+          var scrollLength = dy
+          if (verticalScrollOffset + dy < 0) {
+              scrollLength = -verticalScrollOffset
+          } else if (verticalScrollOffset + dy > offsetY - getVerticalLength()) {
+              scrollLength=offsetY-getVerticalLength()-verticalScrollOffset
+          }
+          verticalScrollOffset+=scrollLength
+          offsetChildrenVertical(-scrollLength)
+
+          return  scrollLength
     }
 
     private fun getHorizontallLength(): Int {
         return width - paddingRight - paddingLeft
+    }
+
+    private fun getVerticalLength(): Int {
+        return height - paddingTop - paddingBottom
     }
 
     override fun canScrollHorizontally(): Boolean {
@@ -74,18 +90,20 @@ class RLayoutManager : RecyclerView.LayoutManager() {
             View?.let { measureChildWithMargins(it, 0, 0) }
             val width = View?.let { getDecoratedMeasuredWidth(it) }
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
+            normalViewHeigh = heigh!!
+            normalViewWidth = width!!
             var mScaleXY = mScaleX.pow(itemCount - i)
-            View!!.scaleX=mScaleXY
-            View!!.scaleY=mScaleXY
-            Log.e("  #1  ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
+            View!!.scaleX = mScaleXY
+            View!!.scaleY = mScaleXY
+            //   Log.e("  #1  ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
             var left = 0
             var top = offsetY
             var right = width!!
-            var bottom = (heigh!!+offsetY)
-            Log.e("  #2  ", " left:${left} top: ${top} right: ${right} bottom: ${bottom}")
-            layoutDecorated(View!!, 0, top , right , bottom )
+            var bottom = (heigh!! + offsetY)
+            //   Log.e("  #2  ", " left:${left} top: ${top} right: ${right} bottom: ${bottom}")
+            layoutDecorated(View!!, 0, top, right, bottom)
             //  offsetX += width!! * mScaleViewInterval.pow(itemCount - i  )
-            offsetY += (heigh*mScaleXY*0.7).toInt()
+            offsetY += (heigh * mScaleXY * 0.7).toInt()
         }
     }
 
