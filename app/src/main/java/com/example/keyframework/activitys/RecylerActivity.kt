@@ -15,6 +15,7 @@ import com.example.keyframework.bean.UserBean
 import com.example.keyframework.constants.ARouterPage
 import com.example.keyframework.recylerViewLayoutManager.LinearDecoration
 import com.example.keyframework.recylerViewLayoutManager.MyLayoutManager
+import com.example.keyframework.recylerViewLayoutManager.RLayoutManager
 import com.maosong.component.Base.BaseActivity
 import kotlinx.android.synthetic.main.activity_recylerview.*
 import java.util.*
@@ -34,13 +35,13 @@ class RecylerActivity : BaseActivity() {
             list!!.add(object : UserBean(i.toString(), i.toString()) {})
         }
         customAdapter = CustomAdapter(list)
-        var layoutManager = MyLayoutManager( )
+        var layoutManager = RLayoutManager()
       //  layoutManager.orientation = RecyclerView.HORIZONTAL
         rec_customize.layoutManager = layoutManager
         rec_customize.adapter = customAdapter
         /*  var snapHelper=PagerSnapHelper();
         snapHelper.attachToRecyclerView(rec_customize)*/
-        rec_customize.addItemDecoration(object : LinearDecoration(150, 20, 25, 0) {})
+      //  rec_customize.addItemDecoration(object : LinearDecoration(150, 20, 25, 0) {})
         var LinearSnapHelper = LinearSnapHelper()
         //  LinearSnapHelper.attachToRecyclerView(rec_customize)
 
@@ -48,9 +49,9 @@ class RecylerActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+     /*   if (getRequestedOrientation() !=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+        }*/
     }
 
     fun smooth(V: View) {
