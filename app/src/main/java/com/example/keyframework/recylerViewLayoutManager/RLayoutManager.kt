@@ -20,7 +20,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
     private var mScaleX = 0.95f
     private var mScaleY = 0.99f
     private var mScaleViewInterval = 0.97f
-    private var itemRotationX = -10f
+    private var itemRotationX = -15f
     var offsetY = 0
     var AllOffsetY = 0
     var normalViewWidth = 0
@@ -38,7 +38,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
         //  Log.e("位移", "mScrollLength: ${mScrollLength}  verticalScrollOffset:${(verticalScrollOffset)}   AllOffsetY:${(AllOffsetY)} ")
 
         setViewsLayout(recycler, state, -verticalScrollOffset)
-        Log.e(" 发送值 2", "ScrollLength: ${ScrollLength}    ")
+        //  Log.e(" 发送值 2", "ScrollLength: ${ScrollLength}    ")
 
         return ScrollLength
     }
@@ -94,7 +94,10 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             val View = recycler?.getViewForPosition(i)
             addView(View)
             var tempY = if (View.y > 2000f) 2000f else View.y
-            var scale: Float = (tempY / 2000f) * 0.5f + 0.6f
+            var scale: Float = (tempY / 2000f) * 0.7f + 0.5f
+            scale=if (scale> 1.1f) 1.1f else scale
+            scale=if (scale<0.5f) 0.5f else scale
+
             View.scaleX = scale
             View.scaleY = scale
             View?.let { measureChildWithMargins(it, 0, 0) }
@@ -102,7 +105,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
             normalViewHeigh = heigh!!
             normalViewWidth = width!!
-            var mScaleXY = mScaleX.pow(itemCount - i)
+             var mScaleXY = mScaleX.pow(itemCount - i)
 
             var left = 0
             var right = width!!
@@ -114,17 +117,18 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             var bottom: Int = (heigh) + offsetY + mScrollLength
             layoutDecoratedWithMargins(View!!, left, top, right, bottom)
             // offsetY += (heigh * mScaleXY * 0.7).toInt()
-            offsetY += (mScaleXY*heigh).toInt()
+            Log.e(" 子视图${i} ", "h: ${heigh}     ")
+            offsetY += 200
             AllOffsetY = if (offsetY == 0) AllOffsetY else offsetY
-            Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
+            // Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
             mItemCount = if (mItemCount < 0) 0 else mItemCount
             mItemCount = if (mItemCount > 100) 100 else mItemCount
-            //  View.z = mScaleXY
+           //  View.z = mScaleXY
             // View.rotationX = itemRotationX
             //Log.e(" 宽高缩放${i} ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
             //  Log.e(" mScrollLength${i} ", "mScrollLength: ${mScrollLength}  ")
             //
-            Log.e(" 子视图${i} ", "X: ${View.x}  Y: ${View.y}    ")
+            //  Log.e(" 子视图${i} ", "X: ${View.x}  Y: ${View.y}    ")
 
         }
 
