@@ -98,7 +98,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             normalViewHeigh = heigh!!
             normalViewWidth = width!!
           //  var mScaleXY = mScaleX.pow(itemCount - i)
-            var mScaleXY = 0.6+(i+1)*0.1
+            var mScaleXY: Float = (0.6+(i+1)*0.1).toFloat()
             mScaleXY=if (mScaleXY>3) 3f else mScaleXY
             mScaleXY=if (mScaleXY<0) 0.1f else mScaleXY
             if (isfrist) {
