@@ -37,7 +37,6 @@ public class CustomLayoutManger extends RecyclerView.LayoutManager {
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
         return new RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
     }
-
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (state.getItemCount() == 0 || state.isPreLayout()) {
@@ -49,6 +48,8 @@ public class CustomLayoutManger extends RecyclerView.LayoutManager {
             mItemViewWidth = (int) (mItemViewHeight / mItemHeightWidthRatio);
         }
         mItemCount = getItemCount();
+
+
         mScrollOffset = makeScrollOffsetWithinRange(mScrollOffset);
         fill(recycler);
     }

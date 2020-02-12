@@ -46,6 +46,7 @@
             android:name=".activitys.RecylerActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
+
         </activity>
         <activity
             android:name=".activitys.SplashActivity"

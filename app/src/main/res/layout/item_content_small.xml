@@ -9,14 +9,14 @@
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:paddingTop="5dp"
-    app:cardBackgroundColor="#646774"
+
     app:cardCornerRadius="@dimen/cardview_cardCorner"
     app:cardElevation="@dimen/cardview_elevation"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
-        android:background="#4F00ACC1"
+        android:id="@+id/rl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

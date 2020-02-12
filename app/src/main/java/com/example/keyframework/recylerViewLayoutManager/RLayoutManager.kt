@@ -1,15 +1,13 @@
 package com.example.keyframework.recylerViewLayoutManager
 
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.maosong.tools.ToastUtils
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 
-class RLayoutManager : RecyclerView.LayoutManager() {
+class RLayoutManager(var mContext: Context, var orientation: Boolean) : RecyclerView.LayoutManager() {
     private var verticalScrollOffset = 0
     private val mScale: Int = 0
     private var mHasChild: Boolean = false
@@ -18,28 +16,31 @@ class RLayoutManager : RecyclerView.LayoutManager() {
     private val mItemHeightWidthRatio: Float = 0f
     private var mItemCount: Int = 0
     private var mScrollYoffset: Int = 0
-
-    private var mScaleX = 0.93f
+    private var moreTopBottomSpace = 400
+    private var mScaleX = 0.95f
     private var mScaleY = 0.99f
     private var mScaleViewInterval = 0.97f
+    private var itemRotationX = -10f
     var offsetY = 0
-    var offsetX = 0
+    var AllOffsetY = 0
     var normalViewWidth = 0
     var normalViewHeigh = 0
-
-
+    var mScrollLength = 0
+    var ScrollPercent = 0f
     override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
+        var scrollLength = dy
+        if (verticalScrollOffset + dy + moreTopBottomSpace < 0) {
+            scrollLength = -verticalScrollOffset - moreTopBottomSpace
+        } else if (verticalScrollOffset + dy - moreTopBottomSpace > AllOffsetY - getVerticalLength()) {
+            scrollLength = AllOffsetY - getVerticalLength() - verticalScrollOffset + moreTopBottomSpace
+        }
+        mScrollLength = -scrollLength
+        verticalScrollOffset += scrollLength
+        Log.e("位移", "scrollLength: ${scrollLength}  verticalScrollOffset:${(verticalScrollOffset)}   AllOffsetY:${(AllOffsetY)} ")
 
-          var scrollLength = dy
-          if (verticalScrollOffset + dy < 0) {
-              scrollLength = -verticalScrollOffset
-          } else if (verticalScrollOffset + dy > offsetY - getVerticalLength()) {
-              scrollLength=offsetY-getVerticalLength()-verticalScrollOffset
-          }
-          verticalScrollOffset+=scrollLength
-          offsetChildrenVertical(-scrollLength)
+        setViewsLayout(recycler, state, false)
 
-          return  scrollLength
+        return scrollLength
     }
 
     private fun getHorizontallLength(): Int {
@@ -72,39 +73,59 @@ class RLayoutManager : RecyclerView.LayoutManager() {
         /*
         * 在布局之前，将所有的子View先Detach掉，放入到Scrap缓存中
         * */
-        recycler?.let { removeAndRecycleAllViews(it) }
         /*
         * 初始化偏移量
         * */
         offsetY = 0
-        offsetX = 0
-        setViewsLayout(recycler, state, 0)
-
+        offsetY = 0
+        setViewsLayout(recycler, state, true)
 
     }
 
-    private fun setViewsLayout(recycler: RecyclerView.Recycler?, state: RecyclerView.State?, offset: Int) {
+    private fun setViewsLayout(recycler: RecyclerView.Recycler?, state: RecyclerView.State?, isfrist: Boolean) {
+        var temp = true
+        detachAndScrapAttachedViews(recycler!!)
+          if (AllOffsetY ==0 ) AllOffsetY =1
+            ScrollPercent = ((verticalScrollOffset.toFloat() - 2 * (moreTopBottomSpace).toFloat()) / AllOffsetY.toFloat())
+            Log.e("位移百分比", "AllOffsetY: ${AllOffsetY}  verticalScrollOffset:${(verticalScrollOffset)}     %:${(ScrollPercent)}   ")
         for (i in 0..itemCount - 1) {
             val View = recycler?.getViewForPosition(i)
             addView(View)
+
             View?.let { measureChildWithMargins(it, 0, 0) }
             val width = View?.let { getDecoratedMeasuredWidth(it) }
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
             normalViewHeigh = heigh!!
             normalViewWidth = width!!
-            var mScaleXY = mScaleX.pow(itemCount - i)
+          //  var mScaleXY = mScaleX.pow(itemCount - i)
+            var mScaleXY = 0.6+(i+1)*0.1
+            mScaleXY=if (mScaleXY>3) 3f else mScaleXY
+            mScaleXY=if (mScaleXY<0) 0.1f else mScaleXY
+            if (isfrist) {
+                var left = 0
+                var top = offsetY
+                var right = width!!
+                var bottom = (heigh!! + offsetY)
+                layoutDecoratedWithMargins(View!!, left, top, right, bottom)
+                offsetY += (heigh * mScaleXY * 0.7).toInt()
+                AllOffsetY = offsetY
+                Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
+            } else {
+                View?.offsetTopAndBottom(mScrollLength)
+                Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)} ")
+            }
+            mItemCount = if (mItemCount < 0) 0 else mItemCount
+            mItemCount = if (mItemCount >100) 100 else mItemCount
+
             View!!.scaleX = mScaleXY
             View!!.scaleY = mScaleXY
-            //   Log.e("  #1  ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
-            var left = 0
-            var top = offsetY
-            var right = width!!
-            var bottom = (heigh!! + offsetY)
-            //   Log.e("  #2  ", " left:${left} top: ${top} right: ${right} bottom: ${bottom}")
-            layoutDecorated(View!!, 0, top, right, bottom)
-            //  offsetX += width!! * mScaleViewInterval.pow(itemCount - i  )
-            offsetY += (heigh * mScaleXY * 0.7).toInt()
+            //  View.z = mScaleXY
+            View.rotationX = itemRotationX
+            //Log.e(" 宽高缩放${i} ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
+            //  Log.e(" mScrollLength${i} ", "mScrollLength: ${mScrollLength}  ")
+            //
         }
+
     }
 
 

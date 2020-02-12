@@ -31,11 +31,11 @@ class RecylerActivity : BaseActivity() {
 
     override fun initDate() {
         list = ArrayList<UserBean>()
-        for (i in 1..7) {
+        for (i in 1..1) {
             list!!.add(object : UserBean(i.toString(), i.toString()) {})
         }
         customAdapter = CustomAdapter(list)
-        var layoutManager = RLayoutManager()
+        var layoutManager = RLayoutManager(context,true)
       //  layoutManager.orientation = RecyclerView.HORIZONTAL
         rec_customize.layoutManager = layoutManager
         rec_customize.adapter = customAdapter

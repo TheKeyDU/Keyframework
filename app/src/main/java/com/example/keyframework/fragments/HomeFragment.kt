@@ -7,6 +7,7 @@ import com.example.keyframework.adapter.HomeListAdapter
 import com.example.keyframework.bean.UserBean
 import com.example.keyframework.module.NetModules
 import com.example.keyframework.recylerViewLayoutManager.FlowLayoutManager
+import com.example.keyframework.recylerViewLayoutManager.RLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.maosong.component.Base.BaseFragment
 import com.maosong.tools.ToastUtils
@@ -33,7 +34,7 @@ class HomeFragment : BaseFragment() {
                 .subscribe(
                         { homeListBean ->
                             mHomeListAdapter = HomeListAdapter(homeListBean.newslist)
-                            var mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                            var mLinearLayoutManager = RLayoutManager(this!!.context!!,true)
                             rec_home_lsit.adapter = mHomeListAdapter
                             rec_home_lsit.layoutManager = mLinearLayoutManager
                             if (srl_rec_home.isRefreshing)
