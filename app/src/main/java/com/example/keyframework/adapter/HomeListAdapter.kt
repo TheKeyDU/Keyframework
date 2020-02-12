@@ -37,4 +37,7 @@ class HomeListAdapter(date:MutableList<HomeListBean.NewslistBean>) : BaseQuickAd
         layout?.setBackgroundColor(Color)
     }
 
+    override fun getItemCount(): Int {
+        return 3
+    }
 }
