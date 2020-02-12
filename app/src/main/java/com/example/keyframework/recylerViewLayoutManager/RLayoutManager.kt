@@ -28,11 +28,11 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
     var ScrollPercent = 0f
     override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         var ScrollLength = dy
-           /*   if (verticalScrollOffset + dy + moreTopBottomSpace < 0) {
-                  ScrollLength = -verticalScrollOffset - moreTopBottomSpace
-              } else if (verticalScrollOffset + dy - moreTopBottomSpace > AllOffsetY - getVerticalLength()) {
-                  ScrollLength = AllOffsetY - getVerticalLength() - verticalScrollOffset + moreTopBottomSpace
-              }*/
+        /*   if (verticalScrollOffset + dy + moreTopBottomSpace < 0) {
+               ScrollLength = -verticalScrollOffset - moreTopBottomSpace
+           } else if (verticalScrollOffset + dy - moreTopBottomSpace > AllOffsetY - getVerticalLength()) {
+               ScrollLength = AllOffsetY - getVerticalLength() - verticalScrollOffset + moreTopBottomSpace
+           }*/
         Log.e(" 发送值 1", "ScrollLength: ${ScrollLength}    ")
         verticalScrollOffset += ScrollLength
         //  Log.e("位移", "mScrollLength: ${mScrollLength}  verticalScrollOffset:${(verticalScrollOffset)}   AllOffsetY:${(AllOffsetY)} ")
@@ -90,44 +90,47 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
         //    Log.e("位移百分比", "AllOffsetY: ${AllOffsetY}  verticalScrollOffset:${(verticalScrollOffset)}     %:${(ScrollPercent)}   ")
         var tag = true
         for (i in 0..itemCount - 1) {
-          //  Log.e(" 接收到值 ", "mScrollLength: ${mScrollLength}    ")
+            //  Log.e(" 接收到值 ", "mScrollLength: ${mScrollLength}    ")
             val View = recycler?.getViewForPosition(i)
             addView(View)
+            var tempY = if (View.y > 2000f) 2000f else View.y
+            var scale: Float = (tempY / 2000f) * 0.5f + 0.6f
+            View.scaleX = scale
+            View.scaleY = scale
             View?.let { measureChildWithMargins(it, 0, 0) }
             val width = View?.let { getDecoratedMeasuredWidth(it) }
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
             normalViewHeigh = heigh!!
             normalViewWidth = width!!
-            //  var mScaleXY = mScaleX.pow(itemCount - i)
-            var mScaleXY: Float = (0.4 + (i + 1) * 0.1).toFloat()
-            mScaleXY = if (mScaleXY > 1.1) 1.1f else mScaleXY
-            mScaleXY = if (mScaleXY < 0.3) 0.3f else mScaleXY
-            View!!.scaleX = mScaleXY
-            View!!.scaleY = mScaleXY
+            var mScaleXY = mScaleX.pow(itemCount - i)
+
             var left = 0
             var right = width!!
             if (mScrollLength != 0 && tag) {
                 offsetY = 0
                 tag = false
             }
-
             var top: Int = offsetY + mScrollLength
-            var bottom: Int = heigh!! + offsetY + mScrollLength
+            var bottom: Int = (heigh) + offsetY + mScrollLength
             layoutDecoratedWithMargins(View!!, left, top, right, bottom)
-       //     Log.e(" 子视图${i} ", "ScrollLength: ${mScrollLength}  top: ${top}  bottom: ${bottom}   ")
-            offsetY += (heigh * mScaleXY * 0.7).toInt()
-            AllOffsetY = if (offsetY==0) AllOffsetY else offsetY
-           Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
+            // offsetY += (heigh * mScaleXY * 0.7).toInt()
+            offsetY += (mScaleXY*heigh).toInt()
+            AllOffsetY = if (offsetY == 0) AllOffsetY else offsetY
+            Log.e("y值${i}   ", " offsety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
             mItemCount = if (mItemCount < 0) 0 else mItemCount
             mItemCount = if (mItemCount > 100) 100 else mItemCount
             //  View.z = mScaleXY
-            View.rotationX = itemRotationX
+            // View.rotationX = itemRotationX
             //Log.e(" 宽高缩放${i} ", "width: ${width} heigh: ${heigh} mScaleXY: ${mScaleXY}")
             //  Log.e(" mScrollLength${i} ", "mScrollLength: ${mScrollLength}  ")
             //
+            Log.e(" 子视图${i} ", "X: ${View.x}  Y: ${View.y}    ")
+
         }
 
     }
 
 
 }
+
+

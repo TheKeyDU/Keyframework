@@ -18,7 +18,7 @@ class HomeFragment : BaseFragment() {
     var netModules: NetModules? = null
     override fun initView() {
         srl_rec_home.setOnRefreshListener {
-            initNetRequset()
+           // initNetRequset()
 
         }
         initNetRequset()

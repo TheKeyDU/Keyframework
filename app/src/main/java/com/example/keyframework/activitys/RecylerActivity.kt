@@ -31,7 +31,7 @@ class RecylerActivity : BaseActivity() {
 
     override fun initDate() {
         list = ArrayList<UserBean>()
-        for (i in 1..1) {
+        for (i in 1..10) {
             list!!.add(object : UserBean(i.toString(), i.toString()) {})
         }
         customAdapter = CustomAdapter(list)
