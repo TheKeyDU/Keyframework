@@ -19,7 +19,6 @@ class HomeListAdapter(date:MutableList<HomeListBean.NewslistBean>) : BaseQuickAd
 (R.layout.item_content_small ,date)
 {
     var imageView: ImageView? =null
-    @SuppressLint("NewApi")
     override fun convert(helper: BaseViewHolder?, item: HomeListBean.NewslistBean?) {
         imageView=helper?.getView(R.id.iv_head)
         Glide.with(mContext).load(item?.image).into(this!!.imageView!!)
@@ -33,8 +32,12 @@ class HomeListAdapter(date:MutableList<HomeListBean.NewslistBean>) : BaseQuickAd
         var R_= random.nextInt(256).toFloat()
         var G_ = random.nextInt(256).toFloat()
         var B_ = random.nextInt(256).toFloat()
-        var  Color= Color.argb(1f,R_,G_,B_)
-        layout?.setBackgroundColor(Color)
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+           var  Color=   Color.argb(1f,R_,G_,B_)
+            layout?.setBackgroundColor(Color)
+
+        } else {
+        }
     }
 
 

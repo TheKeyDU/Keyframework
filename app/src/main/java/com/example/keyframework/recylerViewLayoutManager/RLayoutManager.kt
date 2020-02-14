@@ -105,7 +105,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             val heigh = View?.let { getDecoratedMeasuredHeight(it) }
             normalViewHeigh = heigh!!
             normalViewWidth = width!!
-             var mScaleXY = mScaleX.pow(itemCount - i)
+             var mScaleXY = mScaleX.pow(itemCount - i-1)
 
             var left = 0
             var right = width!!
@@ -113,11 +113,12 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
                 offsetY = 0
                 tag = false
             }
-            var top: Int = offsetY + mScrollLength
-            var bottom: Int = (heigh) + offsetY + mScrollLength
+            var top: Int = (offsetY*mScaleXY).toInt() + mScrollLength
+            var bottom: Int = (heigh) + (offsetY*mScaleXY).toInt() + mScrollLength
             layoutDecoratedWithMargins(View!!, left, top, right, bottom)
+
             // offsetY += (heigh * mScaleXY * 0.7).toInt()
-            Log.e(" 子视图${i} ", "h: ${heigh}     ")
+            Log.e(" 子视图${i} ", "h: ${scale*heigh}    w: ${scale*width}     ")
             offsetY += (scale*heigh*0.5f).toInt()
             AllOffsetY = if (offsetY == 0) AllOffsetY else offsetY
             // Log.e("y值${i}   ", " off55ety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")

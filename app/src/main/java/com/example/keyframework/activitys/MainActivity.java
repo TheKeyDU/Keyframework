@@ -147,6 +147,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
         initListener();
+        jisuan();
+    }
+
+    private void jisuan() {
+        int n=900;
+        int j=0;
+        int sum=0;
+        int heigh=200;
+        float bili=0.95f;
+        int show=0;
+        while((int) (200f/Math.pow(bili,j)+sum)< n)
+        {
+            float temp= (float) (200f/Math.pow(bili,j));
+            Log.e(")))))temp:"+temp,"j : "+j);
+
+            sum+=200f*Math.pow(bili,j);
+            j++;
+            Log.e(")))))strp:"+j,"shum: "+sum);
+  show=n-sum;
+        }
+        Log.e("))))result",j+"");
+        Log.e("))))show",show+"");
+
     }
 
 
