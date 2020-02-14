@@ -10,9 +10,11 @@
         android:id="@+id/abl_tool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
         <androidx.appcompat.widget.Toolbar
+            android:visibility="gone"
+
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

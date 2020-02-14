@@ -20,7 +20,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
     private var mScaleX = 0.95f
     private var mScaleY = 0.99f
     private var mScaleViewInterval = 0.97f
-    private var itemRotationX = -7f
+    private var itemRotationX = -14f
     var offsetY = 0
     var AllOffsetY = 0
     var normalViewWidth = 0
@@ -94,9 +94,9 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             val View = recycler?.getViewForPosition(i)
             addView(View)
             var tempY = if (View.y > 2000f) 2000f else View.y
-            var scale: Float = (tempY / 2000f) * 0.7f + 0.6f
-            scale=if (scale> 1.1f) 1.1f else scale
-            scale=if (scale<0.4f) 0.4f else scale
+            var scale: Float = (tempY / 2000f) * 0.8f + 0.4f
+            scale=if (scale> 1.2f) 1.2f else scale
+            scale=if (scale<0.3f) 0.3f else scale
 
             View.scaleX = scale
             View.scaleY = scale
@@ -118,7 +118,7 @@ class RLayoutManager(var mContext: Context, var orientation: Boolean) : Recycler
             layoutDecoratedWithMargins(View!!, left, top, right, bottom)
             // offsetY += (heigh * mScaleXY * 0.7).toInt()
             Log.e(" 子视图${i} ", "h: ${heigh}     ")
-            offsetY += (scale*heigh*0.6f).toInt()
+            offsetY += (scale*heigh*0.5f).toInt()
             AllOffsetY = if (offsetY == 0) AllOffsetY else offsetY
             // Log.e("y值${i}   ", " off55ety: ${offsetY}  AllOffsetY:${(AllOffsetY)}  ")
             mItemCount = if (mItemCount < 0) 0 else mItemCount
