@@ -1,1 +1,1 @@
-include ':app', ':base:tools', 'component', 'gradle_component', ':jpush', 'LayoutManager'
+include ':app', ':base:tools', ':interstellar', 'component', 'gradle_component', ':jpush', 'LayoutManager'

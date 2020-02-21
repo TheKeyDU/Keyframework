@@ -22,9 +22,9 @@ class HomeListAdapter(date:MutableList<HomeListBean.NewslistBean>) : BaseQuickAd
     override fun convert(helper: BaseViewHolder?, item: HomeListBean.NewslistBean?) {
         imageView=helper?.getView(R.id.iv_head)
         Glide.with(mContext).load(item?.image).into(this!!.imageView!!)
-        Log.e("*****",item?.description)
-        Log.e("*****",item?.postdate)
-        Log.e("*****",item?.image)
+       // Log.e("*****",item?.description)
+      //  Log.e("*****",item?.postdate)
+       // Log.e("*****",item?.image)
         helper?.setText(R.id.tv_title,item?.description)
         helper?.setText(R.id.tv_time,item?.postdate)
         var layout=helper?.itemView?.findViewById<RelativeLayout>(R.id.rl_root)

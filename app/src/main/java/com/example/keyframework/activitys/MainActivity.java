@@ -41,7 +41,10 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,30 +150,55 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
         initListener();
-        jisuan();
+
+
     }
+    public static String execByRuntime(String cmd) {
+        Process process = null;
+        BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader = null;
+        try {
+            process = Runtime.getRuntime().exec(cmd);
+            inputStreamReader = new InputStreamReader(process.getInputStream());
+            bufferedReader = new BufferedReader(inputStreamReader);
 
-    private void jisuan() {
-        int n=900;
-        int j=0;
-        int sum=0;
-        int heigh=200;
-        float bili=0.95f;
-        int show=0;
-        while((int) (200f/Math.pow(bili,j)+sum)< n)
-        {
-            float temp= (float) (200f/Math.pow(bili,j));
-            Log.e(")))))temp:"+temp,"j : "+j);
-
-            sum+=200f*Math.pow(bili,j);
-            j++;
-            Log.e(")))))strp:"+j,"shum: "+sum);
-  show=n-sum;
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = bufferedReader.read(buffer)) > 0) {
+                output.append(buffer, 0, read);
+            }
+            Log.e("shell------dqj",output.toString());
+            return output.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (null != inputStreamReader) {
+                try {
+                    inputStreamReader.close();
+                } catch (Throwable t) {
+                    //
+                }
+            }
+            if (null != bufferedReader) {
+                try {
+                    bufferedReader.close();
+                } catch (Throwable t) {
+                    //
+                }
+            }
+            if (null != process) {
+                try {
+                    process.destroy();
+                } catch (Throwable t) {
+                    //
+                }
+            }
         }
-        Log.e("))))result",j+"");
-        Log.e("))))show",show+"");
-
     }
+
+
 
 
     private void initListener() {
