@@ -40,46 +40,55 @@ public class StartsLinesBean {
         this.Endlength = Endlength;
         this.centerX = centerX;
         this.centerY = centerY;
+        calculate(startX, startY, centerX, centerY, Startlength, Endlength);
+
+    }
+
+    private void calculate(int startX, int startY, int centerX, int centerY, float startlength, float endlength) {
         type = intType(startX, startY, centerX, centerY);
-        Log.e("-----", "" + type);
+
+        float mStartX = (startX - centerX) * (100 - Startlength) / 100 + centerX;
+        float mStartY = (centerY - startY) * (100 - Startlength) / 100;
+        float mEndx = (startX - centerX) * (100 - Endlength) / 100 + centerX;
+        float mEndy = (centerY - startY) * (100 - Endlength) / 100;
+        float mStartX2 = (centerX - startX) * (100 - Startlength) / 100 + startX;
+        float mstarty2 = (centerX - startX) * (100 - Endlength) / 100 + startX;
+        float mEndX2 = (startY - centerY) * (100 - Startlength) / 100;
+        float mEndy2 = (startY - centerY) * (100 - Endlength) / 100;
         switch (type) {
             case 1: {
-                lineStartX = (int) ((startX - centerX) * (100 - Startlength) / 100 + centerX);
-                linestartY = centerY - (int) ((centerY - startY) * (100 - Startlength) / 100);
-                lineEndx = (int) ((startX - centerX) * (100 - Endlength) / 100 + centerX);
-                lineEndy = centerY - (int) ((centerY - startY) * (100 - Endlength) / 100);
-                Log.e("%%%%%%%%%%%1", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+                lineStartX = (int) mStartX;
+                linestartY = centerY - (int) mStartY;
+                lineEndx = (int) mEndx;
+                lineEndy = centerY - (int) mEndy;
 
                 break;
             }
             case 2: {
-                lineStartX = (int) ((centerX - startX) * (100 - Startlength) / 100 + startX);
-                linestartY = startY + (int) ((centerY - startY) * (100 - Startlength) / 100);
-                lineEndx = (int) ((centerX - startX) * (100 - Endlength) / 100 + startX);
-                lineEndy = startY + (int) ((centerY - startY) * (100 - Endlength) / 100);
-                Log.e("%%%%%%%%%%%2", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+                lineStartX = (int) mStartX2;
+                linestartY = startY + (int) mStartY;
+                lineEndx = (int) mstarty2;
+                lineEndy = startY + (int) mEndy;
 
                 break;
 
 
             }
             case 3: {
-                lineStartX = (int) ((centerX - startX) * (100 - Startlength) / 100 + startX);
-                linestartY = startY -  (int) ((startY - centerY) * (100 - Startlength) / 100);
-                lineEndx = (int) ((centerX - startX) * (100 - Endlength) / 100 + startX);
-                lineEndy = startY -  (int) ((startY - centerY) * (100 - Endlength) / 100);
-                Log.e("%%%%%%%%%%%3", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+                lineStartX = (int) mStartX2;
+                linestartY = startY - (int) mEndX2;
+                lineEndx = (int) mstarty2;
+                lineEndy = startY - (int) mEndy2;
 
                 break;
 
 
             }
             case 4: {
-                lineStartX = (int) ((startX - centerX) * (100 - Startlength) / 100 + centerX);
-                linestartY = centerY + (int) ((startY - centerY) * (100 - Startlength) / 100);
-                lineEndx = (int) ((startX - centerX) * (100 - Endlength) / 100 + centerX);
-                lineEndy = centerY + (int) ((startY - centerY) * (100 - Endlength) / 100);
-                Log.e("%%%%%%%%%%%4", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+                lineStartX = (int) mStartX;
+                linestartY = centerY + (int) mEndX2;
+                lineEndx = (int) mEndx;
+                lineEndy = centerY + (int) mEndy2;
 
 
                 break;
@@ -105,13 +114,17 @@ public class StartsLinesBean {
 
     }
 
-    public void toEnd(int offset, boolean offsetStart) {
-//
-    }
+    public void offsetAddOrSub(float endOffset, float startOffset, boolean add) {
+        if (add) {
+            Startlength -= startOffset;
+            Endlength += endOffset;
+        } else {
+            Startlength -= startOffset;
+            Endlength -= endOffset;
+        }
 
-
-    public void toStart(int offset, boolean offsetStart) {
-
+        calculate(  startX,   startY,   centerX,   centerY,   Startlength,   Endlength);
+        Log.e("Startlength",Startlength+"    "+Endlength);
     }
 
 

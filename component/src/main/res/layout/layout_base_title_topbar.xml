@@ -40,7 +40,7 @@
             android:background="@android:color/transparent"
             android:gravity="end"
             android:maxHeight="@dimen/dp20"
-            android:paddingRight="@dimen/dp10"
+            android:paddingEnd="@dimen/dp10" android:paddingRight="@dimen/dp10"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:visibility="gone"
@@ -54,7 +54,7 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/app_name"
             android:src="@mipmap/spinner_black"
-            android:paddingRight="@dimen/dp10"
+            android:paddingEnd="@dimen/dp10" android:paddingRight="@dimen/dp10"
             android:visibility="gone"/>
     <View
             android:layout_width="match_parent"

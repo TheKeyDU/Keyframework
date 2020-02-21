@@ -21,7 +21,7 @@
         android:cursorVisible="false"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLength="10"
+        android:inputType="" android:maxLength="10"
         android:maxLines="1"
         android:textSize="13sp"
         android:colorControlNormal="#74b7ee"/>
@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:text="@string/sure"
             android:clickable="true"
-            android:gravity="center"
+            android:focusable="true" android:gravity="center"
             android:textColor="#74b7ee"
             android:background="@null"
             />

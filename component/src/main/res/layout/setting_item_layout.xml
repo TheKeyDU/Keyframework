@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp" android:layout_marginRight="6dp"
         android:text=""
         android:textColor="#aaaaaa"
         android:textSize="14sp" />
@@ -42,13 +42,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="6dp"
-        android:visibility="gone"/>
+        android:layout_marginEnd="6dp" android:layout_marginRight="6dp"
+        android:contentDescription="TODO" android:visibility="gone"/>
 
     <!-- 跳入箭头 -->
     <ImageView
         android:layout_width="wrap_content"
         android:id="@+id/item_tip"
         android:layout_height="wrap_content"
-        android:src="@mipmap/icon_arrow_right" />
+        android:contentDescription="TODO" android:src="@mipmap/icon_arrow_right" />
 </LinearLayout>
