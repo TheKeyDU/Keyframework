@@ -51,11 +51,14 @@ public class InterstellarView extends View {
 
     private void initLines() {
         StartsLinesBeanlist.clear();
-            StartsLinesBean lineBean = new StartsLinesBean(800,100,500,1000,50,60);
-            StartsLinesBean lineBean2 = new StartsLinesBean(200,200,500,1000,50,60);
-            StartsLinesBean lineBean3 = new StartsLinesBean(200,1700,500,1000,50,60);
-            StartsLinesBean lineBean4 = new StartsLinesBean(800,1700,500,1000,50,60);
+            StartsLinesBean lineBean = new StartsLinesBean(800,100,500,1000,10,80);
+            StartsLinesBean lineBean2 = new StartsLinesBean(200,200,500,1000,10,80);
+            StartsLinesBean lineBean3 = new StartsLinesBean(200,1700,500,1000,10,80);
+            StartsLinesBean lineBean4 = new StartsLinesBean(800,1700,500,1000,10,80);
             StartsLinesBeanlist.add(lineBean);
+            StartsLinesBeanlist.add(lineBean2);
+            StartsLinesBeanlist.add(lineBean3);
+            StartsLinesBeanlist.add(lineBean4);
 
     }
 

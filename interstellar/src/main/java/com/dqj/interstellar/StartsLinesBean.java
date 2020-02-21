@@ -24,7 +24,7 @@ public class StartsLinesBean {
     int centerY;
 
 
-    public StartsLinesBean(int startX, int startY, int xielv, float Startlength,float Endlength) {
+    public StartsLinesBean(int startX, int startY, int xielv, float Startlength, float Endlength) {
         this.startX = startX;
         this.startY = startY;
         this.xielv = xielv;
@@ -33,7 +33,7 @@ public class StartsLinesBean {
     }
 
 
-    public StartsLinesBean(int startX, int startY, int centerX, int centerY, float Startlength,float Endlength) {
+    public StartsLinesBean(int startX, int startY, int centerX, int centerY, float Startlength, float Endlength) {
         this.startX = startX;
         this.startY = startY;
         this.Startlength = Startlength;
@@ -41,24 +41,49 @@ public class StartsLinesBean {
         this.centerX = centerX;
         this.centerY = centerY;
         type = intType(startX, startY, centerX, centerY);
-        Log.e("-----",""+type);
+        Log.e("-----", "" + type);
         switch (type) {
             case 1: {
-                lineStartX= (int) ((startX-centerX)*(100-Startlength)/100+centerX);
-               linestartY= centerY- (int) ((centerY-startY)*(100-Startlength)/100);
-               lineEndx=(int) ((startX-centerX)*(100-Endlength)/100+centerX);
-                lineEndy= centerY- (int) ((centerY-startY)*(100-Endlength)/100);
-                Log.e(".......","xielv"+xielv+"   endx"+lineEndx+"   endy"+lineEndy+"   linstartx"+lineStartX+"   linestarty"+linestartY);
+                lineStartX = (int) ((startX - centerX) * (100 - Startlength) / 100 + centerX);
+                linestartY = centerY - (int) ((centerY - startY) * (100 - Startlength) / 100);
+                lineEndx = (int) ((startX - centerX) * (100 - Endlength) / 100 + centerX);
+                lineEndy = centerY - (int) ((centerY - startY) * (100 - Endlength) / 100);
+                Log.e("%%%%%%%%%%%1", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+
+                break;
             }
-            case 2: {/*  xielv=(float) (centerX-startX)/(centerY-startY);
-                endX=(int) (((centerX-startX)*length/100*xielv)+startX);
-                endy=(int) (((centerY-startY)*length/100*xielv)+startY);*/
+            case 2: {
+                lineStartX = (int) ((centerX - startX) * (100 - Startlength) / 100 + startX);
+                linestartY = startY + (int) ((centerY - startY) * (100 - Startlength) / 100);
+                lineEndx = (int) ((centerX - startX) * (100 - Endlength) / 100 + startX);
+                lineEndy = startY + (int) ((centerY - startY) * (100 - Endlength) / 100);
+                Log.e("%%%%%%%%%%%2", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+
+                break;
 
 
             }
             case 3: {
+                lineStartX = (int) ((centerX - startX) * (100 - Startlength) / 100 + startX);
+                linestartY = startY -  (int) ((startY - centerY) * (100 - Startlength) / 100);
+                lineEndx = (int) ((centerX - startX) * (100 - Endlength) / 100 + startX);
+                lineEndy = startY -  (int) ((startY - centerY) * (100 - Endlength) / 100);
+                Log.e("%%%%%%%%%%%3", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+
+                break;
+
+
             }
             case 4: {
+                lineStartX = (int) ((startX - centerX) * (100 - Startlength) / 100 + centerX);
+                linestartY = centerY + (int) ((startY - centerY) * (100 - Startlength) / 100);
+                lineEndx = (int) ((startX - centerX) * (100 - Endlength) / 100 + centerX);
+                lineEndy = centerY + (int) ((startY - centerY) * (100 - Endlength) / 100);
+                Log.e("%%%%%%%%%%%4", "xielv" + xielv + "   endx" + lineEndx + "   endy" + lineEndy + "   linstartx" + lineStartX + "   linestarty" + linestartY);
+
+
+                break;
+
             }
         }
     }
