@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.security.spec.ECField;
 import java.util.EmptyStackException;
+import java.util.Random;
 
 public class StartsLinesBean {
     int startX;
@@ -22,16 +23,9 @@ public class StartsLinesBean {
     int type;
     int centerX;
     int centerY;
-
-
-    public StartsLinesBean(int startX, int startY, int xielv, float Startlength, float Endlength) {
-        this.startX = startX;
-        this.startY = startY;
-        this.xielv = xielv;
-        this.Startlength = Startlength;
-        this.Endlength = Endlength;
-    }
-
+    boolean outOfscreen=false;
+    float speed[] = {0.02f, 0.04f,0.08f,0.1f, 0.15f, 0.3f, 0.6f, 1f,2f,4f};
+  float speedFloat=0.0f;
 
     public StartsLinesBean(int startX, int startY, int centerX, int centerY, float Startlength, float Endlength) {
         this.startX = startX;
@@ -47,6 +41,7 @@ public class StartsLinesBean {
         this.Endlength = Endlength;
         this.centerX = centerX;
         this.centerY = centerY;
+        speedFloat=speed[new Random().nextInt(speed.length)];
         calculate(startX, startY, centerX, centerY, Startlength, Endlength);
 
     }
@@ -160,7 +155,10 @@ public class StartsLinesBean {
         Startlength = Math.min(99, Startlength);
         Endlength = Math.max(1, Endlength);
         Endlength = Math.min(99, Endlength);
-
+if ((Startlength==1&&Endlength==1)||(Startlength==99&&Endlength==99))
+{
+    outOfscreen=true;
+}
         calculate(startX, startY, centerX, centerY, Startlength, Endlength);
     }
 

@@ -25,7 +25,8 @@ public class InterstellarView extends View {
     int height = 0;
     int centerX;
     int centerY;
-    int lineMaxNumber = 100;
+    int lineMaxNumber = 400;
+
 
     ArrayList<StartsLinesBean> StartsLinesBeanlist = null;
 
@@ -36,23 +37,25 @@ public class InterstellarView extends View {
             for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
                 StartsLinesBean Bean = StartsLinesBeanlist.get(i);
                 //StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
-                if (Bean.linestartY > height &&
-                        Bean.linestartY < 1 &&
-                        Bean.lineStartX > getWidth() &&
-                        Bean.lineStartX < 1) {
+                if (Bean.outOfscreen) {
                     Bean = null;
                     StartsLinesBeanlist.remove(i);
+                    StartsLinesBeanlist.add(initALineObject());
 
+                    Log.e("-------删除了", StartsLinesBeanlist.size() + "");
                 } else {
+                    Random random2 = new Random();
+                    float r = random2.nextFloat() * 10;
+                    Bean.startAndEndTransform(Bean.speedFloat, true);
 
                 }
-                Random random2 = new Random();
-                float r = random2.nextFloat() * 10;
-                Bean.startAndEndTransform(r, true);
+
 
             }
-            for (int i=0 ;i<=30;i++)
-            StartsLinesBeanlist.add(initALineObject());
+         /*   for (int i = 0; i <= 2; i++) {
+            }*/
+
+            Log.e("------- ", StartsLinesBeanlist.size() + "");
 
             invalidate();
         }
@@ -88,7 +91,7 @@ public class InterstellarView extends View {
 
     private void initPaint() {
         paint = new Paint();
-        paint.setStrokeWidth(3);
+        paint.setStrokeWidth(1);
         paint.setARGB(100, 255, 255, 255);
     }
 
@@ -130,8 +133,8 @@ public class InterstellarView extends View {
 
             }
         }
-        int end = (int) (random.nextFloat() * 40) + 10;
-        int end2 = (int) (random.nextFloat() * 40) + 50;
+        int end = (int) (random.nextFloat() * 100)  ;
+        int end2 = (int) (random.nextFloat() *100)  ;
         StartsLinesBean startsLinesBean = new StartsLinesBean(startx, starty, centerX, centerY, end, end2);
         return startsLinesBean;
     }
@@ -141,7 +144,7 @@ public class InterstellarView extends View {
         super.onDraw(canvas);
         Paint paint2 = new Paint();
         paint2.setARGB(100, 255, 0, 0);
-        paint2.setStrokeWidth(10);
+        paint2.setStrokeWidth(20);
         canvas.drawPoint(centerX, centerY, paint2);
 
         drawStartsLine(canvas, paint, StartsLinesBeanlist);
