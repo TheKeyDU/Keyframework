@@ -36,6 +36,13 @@ public class StartsLinesBean {
     public StartsLinesBean(int startX, int startY, int centerX, int centerY, float Startlength, float Endlength) {
         this.startX = startX;
         this.startY = startY;
+     /*   if (Endlength > Startlength) {
+            this.Startlength = Startlength;
+            this.Endlength = Endlength;
+        } else {
+            this.Startlength = Endlength;
+            this.Endlength = Startlength;
+        }*/
         this.Startlength = Startlength;
         this.Endlength = Endlength;
         this.centerX = centerX;
@@ -116,15 +123,45 @@ public class StartsLinesBean {
 
     public void offsetAddOrSub(float endOffset, float startOffset, boolean add) {
         if (add) {
-            Startlength -= startOffset;
-            Endlength += endOffset;
+            Startlength += startOffset;
+            Endlength -= endOffset;
         } else {
             Startlength -= startOffset;
             Endlength -= endOffset;
         }
 
-        calculate(  startX,   startY,   centerX,   centerY,   Startlength,   Endlength);
-        Log.e("Startlength",Startlength+"    "+Endlength);
+        calculate(startX, startY, centerX, centerY, Startlength, Endlength);
+    }
+
+    public void startAndEndTransform(float endOffset, boolean forward) {
+        if (type == 1 || type == 4) {
+            if (forward) {
+                Startlength -= endOffset;
+                Endlength -= endOffset;
+            } else {
+                Startlength += endOffset;
+                Endlength += endOffset;
+
+            }
+
+        } else if (type == 3 || type == 2) {
+            if (forward) {
+                Startlength += endOffset;
+                Endlength += endOffset;
+
+            } else {
+                Startlength -= endOffset;
+                Endlength -= endOffset;
+            }
+        }
+
+
+        Startlength = Math.max(1, Startlength);
+        Startlength = Math.min(99, Startlength);
+        Endlength = Math.max(1, Endlength);
+        Endlength = Math.min(99, Endlength);
+
+        calculate(startX, startY, centerX, centerY, Startlength, Endlength);
     }
 
 

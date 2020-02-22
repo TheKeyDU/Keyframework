@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,23 +25,40 @@ public class InterstellarView extends View {
     int height = 0;
     int centerX;
     int centerY;
+    int lineMaxNumber = 100;
+
     ArrayList<StartsLinesBean> StartsLinesBeanlist = null;
 
     Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
-            Random random2 = new Random();
+
             for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
-                float r=random2.nextInt(100)/30;
-              StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
+                StartsLinesBean Bean = StartsLinesBeanlist.get(i);
+                //StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
+                if (Bean.linestartY > height &&
+                        Bean.linestartY < 1 &&
+                        Bean.lineStartX > getWidth() &&
+                        Bean.lineStartX < 1) {
+                    Bean = null;
+                    StartsLinesBeanlist.remove(i);
+
+                } else {
+
+                }
+                Random random2 = new Random();
+                float r = random2.nextFloat() * 10;
+                Bean.startAndEndTransform(r, true);
+
             }
+            for (int i=0 ;i<=30;i++)
+            StartsLinesBeanlist.add(initALineObject());
 
             invalidate();
         }
 
 
     };
-    private int lineMaxNumber = 100;
 
     public InterstellarView(Context context) {
         super(context);
@@ -77,38 +95,45 @@ public class InterstellarView extends View {
     private void initLines() {
 
         for (int i = 0; i < lineMaxNumber; i++) {
-            int startx = 1;
-            int starty = 1;
-            int ramodNum = random.nextInt(4);
-            switch (ramodNum) {
-                case 0: {
-                    startx = 1;
-                    starty = random.nextInt(getHeight());
-                    break;
-                }
-                case 1: {
-                    startx = random.nextInt(getWidth());
-                    starty = 1;
-                    break;
+            StartsLinesBeanlist.add(initALineObject());
 
-                }
-                case 2: {
-                    startx = getWidth();
-                    starty = random.nextInt(getHeight());
-                    break;
-
-                }
-                case 3: {
-                    startx = random.nextInt(getWidth());
-                    starty = getHeight();
-                    break;
-
-                }
-            }
-              int end=random.nextInt(50)+50;
-            StartsLinesBean startsLinesBean = new StartsLinesBean(startx, starty, centerX, centerY,end-50 , end);
-            StartsLinesBeanlist.add(startsLinesBean);
         }
+    }
+
+    private StartsLinesBean initALineObject() {
+
+        int startx = 1;
+        int starty = 1;
+        int ramodNum = random.nextInt(4);
+        switch (ramodNum) {
+            case 0: {
+                startx = 1;
+                starty = random.nextInt(getHeight());
+                break;
+            }
+            case 1: {
+                startx = random.nextInt(getWidth());
+                starty = 1;
+                break;
+
+            }
+            case 2: {
+                startx = getWidth();
+                starty = random.nextInt(getHeight());
+                break;
+
+            }
+            case 3: {
+                startx = random.nextInt(getWidth());
+                starty = getHeight();
+                break;
+
+            }
+        }
+        int end = (int) (random.nextFloat() * 40) + 10;
+        int end2 = (int) (random.nextFloat() * 40) + 50;
+        StartsLinesBean startsLinesBean = new StartsLinesBean(startx, starty, centerX, centerY, end, end2);
+        return startsLinesBean;
     }
 
     @Override
@@ -116,7 +141,7 @@ public class InterstellarView extends View {
         super.onDraw(canvas);
         Paint paint2 = new Paint();
         paint2.setARGB(100, 255, 0, 0);
-        paint2.setStrokeWidth(3);
+        paint2.setStrokeWidth(10);
         canvas.drawPoint(centerX, centerY, paint2);
 
         drawStartsLine(canvas, paint, StartsLinesBeanlist);
@@ -125,8 +150,8 @@ public class InterstellarView extends View {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(20);
-                      mHandler.sendMessage(new Message());
+                    Thread.sleep(16);
+                    mHandler.sendMessage(new Message());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
