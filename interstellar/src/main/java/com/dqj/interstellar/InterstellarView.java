@@ -91,7 +91,7 @@ public class InterstellarView extends View {
 
     private void initPaint() {
         paint = new Paint();
-        paint.setStrokeWidth(1);
+        paint.setStrokeWidth(5);
         paint.setARGB(100, 255, 255, 255);
     }
 
