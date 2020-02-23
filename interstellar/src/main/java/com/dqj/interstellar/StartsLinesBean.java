@@ -24,7 +24,7 @@ public class StartsLinesBean {
     int centerX;
     int centerY;
     boolean outOfscreen=false;
-    float speed[] = {0.02f, 0.04f,0.08f,0.1f, 0.15f, 0.3f, 0.6f, 1f,2f,4f,8f,16f};
+    float speed[] = {0.02f, 0.04f,0.08f,  0.15f, 0.6f, 1f,2f,4f,8f,16f,32f,50f};
   float speedFloat=0.0f;
 
     public StartsLinesBean(int startX, int startY, int centerX, int centerY, float Startlength, float Endlength) {
