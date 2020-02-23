@@ -17,7 +17,7 @@ public class StartsPonitBean {
     int raduis;
     int centerY;
     boolean outOfscreen = false;
-    public float Speed[] = {0.02f, 0.03f,0.04f,0.05f,0.06f,0.07f,0.08f, 0.09f, 0.15f, 0.6f, 1f, 2f, 4f, 6f, 8f, 10f, 16f, 20f, 32f, 50f};
+    public float Speed[] = {0.002f, 0.003f, 0.004f, 0.01f, 0.02f, 0.07f, 0.15f, 1f, 2f, 4f, 6f, 8f, 16f, 32f, 50f};
     float speedFloat = 0.0f;
     int color[] = null;
     public int DefinefpsNumber = 60;

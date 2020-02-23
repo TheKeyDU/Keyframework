@@ -16,11 +16,13 @@ class pointActivity : AppCompatActivity() {
         val flag = WindowManager.LayoutParams.FLAG_FULLSCREEN
 // 获得当前窗体对象
         val window = this@pointActivity.getWindow()
+        setContentView(R.layout.point)
+
 // 设置当前窗体为全屏显示
         window.setFlags(flag, flag)
-        window.setFlags(
+  /*      window.setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);*/
         setContentView(R.layout.point)
     }
 }

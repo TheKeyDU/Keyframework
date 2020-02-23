@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,9 +23,9 @@ public class InterstellarPonitView extends View {
     int height = 0;
     int centerX;
     int centerY;
-    int lineMaxNumber = 100;
-    int MaxCircleradius = 500;
-    int fpsNum=59;
+    int lineMaxNumber = 300;
+    int MaxCircleradius = 50;
+    int fpsNum=60;
 
     ArrayList<StartsPonitBean> StartsLinesBeanlist = null;
 
@@ -115,7 +116,8 @@ public class InterstellarPonitView extends View {
     }
 
     synchronized private StartsPonitBean initALineObject() {
-        int RandomMaxCircleradius = random.nextInt(MaxCircleradius);
+       int RandomMaxCircleradius = random.nextInt(MaxCircleradius);
+       // int RandomMaxCircleradius = MaxCircleradius;
         int CirclerOutOFScreenX = 0 - 2 * RandomMaxCircleradius;
         int CirclerOutOFScreenY = 0 - 2 * RandomMaxCircleradius;
         int CircleradiusD = 2 * RandomMaxCircleradius;
@@ -148,6 +150,7 @@ public class InterstellarPonitView extends View {
                 break;
 
             }
+           
         }
 
         //  Log.e("---" + ramodNum + "   ", "x:" + startx + " y:" + starty);
@@ -162,7 +165,7 @@ public class InterstellarPonitView extends View {
         Paint paint2 = new Paint();
         paint2.setARGB(100, 255, 0, 0);
         paint2.setStrokeWidth(20);
-        canvas.drawPoint(centerX, centerY, paint2);
+      //  canvas.drawPoint(centerX, centerY, paint2);
         drawStartsPonit(canvas,   StartsLinesBeanlist);
         new Thread() {
             @Override
@@ -195,9 +198,17 @@ public class InterstellarPonitView extends View {
                     mLineBean.linestartY,
                     (100 - mLineBean.Startlength) * mLineBean.raduis / 100,
                     CirclePaint);
+           /*canvas.drawCircle(mLineBean.lineStartX,
+                    mLineBean.linestartY,
+                   cirlerSizeChangeWIthLength(mLineBean.raduis,mLineBean.Startlength) ,
+                    CirclePaint);*/
             //    Log.e("ondraw i: " + i, "x: " + mLineBean.lineStartX + " y: " + mLineBean.linestartY + " rd: " + (100 - mLineBean.Startlength) * MaxCircleradius / 100);
             //  Log.e("  半径"+(100 - mLineBean.Startlength)," Startlength"+mLineBean.Startlength+" ");
         }
+    }
+
+    private float cirlerSizeChangeWIthLength(float daxiao,float juli) {
+        return (float) Math.sin(juli)*100;
     }
 
     public InterstellarPonitView(Context context, @Nullable AttributeSet attrs) {

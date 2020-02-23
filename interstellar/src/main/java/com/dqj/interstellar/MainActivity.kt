@@ -22,11 +22,10 @@ class MainActivity : AppCompatActivity() {
         val window = this@MainActivity.getWindow()
 // 设置当前窗体为全屏显示
         window.setFlags(flag, flag)
-        window.setFlags(
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_main)
-
+   /*     window.setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);*/
     }
 
     fun jump(view: View) {
