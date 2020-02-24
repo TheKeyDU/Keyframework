@@ -13,15 +13,20 @@ public class StartsPonitBean {
     int maxX = 0;
     int maxY = 0;
     int type;
-    int centerX;
+    static int centerX;
     int raduis;
-    int centerY;
+    static int centerY;
     boolean outOfscreen = false;
-    public float Speed[] = {0.002f, 0.003f, 0.004f, 0.01f, 0.02f, 0.07f, 0.15f, 1f, 2f, 4f, 6f, 8f, 16f, 32f, 50f};
+    public float Speed[] = {0.07f, 0.15f, 0.3f, 0.07f, 0.15f, 0.3f, 0.07f, 0.15f, 0.3f,   1f, 2f, 4f, 6f, 32f, 40f, 50f, 50f, 6f, 32f, 40f, 50f, 50f, 6f, 32f, 40f, 50f, 50f, 6f, 32f, 40f, 50f, 50f};
     float speedFloat = 0.0f;
     int color[] = null;
     public int DefinefpsNumber = 60;
     public static int SetFpsNumber = 0;
+
+    public void calculateNow() {
+        calculate(startX, startY, centerX, centerY, Startlength);
+
+    }
 
     public StartsPonitBean(int startX, int startY, int centerX, int centerY, float Startlength, int raduis) {
         this.startX = startX;
@@ -40,7 +45,7 @@ public class StartsPonitBean {
 
         Random random = new Random();
         speedFloat = Speed[random.nextInt(Speed.length)];
-        color = new int[]{100, random.nextInt(255), random.nextInt(255), random.nextInt(255)};
+        color = new int[]{100, random.nextInt(255), random.nextInt(100), random.nextInt(255)};
         calculate(startX, startY, centerX, centerY, Startlength);
 
     }

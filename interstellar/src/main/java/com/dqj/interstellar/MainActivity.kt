@@ -28,7 +28,5 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);*/
     }
 
-    fun jump(view: View) {
-        startActivity(Intent(this, pointActivity::class.java))
-    }
+
 }

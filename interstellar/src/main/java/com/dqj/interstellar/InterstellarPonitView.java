@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import androidx.annotation.Nullable;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 
 public class InterstellarPonitView extends View {
     Paint paint = null;
@@ -23,40 +25,65 @@ public class InterstellarPonitView extends View {
     int height = 0;
     int centerX;
     int centerY;
-    int lineMaxNumber = 300;
-    int MaxCircleradius = 50;
-    int fpsNum=60;
-
+    int lineMaxNumber = 600;
+    int MaxCircleradius = 150;
+    int fpsNum = 59;
+    int MoveX;
+    int MoveY;
+    boolean puase = false;
     ArrayList<StartsPonitBean> StartsLinesBeanlist = null;
-
     Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
-
-            for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
-                StartsPonitBean Bean = StartsLinesBeanlist.get(i);
-                //StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
-                if (Bean.outOfscreen) {
-                    Bean = null;
-                    StartsLinesBeanlist.remove(i);
-                    StartsLinesBeanlist.add(initALineObject());
+            switch (msg.what) {
 
 
-                    Log.e("-------删除了", StartsLinesBeanlist.size() + "");
-                } else {
+                case 1: {
+                    if (!puase) {
+                        for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
+                            StartsPonitBean Bean = StartsLinesBeanlist.get(i);
+                            //StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
+                            if (Bean.outOfscreen) {
+                                Bean = null;
+                                StartsLinesBeanlist.remove(i);
+                                StartsLinesBeanlist.add(initALineObject());
+                                Log.e("-------删除了", StartsLinesBeanlist.size() + "");
+                            } else {
 
-                    Bean.startAndEndTransform(Bean.speedFloat, false);
+                                Bean.startAndEndTransform(Bean.speedFloat, false);
 
+                            }
+
+                            invalidate();
+
+                        }
+                    }
+                    break;
+                }
+                case 2: {
+                    puase = true;
+                    for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
+                        StartsPonitBean Bean = StartsLinesBeanlist.get(i);
+                        Bean.calculateNow();
+
+                    }
+                    invalidate();
+                    break;
+                }
+                case 3: {
+                    puase = false;
+                    invalidate();
+                    break;
                 }
 
-
             }
+
          /*   for (int i = 0; i <= 2; i++) {
             }*/
 
-            Log.e("------- ", StartsLinesBeanlist.size() + "");
+            //    Log.e("------- ", StartsLinesBeanlist.size() + "");
 
-            invalidate();
+
         }
 
 
@@ -65,6 +92,10 @@ public class InterstellarPonitView extends View {
     public InterstellarPonitView(Context context) {
         super(context);
         init();
+
+    }
+
+    public void setCenter(int x, int y) {
 
     }
 
@@ -116,8 +147,8 @@ public class InterstellarPonitView extends View {
     }
 
     synchronized private StartsPonitBean initALineObject() {
-       int RandomMaxCircleradius = random.nextInt(MaxCircleradius);
-       // int RandomMaxCircleradius = MaxCircleradius;
+        int RandomMaxCircleradius = random.nextInt(MaxCircleradius);
+        // int RandomMaxCircleradius = MaxCircleradius;
         int CirclerOutOFScreenX = 0 - 2 * RandomMaxCircleradius;
         int CirclerOutOFScreenY = 0 - 2 * RandomMaxCircleradius;
         int CircleradiusD = 2 * RandomMaxCircleradius;
@@ -150,7 +181,7 @@ public class InterstellarPonitView extends View {
                 break;
 
             }
-           
+
         }
 
         //  Log.e("---" + ramodNum + "   ", "x:" + startx + " y:" + starty);
@@ -163,17 +194,20 @@ public class InterstellarPonitView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint2 = new Paint();
-        paint2.setARGB(100, 255, 0, 0);
-        paint2.setStrokeWidth(20);
-      //  canvas.drawPoint(centerX, centerY, paint2);
-        drawStartsPonit(canvas,   StartsLinesBeanlist);
+        paint2.setARGB(80, 255, 255, 255);
+        paint2.setTextSize(10);
+       // canvas.drawText("("+centerX+", "+centerY+")", centerX-40, centerY-40, paint2);
+        canvas.drawText("duqijian", centerX-40, centerY-100, paint2);
+        drawStartsPonit(canvas, StartsLinesBeanlist);
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(1000/fpsNum);
-                    mHandler.sendMessage(new Message());
+                    Thread.sleep(1000 / fpsNum);
+                    Message message = new Message();
+                    message.what = 1;
+                    mHandler.sendMessage(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -182,7 +216,45 @@ public class InterstellarPonitView extends View {
         }.start();
     }
 
-    private void drawStartsPonit(Canvas canvas,  ArrayList<StartsPonitBean> StartsLinesBean) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+
+                MoveX = (int) event.getX();
+                MoveY = (int) event.getY();
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                int offsetX = (int) (event.getX() - MoveX);
+                int offsety = (int) (event.getY() - MoveY);
+                centerX += offsetX;
+                centerY += offsety;
+                MoveX = (int) event.getX();
+                MoveY = (int) event.getY();
+                StartsPonitBean.centerX = centerX;
+                StartsPonitBean.centerY = centerY;
+                Message message = new Message();
+                message.what = 2;
+                puase = true;
+                mHandler.sendMessage(message);
+                break;
+
+            }
+            case MotionEvent.ACTION_UP: {
+
+                Message message = new Message();
+                message.what = 3;
+                mHandler.sendMessage(message);
+                break;
+
+            }
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    private void drawStartsPonit(Canvas canvas, ArrayList<StartsPonitBean> StartsLinesBean) {
         for (int i = 0; i < StartsLinesBean.size(); i++) {
             StartsPonitBean mLineBean = StartsLinesBean.get(i);
             paint.setAntiAlias(true);
@@ -192,12 +264,37 @@ public class InterstellarPonitView extends View {
                     random.nextInt(255));*/
             //   canvas.drawCircle( mLineBean.lineStartX, mLineBean.linestartY,mLineBean.Startlength*MaxCircleradius,paint);
             //   canvas.drawCircle(mLineBean.lineStartX, mLineBean.linestartY, (100 - mLineBean.Startlength) * MaxCircleradius / 100, paint);
-            Paint CirclePaint=new Paint();
-            CirclePaint.setARGB(mLineBean.color[0],mLineBean.color[1],mLineBean.color[2],mLineBean.color[3]);
+            Paint CirclePaint = new Paint();
+            CirclePaint.setARGB(mLineBean.color[0], mLineBean.color[1], mLineBean.color[2], mLineBean.color[3]);
             canvas.drawCircle(mLineBean.lineStartX,
                     mLineBean.linestartY,
                     (100 - mLineBean.Startlength) * mLineBean.raduis / 100,
                     CirclePaint);
+            /*-----------------------------------------------------------------*/            /*-----------------------------------------------------------------*/
+            /*-----------------------------------------------------------------*/
+            /*-----------------------------------------------------------------*/
+
+          /*  Paint paint2=new Paint();
+            paint2.setTextSize(mLineBean.raduis/2);
+            paint2.setARGB(100,255,255,255);
+            boolean b=random.nextBoolean();
+            String str="";
+            if (b)
+            {
+                str="丁";
+            }
+            else {
+                str="玲";
+            }
+            canvas.drawText(str,
+                    mLineBean.lineStartX,
+                    mLineBean.linestartY,
+                    paint2);*/
+            /*-----------------------------------------------------------------*/
+            /*-----------------------------------------------------------------*/
+            /*-----------------------------------------------------------------*/
+            /*-----------------------------------------------------------------*/
+
            /*canvas.drawCircle(mLineBean.lineStartX,
                     mLineBean.linestartY,
                    cirlerSizeChangeWIthLength(mLineBean.raduis,mLineBean.Startlength) ,
@@ -207,8 +304,8 @@ public class InterstellarPonitView extends View {
         }
     }
 
-    private float cirlerSizeChangeWIthLength(float daxiao,float juli) {
-        return (float) Math.sin(juli)*100;
+    private float cirlerSizeChangeWIthLength(float daxiao, float juli) {
+        return (float) Math.sin(juli) * 100;
     }
 
     public InterstellarPonitView(Context context, @Nullable AttributeSet attrs) {
