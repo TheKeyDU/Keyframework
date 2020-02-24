@@ -25,12 +25,15 @@ public class InterstellarPonitView extends View {
     int height = 0;
     int centerX;
     int centerY;
-    int lineMaxNumber = 600;
+    int lineMaxNumber = 1000;
     int MaxCircleradius = 150;
     int fpsNum = 59;
     int MoveX;
     int MoveY;
+    boolean forward=true;
     boolean puase = false;
+    int arratSize[] = {10, 33, 30, 20, 15, 20, 30, 33, 20, 10,15,11};
+
     ArrayList<StartsPonitBean> StartsLinesBeanlist = null;
     Handler mHandler = new Handler() {
 
@@ -46,11 +49,11 @@ public class InterstellarPonitView extends View {
                             if (Bean.outOfscreen) {
                                 Bean = null;
                                 StartsLinesBeanlist.remove(i);
-                                StartsLinesBeanlist.add(initALineObject());
+                                StartsLinesBeanlist.add(initALineObject(false));
                                 Log.e("-------删除了", StartsLinesBeanlist.size() + "");
                             } else {
 
-                                Bean.startAndEndTransform(Bean.speedFloat, false);
+                                Bean.startAndEndTransform(Bean.speedFloat, forward);
 
                             }
 
@@ -61,7 +64,7 @@ public class InterstellarPonitView extends View {
                     break;
                 }
                 case 2: {
-                    puase = true;
+                    //puase = true;
                     for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
                         StartsPonitBean Bean = StartsLinesBeanlist.get(i);
                         Bean.calculateNow();
@@ -127,7 +130,7 @@ public class InterstellarPonitView extends View {
     private void initLines() {
 
         for (int i = 0; i < lineMaxNumber; i++) {
-            StartsLinesBeanlist.add(initALineObject());
+            StartsLinesBeanlist.add(initALineObject(false));
 
         }
     /*         StartsPonitBean startsLinesBean = new StartsPonitBean(0, 0, centerX, centerY, 70);
@@ -146,8 +149,10 @@ public class InterstellarPonitView extends View {
 
     }
 
-    synchronized private StartsPonitBean initALineObject() {
-        int RandomMaxCircleradius = random.nextInt(MaxCircleradius);
+    synchronized private StartsPonitBean initALineObject(Boolean from0) {
+        int randomSize = random.nextInt(arratSize.length);
+        int RandomMaxCircleradius = arratSize[randomSize];
+
         // int RandomMaxCircleradius = MaxCircleradius;
         int CirclerOutOFScreenX = 0 - 2 * RandomMaxCircleradius;
         int CirclerOutOFScreenY = 0 - 2 * RandomMaxCircleradius;
@@ -183,9 +188,13 @@ public class InterstellarPonitView extends View {
             }
 
         }
-
+        float sl;
+        if (from0)
+            sl=0;
+        else
+            sl=random.nextInt(100);
         //  Log.e("---" + ramodNum + "   ", "x:" + startx + " y:" + starty);
-        StartsPonitBean startsLinesBean = new StartsPonitBean(startx, starty, centerX, centerY, 100, RandomMaxCircleradius);
+        StartsPonitBean startsLinesBean = new StartsPonitBean(startx, starty, centerX, centerY, sl, RandomMaxCircleradius, randomSize);
 
         return startsLinesBean;
     }
@@ -196,8 +205,8 @@ public class InterstellarPonitView extends View {
         Paint paint2 = new Paint();
         paint2.setARGB(80, 255, 255, 255);
         paint2.setTextSize(10);
-       // canvas.drawText("("+centerX+", "+centerY+")", centerX-40, centerY-40, paint2);
-        canvas.drawText("duqijian", centerX-40, centerY-100, paint2);
+        // canvas.drawText("("+centerX+", "+centerY+")", centerX-40, centerY-40, paint2);
+        canvas.drawText("duqijian", centerX - 40, centerY - 100, paint2);
         drawStartsPonit(canvas, StartsLinesBeanlist);
         new Thread() {
             @Override
@@ -236,17 +245,17 @@ public class InterstellarPonitView extends View {
                 StartsPonitBean.centerY = centerY;
                 Message message = new Message();
                 message.what = 2;
-                puase = true;
+              //  puase = true;
                 mHandler.sendMessage(message);
                 break;
 
             }
             case MotionEvent.ACTION_UP: {
-
+/*
                 Message message = new Message();
                 message.what = 3;
                 mHandler.sendMessage(message);
-                break;
+                break;*/
 
             }
         }
