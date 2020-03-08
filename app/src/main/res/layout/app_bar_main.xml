@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cl_center"
+    android:fitsSystemWindows="true"
+
     >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,16 +15,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
         <androidx.appcompat.widget.Toolbar
-            android:visibility="gone"
 
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="40dp"
             app:navigationIcon="@drawable/icon_open_left"
             app:titleMarginStart="50dp"
             app:logo="@mipmap/app_icon"
             app:title="@string/app_name"
-            android:background="#1976D2" />
+            android:background="#3C3F41" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -33,8 +33,12 @@ public class InterstellarPonitView extends View {
     boolean forward=true;
     boolean puase = false;
     int arratSize[] = {10, 33, 30, 20, 15, 20, 30, 33, 20, 10,15,11};
-
+    Paint paint2 = new Paint();
+    sendMessage sendMessage=null;
+    StartsPonitBean DrawmLineBean=null;
     ArrayList<StartsPonitBean> StartsLinesBeanlist = null;
+    Paint CirclePaint = new Paint();
+
     Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -115,6 +119,7 @@ public class InterstellarPonitView extends View {
                 random = new Random();
                 initPaint();
                 initLines();
+                sendMessage=new sendMessage();
 
             }
         });
@@ -125,6 +130,9 @@ public class InterstellarPonitView extends View {
     private void initPaint() {
         paint = new Paint();
         paint.setStrokeWidth(5);
+        Paint paint2 = new Paint();
+        paint2.setARGB(80, 255, 255, 255);
+        paint2.setTextSize(10);
     }
 
     private void initLines() {
@@ -202,27 +210,26 @@ public class InterstellarPonitView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint paint2 = new Paint();
-        paint2.setARGB(80, 255, 255, 255);
-        paint2.setTextSize(10);
         // canvas.drawText("("+centerX+", "+centerY+")", centerX-40, centerY-40, paint2);
         canvas.drawText("duqijian", centerX - 40, centerY - 100, paint2);
         drawStartsPonit(canvas, StartsLinesBeanlist);
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Thread.sleep(1000 / fpsNum);
-                    Message message = new Message();
-                    message.what = 1;
-                    mHandler.sendMessage(message);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+        sendMessage.run();
+    }
+    class sendMessage extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            super.run();
+            try {
+                Thread.sleep(1000 / fpsNum);
+                Message message = new Message();
+                message.what = 1;
+                mHandler.sendMessage(message);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }.start();
+
+        }
     }
 
     @Override
@@ -265,7 +272,7 @@ public class InterstellarPonitView extends View {
 
     private void drawStartsPonit(Canvas canvas, ArrayList<StartsPonitBean> StartsLinesBean) {
         for (int i = 0; i < StartsLinesBean.size(); i++) {
-            StartsPonitBean mLineBean = StartsLinesBean.get(i);
+            DrawmLineBean = StartsLinesBean.get(i);
             paint.setAntiAlias(true);
            /* paint.setARGB(100,
                     random.nextInt(255),
@@ -273,11 +280,10 @@ public class InterstellarPonitView extends View {
                     random.nextInt(255));*/
             //   canvas.drawCircle( mLineBean.lineStartX, mLineBean.linestartY,mLineBean.Startlength*MaxCircleradius,paint);
             //   canvas.drawCircle(mLineBean.lineStartX, mLineBean.linestartY, (100 - mLineBean.Startlength) * MaxCircleradius / 100, paint);
-            Paint CirclePaint = new Paint();
-            CirclePaint.setARGB(mLineBean.color[0], mLineBean.color[1], mLineBean.color[2], mLineBean.color[3]);
-            canvas.drawCircle(mLineBean.lineStartX,
-                    mLineBean.linestartY,
-                    (100 - mLineBean.Startlength) * mLineBean.raduis / 100,
+            CirclePaint.setARGB(DrawmLineBean.color[0], DrawmLineBean.color[1], DrawmLineBean.color[2], DrawmLineBean.color[3]);
+            canvas.drawCircle(DrawmLineBean.lineStartX,
+                    DrawmLineBean.linestartY,
+                    (100 - DrawmLineBean.Startlength) * DrawmLineBean.raduis / 100,
                     CirclePaint);
             /*-----------------------------------------------------------------*/            /*-----------------------------------------------------------------*/
             /*-----------------------------------------------------------------*/

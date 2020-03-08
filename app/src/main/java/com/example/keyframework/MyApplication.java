@@ -42,36 +42,33 @@ public class MyApplication extends Application {
     }
 
     private void initCrashWithReboot() {
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-                if (!handleException(e) &&
-                        Thread.getDefaultUncaughtExceptionHandler() != null) {
-                    Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);
-                    AppLifeCircleUtil.getInstance().appExit(MyApplication.this);
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            if (!handleException(e) &&
+                    Thread.getDefaultUncaughtExceptionHandler() != null) {
+                Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);
+                AppLifeCircleUtil.getInstance().appExit(MyApplication.this);
 
-                } else {
-                    try {
-                        Thread.sleep(2000);
+            } else {
+                try {
+                    Thread.sleep(2000);
 
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                    @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
-                            getApplicationContext(), 0, intent,
-                            Intent.FLAG_ACTIVITY_NEW_TASK);
-                    AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
-                            restartIntent);
-                    AppLifeCircleUtil.getInstance().finishAllActivity();
-                    System.exit(0);
-                    System.gc();
-
-
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
                 }
+                Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
+                        getApplicationContext(), 0, intent,
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                        restartIntent);
+                AppLifeCircleUtil.getInstance().finishAllActivity();
+                System.exit(0);
+                System.gc();
+
 
             }
+
         });
 
     }

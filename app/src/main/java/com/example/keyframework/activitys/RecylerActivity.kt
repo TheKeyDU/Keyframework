@@ -35,9 +35,9 @@ class RecylerActivity : BaseActivity() {
             list!!.add(object : UserBean(i.toString(), i.toString()) {})
         }
         customAdapter = CustomAdapter(list)
-        var layoutManager = RLayoutManager(context,true)
+         var layoutManager = RLayoutManager(context)
       //  layoutManager.orientation = RecyclerView.HORIZONTAL
-        rec_customize.layoutManager = layoutManager
+       rec_customize.layoutManager = layoutManager
         rec_customize.adapter = customAdapter
         /*  var snapHelper=PagerSnapHelper();
         snapHelper.attachToRecyclerView(rec_customize)*/

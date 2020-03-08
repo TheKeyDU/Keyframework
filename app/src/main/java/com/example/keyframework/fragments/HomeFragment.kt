@@ -18,7 +18,7 @@ class HomeFragment : BaseFragment() {
     var netModules: NetModules? = null
     override fun initView() {
         srl_rec_home.setOnRefreshListener {
-           // initNetRequset()
+            // initNetRequset()
 
         }
         initNetRequset()
@@ -34,16 +34,12 @@ class HomeFragment : BaseFragment() {
                 .subscribe(
                         { homeListBean ->
                             mHomeListAdapter = HomeListAdapter(homeListBean.newslist)
-                            var mLinearLayoutManager = RLayoutManager(this!!.context!!,true)
+                            var mRLayoutManager = context?.let { RLayoutManager(it) }
                             rec_home_lsit.adapter = mHomeListAdapter
-                            rec_home_lsit.layoutManager = mLinearLayoutManager
-                            if (srl_rec_home.isRefreshing)
-                            {
-                                srl_rec_home.isRefreshing=false
-                                Snackbar.make(ll,"refresh success!",1000).setAction("ok",object : View.OnClickListener{
-                                    override fun onClick(v: View?) {
-                                    }
-                                }).show()
+                            rec_home_lsit.layoutManager = mRLayoutManager
+                            if (srl_rec_home.isRefreshing) {
+                                srl_rec_home.isRefreshing = false
+                                Snackbar.make(ll, "refresh success!", 1000).setAction("ok") { }.show()
                             }
 
 

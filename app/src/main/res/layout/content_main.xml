@@ -15,7 +15,6 @@
         android:layout_height="wrap_content">
     </androidx.viewpager.widget.ViewPager>
     <com.google.android.material.bottomnavigation.BottomNavigationView
-       android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/nav_bot"
@@ -24,6 +23,6 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:layout_gravity="bottom"
-        android:background="#1976D2"
+        android:background="#556761"
         app:menu="@menu/bottom_nav_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

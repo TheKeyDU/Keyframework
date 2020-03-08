@@ -14,6 +14,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.component.widget.Rotate3dAnimation;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.StatusBarUtil;
+import com.maosong.tools.SystemBarTintManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -150,9 +152,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         AppLifeCircleUtil.getInstance().finishActivity(AppLifeCircleUtil.activityStack.get(0));
         initListener();
+        setStatbarColor();
 
 
     }
+
+    private void setStatbarColor() {
+        StatusBarUtil.setStatusBarColor(this, 3948353);
+    }
+
     public static String execByRuntime(String cmd) {
         Process process = null;
         BufferedReader bufferedReader = null;
