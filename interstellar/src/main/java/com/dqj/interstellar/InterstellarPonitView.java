@@ -25,7 +25,7 @@ public class InterstellarPonitView extends View {
     int height = 0;
     int centerX;
     int centerY;
-    int lineMaxNumber = 1000;
+    int lineMaxNumber = 100;
     int MaxCircleradius = 150;
     int fpsNum = 59;
     int MoveX;
