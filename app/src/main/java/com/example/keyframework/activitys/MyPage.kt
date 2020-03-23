@@ -118,4 +118,10 @@ class MyPage : BaseActivity() {
     interface slideCallBack {
         fun callback(percent: Float)
     }
+
+
+    /*override fun onStop() {
+        finishAfterTransition()
+        super.onStop()
+    }*/
 }
