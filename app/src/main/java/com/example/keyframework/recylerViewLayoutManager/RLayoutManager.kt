@@ -107,11 +107,11 @@ class RLayoutManager(var mContext: Context) : RecyclerView.LayoutManager() {
             }
             var top: Int = offsetY + mScrollLength
             var bottom: Int = top + heigh
+            addView(View)
+            layoutDecorated(View!!, left, top, right, bottom)
+           /* if (bottom >= 0 && top < Screenheigh) {
 
-            if (bottom >= 0 && top < Screenheigh) {
 
-                addView(View)
-                layoutDecorated(View!!, left, top, right, bottom)
                 Log.e("addview", "$i top:$top bottom:$bottom")
             } else {
                 Log.e("butongguo", "$i top:$top bottom:$bottom")
@@ -119,7 +119,7 @@ class RLayoutManager(var mContext: Context) : RecyclerView.LayoutManager() {
 
                 removeAndRecycleViewAt(i,recycler)
             }
-            }
+            }*/
             offsetY += heigh
             AllOffsetY = if (offsetY == 0) AllOffsetY else offsetY
 

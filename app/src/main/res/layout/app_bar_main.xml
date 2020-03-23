@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cl_center"
-    android:fitsSystemWindows="true"
 
     >
 
@@ -12,18 +11,17 @@
         android:id="@+id/abl_tool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
         <androidx.appcompat.widget.Toolbar
-
+            android:fitsSystemWindows="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             app:navigationIcon="@drawable/icon_open_left"
             app:titleMarginStart="50dp"
             app:logo="@mipmap/app_icon"
             app:title="@string/app_name"
-            android:background="#3C3F41" />
+            android:background="#00897B" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
