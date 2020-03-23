@@ -11,7 +11,8 @@
         android:id="@+id/abl_tool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    >
+
+        >
         <androidx.appcompat.widget.Toolbar
             android:fitsSystemWindows="true"
             android:id="@+id/toolbar"
@@ -21,7 +22,9 @@
             app:titleMarginStart="50dp"
             app:logo="@mipmap/app_icon"
             app:title="@string/app_name"
-            android:background="#00897B" />
+            android:background="#00897B"
+       ></androidx.appcompat.widget.Toolbar>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

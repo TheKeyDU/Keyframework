@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment() {
                             rec_home_lsit.layoutManager = mRLayoutManager
                             if (srl_rec_home.isRefreshing) {
                                 srl_rec_home.isRefreshing = false
-                                Snackbar.make(ll, "refresh success!", 1000).setAction("ok") { }.show()
+                                Snackbar.make(activity?.findViewById(R.id.cl_root)!!, "refresh success!", 1000).setAction("ok") { }.show()
                             }
 
 

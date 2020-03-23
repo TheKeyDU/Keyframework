@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:transitionName="sharedView"
             android:id="@+id/iv_clbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
