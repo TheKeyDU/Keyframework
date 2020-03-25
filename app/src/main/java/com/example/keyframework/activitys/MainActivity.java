@@ -7,6 +7,7 @@ import com.example.keyframework.R;
 import com.example.keyframework.adapter.HomePagerFragmentAdapter;
 import com.example.keyframework.fragments.HomeFragment;
 import com.example.keyframework.fragments.OverViewListFragment;
+import com.example.keyframework.fragments.setOnRecylerViewScrollChangeListener;
 import com.example.keyframework.module.NetModules;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.maosong.component.Base.BaseActivity;
 import com.maosong.component.widget.Rotate3dAnimation;
 import com.maosong.tools.AppLifeCircleUtil;
+import com.maosong.tools.QMUIDisplayHelper;
 import com.maosong.tools.StatusBarUtil;
 import com.maosong.tools.SystemBarTintManager;
 
@@ -63,6 +65,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int MenuViewItemSmall2Big = 200;
     private Context mContext;
     ImageView imageView = null;
+    private float screenHeigh = 1080;
     private NetModules netModules;
     Toolbar toolbar = null;
     CoordinatorLayout coordinatorLayout = null;
@@ -176,7 +179,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             while ((read = bufferedReader.read(buffer)) > 0) {
                 output.append(buffer, 0, read);
             }
-            Log.e("shell------dqj",output.toString());
+            Log.e("shell------dqj", output.toString());
             return output.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,8 +208,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
     }
-
-
 
 
     private void initListener() {
@@ -246,7 +247,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void initViewPagerWithFragments() {
         mViewPager = findViewById(R.id.vp_container);
         fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
+        HomeFragment homeFragment = new HomeFragment(px -> {
+          /*  float alpha = 1 - px / (screenHeigh / 3);
+            Log.e("aaaaa", alpha + "   " + px + "    " + screenHeigh);
+
+            alpha = alpha < 1 ? alpha : 0;
+            alpha = alpha > 1 ? 1 : alpha;
+            toolbar.setAlpha(alpha);*/
+        });
+        fragments.add(homeFragment);
+
+        //fragments.add(new HomeFragment());
         //  fragments.add(new OverViewListFragment());
         homePagerFragmentAdapter = new HomePagerFragmentAdapter(getSupportFragmentManager(), 0, fragments);
         mViewPager.setAdapter(homePagerFragmentAdapter);

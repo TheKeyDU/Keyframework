@@ -1,27 +1,66 @@
 package com.example.keyframework.fragments
 
+import android.os.Build
+import android.util.Log
 import android.view.View
+import android.widget.AbsListView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import anet.channel.util.Utils.context
 import com.example.keyframework.R
 import com.example.keyframework.adapter.HomeListAdapter
 import com.example.keyframework.bean.UserBean
+import com.example.keyframework.fragments.setOnRecylerViewScrollChangeListener
 import com.example.keyframework.module.NetModules
 import com.example.keyframework.recylerViewLayoutManager.FlowLayoutManager
 import com.example.keyframework.recylerViewLayoutManager.RLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.maosong.component.Base.BaseFragment
+import com.maosong.tools.QMUIDisplayHelper
 import com.maosong.tools.ToastUtils
 import kotlinx.android.synthetic.main.fragment_home_list.*
 
-class HomeFragment : BaseFragment() {
+class HomeFragment(var mListener: setOnRecylerViewScrollChangeListener) : BaseFragment() {
+
+
     var mHomeListAdapter: HomeListAdapter? = null
     var netModules: NetModules? = null
+
+    var mScrollX = 0
+    var myOnRecylerViewScrollChangeListener: setOnRecylerViewScrollChangeListener? = null
+    var myScrollListener: MyScrollListener? = null
+
+    class MyScrollListener(var myListener: setOnRecylerViewScrollChangeListener) : RecyclerView.OnScrollListener() {
+var offset=0
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (myListener != null) {
+                offset+=dy
+                myListener.OnRecylerViewScrollChangeListener(offset)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
         srl_rec_home.setOnRefreshListener {
             // initNetRequset()
 
         }
         initNetRequset()
+        setOnRecylerViewScrollChangeListener(mListener)
+    }
+
+    private fun addScrollListener() {
+        view!!.findViewById<RecyclerView>(R.id.rec_home_lsit).addOnScrollListener(myScrollListener!!)
+    }
+
+    fun setOnRecylerViewScrollChangeListener(Listener: setOnRecylerViewScrollChangeListener) {
+        this.myOnRecylerViewScrollChangeListener = Listener
+        myScrollListener = MyScrollListener(Listener)
+        addScrollListener()
 
     }
 
@@ -35,6 +74,7 @@ class HomeFragment : BaseFragment() {
                         { homeListBean ->
                             mHomeListAdapter = HomeListAdapter(homeListBean.newslist)
                             var mRLayoutManager = context?.let { RLayoutManager(it) }
+                            //  var mRLayoutManager = context?.let {LinearLayoutManager(it) }
                             rec_home_lsit.adapter = mHomeListAdapter
                             rec_home_lsit.layoutManager = mRLayoutManager
                             if (srl_rec_home.isRefreshing) {
@@ -58,5 +98,6 @@ class HomeFragment : BaseFragment() {
 
         return R.layout.fragment_home_list
     }
+
 
 }

@@ -42,7 +42,7 @@ class RLayoutManager(var mContext: Context) : RecyclerView.LayoutManager() {
 
         setViewsLayout(recycler, state, -verticalScrollOffset)
         //  Log.e(" 发送值 2", "ScrollLength: ${ScrollLength}    ")
-
+        Log.e(" rrrrrrrrrrrrrr", "ScrollLength: ${ScrollLength}    ")
         return ScrollLength
     }
 
