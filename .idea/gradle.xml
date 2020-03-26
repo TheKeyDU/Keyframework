@@ -16,6 +16,8 @@
             <option value="$PROJECT_DIR$/gradle_component" />
             <option value="$PROJECT_DIR$/interstellar" />
             <option value="$PROJECT_DIR$/jpush" />
+            <option value="$PROJECT_DIR$/myticwatch" />
+            <option value="$PROJECT_DIR$/ticwatch" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
