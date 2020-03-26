@@ -24,6 +24,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,8 +34,6 @@ import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-
-
 import android.graphics.Color;
 import android.os.Vibrator;
 import android.util.Log;
@@ -217,23 +216,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             imageView = (ImageView) field.get(toolbar);
             imageView.setId(R.id.tool_bar_log);
             imageView.setTransitionName("sharedView");
-            imageView.setOnClickListener(v -> {
-                startActivity(new Intent(MainActivity.this, MyPage.class),
-                        ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                imageView, "sharedView").toBundle());
-              /*  ARouter.getInstance()
-                        .build(ARouterPage.MYPAGE_ACTIVITY)
-                        .with(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                imageView,
-                                "SEIV")
-                                .toBundle())
-                        .navigation(MainActivity.this);*/
-               /* startActivity(new Intent(MainActivity.this, MyPage.class),
-                        ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
-                                imageView,
-                                "SEIV")
-                                .toBundle());*/
-            });
+          /*  startActivity(new Intent(MainActivity.this, MyPage.class),
+                    ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,
+                            imageView, "sharedView").toBundle());
+*/
 
 
         } catch (IllegalAccessException e) {
@@ -447,7 +433,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void jump(View view) {
 
-        final float centerX = mDrawerLayout.getWidth() / 2.0f;
+      /*  final float centerX = mDrawerLayout.getWidth() / 2.0f;
         final float centerY = mDrawerLayout.getHeight() / 2.0f;
         //括号内参数分别为（上下文，开始角度，结束角度，x轴中心点，y轴中心点，深度，是否扭曲）
         final Rotate3dAnimation rotation = new Rotate3dAnimation(mContext, 0, 45, centerX, centerY, 1.0f, true);
@@ -469,6 +455,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void onAnimationEnd(Animation animation) {
             }
         });
+        findViewById(R.id.nav_view).startAnimation(rotation);*/
+        // findViewById(R.id.Login_ico).setTransitionName("sharedView");
+
+        ActivityOptionsCompat mActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,
+                findViewById(R.id.Login_ico),
+                "sharedView");
+
+
+        ARouter.getInstance()
+                .build(ARouterPage.MYPAGE_ACTIVITY)
+                .withOptionsCompat(mActivityOptions)
+                .navigation(this);
 
     }
 

@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_my_page.*
 import android.view.View
 import com.maosong.tools.LogUtil
 import com.maosong.tools.QMUIDisplayHelper
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)

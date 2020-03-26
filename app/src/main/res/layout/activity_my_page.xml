@@ -13,12 +13,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:transitionName="sharedView"
+            android:transitionName="sharedView_iv"
             android:id="@+id/iv_clbg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@mipmap/nv_bg">
+            android:src="@mipmap/nv_bg"
+            >
 
         </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -26,6 +27,7 @@
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/fl_bottom"
+        android:transitionName="sharedView_layout"
         android:layout_width="match_parent"
         android:layout_height="800dp"
         android:layout_marginTop="300dp"
