@@ -1,1 +1,1 @@
-include ':app', ':base:tools', ':interstellar', ':myticwatch', ':ticwatch', 'component', 'gradle_component', ':jpush', 'LayoutManager'
+include ':app', ':base:tools', ':interstellar', ':myticwatch', ':wearface', 'component', 'gradle_component', ':jpush', 'LayoutManager'
