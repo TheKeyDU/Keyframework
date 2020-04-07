@@ -18,12 +18,15 @@ import androidx.core.content.ContextCompat;
 
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -101,6 +104,144 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private boolean mLowBitAmbient;
         private boolean mBurnInProtection;
         private boolean mAmbient;
+        private int SrceenWidth = 400;
+        private int SrceenHeigh = 400;
+
+        //--------------------------------------------------------------------
+
+        Paint paint = null;
+        Random random = null;
+        int width = 0;
+        int height = 0;
+        int centerX = 200;
+        int centerY = 200;
+        int lineMaxNumber = 100;
+        int MaxCircleradius = 150;
+        int fpsNum = 59;
+        int MoveX;
+        int MoveY;
+        boolean forward = true;
+        boolean puase = false;
+        int arratSize[] = {10, 33, 30, 20, 15, 20, 30, 33, 20, 10, 15, 31};
+        Paint paint2 = new Paint();
+        sendMessage sendMessage = null;
+        StartsPonitBean DrawmLineBean = null;
+        ArrayList<StartsPonitBean> StartsLinesBeanlist = null;
+        Paint CirclePaint = new Paint();
+
+        Handler mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+
+
+                    case 1: {
+                        if (!puase) {
+                            for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
+                                StartsPonitBean Bean = StartsLinesBeanlist.get(i);
+                                //StartsLinesBeanlist.get(i).offsetAddOrSub(r,r/1.5f,true);
+                                if (Bean.outOfscreen) {
+                                    Bean = null;
+                                    StartsLinesBeanlist.remove(i);
+                                    StartsLinesBeanlist.add(initALineObject(false));
+                                    Log.e("-------删除了", StartsLinesBeanlist.size() + "");
+                                } else {
+
+                                    Bean.startAndEndTransform(Bean.speedFloat, forward);
+
+                                }
+
+                                invalidate();
+
+                            }
+                        }
+                        break;
+                    }
+                    case 2: {
+                        //puase = true;
+                        for (int i = 0; i < StartsLinesBeanlist.size(); i++) {
+                            StartsPonitBean Bean = StartsLinesBeanlist.get(i);
+                            Bean.calculateNow();
+
+                        }
+                        invalidate();
+                        break;
+                    }
+                    case 3: {
+                        puase = false;
+                        invalidate();
+                        break;
+                    }
+
+                }
+
+         /*   for (int i = 0; i <= 2; i++) {
+            }*/
+
+                //    Log.e("------- ", StartsLinesBeanlist.size() + "");
+
+
+            }
+
+
+        };
+
+
+        //-------------------------------------------
+
+
+        synchronized private StartsPonitBean initALineObject(Boolean from0) {
+            int randomSize = random.nextInt(arratSize.length);
+            int RandomMaxCircleradius = arratSize[randomSize];
+
+            // int RandomMaxCircleradius = MaxCircleradius;
+            int CirclerOutOFScreenX = 0 - 2 * RandomMaxCircleradius;
+            int CirclerOutOFScreenY = 0 - 2 * RandomMaxCircleradius;
+            int CircleradiusD = 2 * RandomMaxCircleradius;
+
+            int startx = 0;
+            int starty = 0;
+            int ramodNum = random.nextInt(4);
+            switch (ramodNum) {
+                case 0: {
+
+                    startx = random.nextInt(SrceenWidth + 2 * CircleradiusD) - CircleradiusD;
+                    starty = CirclerOutOFScreenY;
+                    break;
+                }
+                case 1: {
+                    startx = SrceenWidth + CircleradiusD;
+                    starty = random.nextInt(SrceenHeigh);
+                    break;
+
+                }
+                case 2: {
+                    startx = random.nextInt(SrceenWidth + 2 * CircleradiusD) - CircleradiusD;
+                    starty = SrceenHeigh + CircleradiusD;
+                    break;
+
+                }
+                case 3: {
+                    startx = CirclerOutOFScreenX;
+                    starty = random.nextInt(SrceenHeigh);
+                    break;
+
+                }
+
+            }
+            float sl;
+            if (from0) {
+                sl = 0;
+            } else {
+                sl = random.nextInt(100);
+            }
+            //  Log.e("---" + ramodNum + "   ", "x:" + startx + " y:" + starty);
+            StartsPonitBean startsLinesBean = new StartsPonitBean(startx, starty, centerX, centerY, sl, RandomMaxCircleradius, randomSize);
+
+            return startsLinesBean;
+        }
+
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -127,7 +268,50 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint.setAntiAlias(true);
             mTextPaint.setColor(
                     ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+
+            StartsLinesBeanlist = new ArrayList<>();
+            random = new Random();
+            initPaint();
+            initLines();
+            sendMessage = new sendMessage();
+
         }
+
+        class sendMessage extends Thread {
+            @Override
+            public void run() {
+                super.run();
+                super.run();
+                try {
+                    Thread.sleep(1000 / fpsNum);
+                    Message message = new Message();
+                    message.what = 1;
+                    mHandler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        private void initLines() {
+
+            for (int i = 0; i < lineMaxNumber; i++) {
+                StartsLinesBeanlist.add(initALineObject(false));
+
+            }
+
+
+        }
+
+        private void initPaint() {
+            paint = new Paint();
+            paint.setStrokeWidth(5);
+            Paint paint2 = new Paint();
+            paint2.setARGB(80, 255, 255, 255);
+            paint2.setTextSize(10);
+        }
+
 
         @Override
         public void onDestroy() {
@@ -224,15 +408,20 @@ public class MyWatchFace extends CanvasWatchFaceService {
             switch (tapType) {
                 case TAP_TYPE_TOUCH:
                     // The user has started touching the screen.
+                    mXOffset = x - 100;
+                    mYOffset = y;
+                    centerX = x;
+                    centerY = y;
                     break;
                 case TAP_TYPE_TOUCH_CANCEL:
                     // The user has started a different gesture or otherwise cancelled the tap.
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
-                    // TODO: Add code to handle the tap gesture.
-                    Toast.makeText(getApplicationContext(), R.string.message, Toast.LENGTH_SHORT)
-                            .show();
+                    mXOffset = x - 100;
+                    mYOffset = y;
+                    centerX = x;
+                    centerY = y;
                     break;
             }
             invalidate();
@@ -250,7 +439,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
             String text = String.format("%d:%02d:%02d", mCalendar.get(Calendar.HOUR),
                     mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
             canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
+
+            drawStartsPonit(canvas, StartsLinesBeanlist);
+            sendMessage.run();
+
         }
+
+        private void drawStartsPonit(Canvas canvas, ArrayList<StartsPonitBean> StartsLinesBean) {
+            for (int i = 0; i < StartsLinesBean.size(); i++) {
+                DrawmLineBean = StartsLinesBean.get(i);
+                paint.setAntiAlias(true);
+                CirclePaint.setARGB(DrawmLineBean.color[0], DrawmLineBean.color[1], DrawmLineBean.color[2], DrawmLineBean.color[3]);
+                canvas.drawCircle(DrawmLineBean.lineStartX,
+                        DrawmLineBean.linestartY,
+                        (100 - DrawmLineBean.Startlength) * DrawmLineBean.raduis / 100,
+                        CirclePaint);
+            }
+        }
+
 
         /**
          * Starts the {@link #mUpdateTimeHandler} timer if it should be running and isn't currently
@@ -259,7 +465,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void updateTimer() {
             mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
 
-                mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
+            mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
 
         }
 
@@ -277,10 +483,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void handleUpdateTimeMessage() {
             invalidate();
 
-                long timeMs = System.currentTimeMillis();
-                long delayMs = INTERACTIVE_UPDATE_RATE_MS
-                        - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
-                mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs);
+            long timeMs = System.currentTimeMillis();
+            long delayMs = INTERACTIVE_UPDATE_RATE_MS
+                    - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
+            mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs);
 
         }
     }
