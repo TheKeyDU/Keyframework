@@ -21,11 +21,15 @@ public class StarTrailsView extends View {
 
 
     private Paint StarTrailsPaint;
-    private float Width;
-    private float Height;
+    private int Width;
+    private int Height;
     private RectF rectF;
     private Point point1;
     private Point point2;
+    private int StartAngle;
+    private int EndAngle;
+    private int FPS=60;
+    private long INTERVALS=1000/FPS;
     public StarTrailsView(Context context) {
         super(context);
         init(null, 0);
@@ -52,25 +56,31 @@ public class StarTrailsView extends View {
         StarTrailsPaint = new TextPaint();
         StarTrailsPaint.setARGB(100, 100, 0, 0);
         StarTrailsPaint.setStyle(Paint.Style.STROKE);
-        StarTrailsPaint.setStrokeWidth(3);
-        point1=new Point(-500,1000);
-        point2=new Point(1500,4000);
+        StarTrailsPaint.setStrokeWidth(5);
+        StarTrailsPaint.setAntiAlias(true);
+
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 Width = getWidth();
                 Height = getHeight();
+                StartAngle=0;
+                EndAngle=0;
+                point1=new Point(0,0);
+                point2=new Point(Width,Height);
+                rectF = new RectF(point1.x, point1.y, point2.x ,point2.y  );
             }
         });
-          rectF = new RectF(point1.x, point1.y, point2.x ,point2.y  );
+
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-      canvas.drawArc(rectF, 0, 360 , false, StarTrailsPaint);
-
+      canvas.drawArc(rectF, StartAngle, EndAngle , false, StarTrailsPaint);
+      EndAngle++;
+       postInvalidateDelayed(INTERVALS);
 
     }
 

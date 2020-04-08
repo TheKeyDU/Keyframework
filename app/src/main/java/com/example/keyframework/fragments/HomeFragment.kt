@@ -1,6 +1,8 @@
 package com.example.keyframework.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
@@ -16,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.example.keyframework.R
 import com.example.keyframework.activitys.MainActivity
 import com.example.keyframework.adapter.HomeListAdapter
+import com.example.keyframework.bean.ImageViewDrawble
 import com.example.keyframework.bean.UserBean
 import com.example.keyframework.constants.ARouterPage
 import com.example.keyframework.fragments.setOnRecylerViewScrollChangeListener
@@ -105,20 +108,21 @@ class HomeFragment(var mListener: setOnRecylerViewScrollChangeListener) : BaseFr
     private fun setItemOnClick() {
 
         mHomeListAdapter?.setOnItemClickListener { adapter, view, position ->
-            mHomeListAdapter?.setOnItemClickListener { adapter, view, position ->
-                var imageView = view!!.findViewById<ImageView>(R.id.iv_head)
-                var layout = view!!.findViewById<ConstraintLayout>(R.id.rl_root)
-                imageView.transitionName = "sharedView_iv"
-                layout.transitionName = "sharedView_layout"
+            var imageView = view!!.findViewById<ImageView>(R.id.iv_head)
+            var layout = view!!.findViewById<ConstraintLayout>(R.id.rl_root)
+            imageView.transitionName = "sharedView_iv"
+            layout.transitionName = "sharedView_layout"
 
-                var pair1 = androidx.core.util.Pair<View, String>(imageView, "sharedView_iv")
-                var pair2 = androidx.core.util.Pair<View, String>(layout, "sharedView_layout")
-                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this!!.activity!!, pair1, pair2)
-                ARouter.getInstance()
-                        .build(ARouterPage.MYPAGE_ACTIVITY)
-                        .withOptionsCompat(optionsCompat)
-                        .navigation(activity)
-            }
+            var pair1 = androidx.core.util.Pair<View, String>(imageView, "sharedView_iv")
+            var pair2 = androidx.core.util.Pair<View, String>(layout, "sharedView_layout")
+            val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this!!.activity!!, pair1, pair2)
+            var ivd = ImageViewDrawble(imageView.drawable)
+            ARouter.getInstance()
+                    .build(ARouterPage.MYPAGE_ACTIVITY)
+                    .withOptionsCompat(optionsCompat)
+                    .withParcelable("src",ivd)
+                    .navigation(activity)
+
 
         }
 
@@ -131,3 +135,5 @@ class HomeFragment(var mListener: setOnRecylerViewScrollChangeListener) : BaseFr
 
 
 }
+
+

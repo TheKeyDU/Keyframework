@@ -1,6 +1,9 @@
 package com.example.keyframework.activitys
 
 import android.animation.ValueAnimator
+import android.graphics.drawable.Drawable
+import android.media.ImageWriter
+import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -9,11 +12,9 @@ import com.example.keyframework.constants.ARouterPage
 import com.maosong.component.Base.BaseActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 import android.view.View
-import com.maosong.tools.LogUtil
-import com.maosong.tools.QMUIDisplayHelper
+import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.example.keyframework.bean.ImageViewDrawble
 import androidx.core.content.ContextCompat.getSystemService
-
-
 
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)
@@ -25,11 +26,15 @@ class MyPage : BaseActivity() {
     var lastX = 0
     var lastY = 0
 
+    public var mDrawable: Drawable? = null
+
+
     override fun initView() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
-
+        mDrawable = (intent.getParcelableExtra("src") as ImageViewDrawble).getDrawable()
+        iv_clbg.setImageDrawable(mDrawable)
     }
 
     override fun initDate() {
@@ -51,6 +56,7 @@ class MyPage : BaseActivity() {
         topW = cl_top.width
         bottomH = fl_bottom.height
         bottomW = fl_bottom.width
+
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -110,9 +116,9 @@ class MyPage : BaseActivity() {
             val curValue = it.getAnimatedValue() as Float
             fl_bottom.layout(mView.left, curValue.toInt(), mView.right, (curValue + mView.height).toInt())
             //   LogUtil.e(",toY:${ToY},fromY:${fromY},inv${curValue},xxxx=${curValue / (ToY - fromY)}")
-            var percent:Float = curValue/topH
+            var percent: Float = curValue / topH
             Log.e("**********", percent.toString())
-            callBack.callback(percent = percent )
+            callBack.callback(percent = percent)
         }
         mValueAnimator.start()
 

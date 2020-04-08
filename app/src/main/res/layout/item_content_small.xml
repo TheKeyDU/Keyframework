@@ -31,7 +31,6 @@
                 android:layout_height="match_parent"
                 android:elevation="10dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/nv_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
