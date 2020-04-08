@@ -27,14 +27,19 @@ class MyPage : BaseActivity() {
     var lastY = 0
 
     public var mDrawable: Drawable? = null
+    @JvmField
+    @Autowired(name = "src")
+    var ViewDrawble = ImageViewDrawble()
 
 
     override fun initView() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
-        mDrawable = (intent.getParcelableExtra("src") as ImageViewDrawble).getDrawable()
-        iv_clbg.setImageDrawable(mDrawable)
+        /*var ImageViewDrawble = intent.getParcelableExtra<ImageViewDrawble>("src")
+        mDrawable=ImageViewDrawble.getDrawable()*/
+        ViewDrawble
+        iv_clbg.setImageDrawable(ViewDrawble?.getDrawable())
     }
 
     override fun initDate() {
