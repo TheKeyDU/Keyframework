@@ -1,8 +1,8 @@
 package com.example.keyframework.activitys
 
 import android.animation.ValueAnimator
-import android.graphics.drawable.Drawable
-import android.media.ImageWriter
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -13,8 +13,6 @@ import com.maosong.component.Base.BaseActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.example.keyframework.bean.ImageViewDrawble
-import androidx.core.content.ContextCompat.getSystemService
 
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)
@@ -26,20 +24,19 @@ class MyPage : BaseActivity() {
     var lastX = 0
     var lastY = 0
 
-    public var mDrawable: Drawable? = null
     @JvmField
     @Autowired(name = "src")
-    var ViewDrawble = ImageViewDrawble()
+     var mBundle: Bundle? =null
+
+
 
 
     override fun initView() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
-        /*var ImageViewDrawble = intent.getParcelableExtra<ImageViewDrawble>("src")
-        mDrawable=ImageViewDrawble.getDrawable()*/
-        ViewDrawble
-        iv_clbg.setImageDrawable(ViewDrawble?.getDrawable())
+
+         iv_clbg.setImageBitmap(mBundle!!.getParcelable<Bitmap>("src"))
     }
 
     override fun initDate() {
