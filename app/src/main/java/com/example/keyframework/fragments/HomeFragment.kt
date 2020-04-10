@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.keyframework.R
 import com.example.keyframework.adapter.HomeListAdapter
+import com.example.keyframework.bean.HomeListBean
 import com.example.keyframework.constants.ARouterPage
 import com.example.keyframework.module.NetModules
 import com.example.keyframework.recylerViewLayoutManager.RLayoutManager
@@ -97,16 +99,16 @@ class HomeFragment(var mListener: setOnRecylerViewScrollChangeListener) : BaseFr
 
         mHomeListAdapter?.setOnItemClickListener { adapter, view, position ->
             var imageView = view!!.findViewById<ImageView>(R.id.iv_head)
-            var layout = view!!.findViewById<ConstraintLayout>(R.id.rl_root)
+            var titleTextView = view!!.findViewById<TextView>(R.id.tv_title)
             imageView.transitionName = "sharedView_iv"
-            layout.transitionName = "sharedView_layout"
-
+            titleTextView.transitionName = "sharedView_title"
             var pair1 = androidx.core.util.Pair<View, String>(imageView, "sharedView_iv")
-            var pair2 = androidx.core.util.Pair<View, String>(layout, "sharedView_layout")
+            var pair2 = androidx.core.util.Pair<View, String>(titleTextView, "sharedView_title")
             val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this!!.activity!!, pair1, pair2)
             var bitmap:BitmapDrawable =  (imageView.drawable as BitmapDrawable)
             var mBundle=Bundle()
-            mBundle.putParcelable("src",bitmap.bitmap)
+            mBundle.putParcelable("bitmap",bitmap.bitmap)
+            mBundle.putParcelable("bean",adapter.data[position] as HomeListBean.NewslistBean)
             ARouter.getInstance()
                     .build(ARouterPage.MYPAGE_ACTIVITY)
                     .withOptionsCompat(optionsCompat)

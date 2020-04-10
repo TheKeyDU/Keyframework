@@ -13,6 +13,7 @@ import com.maosong.component.Base.BaseActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.example.keyframework.bean.HomeListBean
 
 
 @Route(path = ARouterPage.MYPAGE_ACTIVITY)
@@ -35,8 +36,9 @@ class MyPage : BaseActivity() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
-
-         iv_clbg.setImageBitmap(mBundle!!.getParcelable<Bitmap>("src"))
+       // iv_clbg.setImageBitmap(mBundle!!.getParcelable<Bitmap>("src"))
+        iv_clbg.setImageDrawable(resources.getDrawable(R.drawable.bg_round_count))
+        fl_bottom.visibility=View.VISIBLE
     }
 
     override fun initDate() {
@@ -54,10 +56,13 @@ class MyPage : BaseActivity() {
     }
 
     fun SynchronizaitonLayout() {
-        topH = cl_top.height
-        topW = cl_top.width
+        topH = iv_clbg.height
+        topW = iv_clbg.width
         bottomH = fl_bottom.height
         bottomW = fl_bottom.width
+        var bean= mBundle!!.getParcelable<HomeListBean.NewslistBean>("bean")
+        tv_details_mypage.setText(bean?.description)
+        tv_title_mypage.setText(bean?.title)
 
     }
 
@@ -73,18 +78,18 @@ class MyPage : BaseActivity() {
                 MotionEvent.ACTION_MOVE -> {
                     var offX = x - lastX
                     var offY = y - lastY
-                    if (fl_bottom.y + offY >= 0 && fl_bottom.y + offY <= cl_top.height) {
+                    if (fl_bottom.y + offY >= 0 && fl_bottom.y + offY <= iv_clbg.height) {
                         fl_bottom.offsetTopAndBottom(offY)
-                        cl_top.alpha = (fl_bottom.y + offY) / cl_top.height + 0.3f
+                        iv_clbg.alpha = (fl_bottom.y + offY) / iv_clbg.height + 0.3f
 
                     }
                     lastX = x
                     lastY = y
-                    iv_clbg.scaleX = (fl_bottom.y + offY) / cl_top.height
-                    iv_clbg.scaleY = (fl_bottom.y + offY) / cl_top.height
+                    iv_clbg.scaleX = (fl_bottom.y + offY) / iv_clbg.height
+                    iv_clbg.scaleY = (fl_bottom.y + offY) / iv_clbg.height
                 }
                 MotionEvent.ACTION_UP -> {
-                    if (fl_bottom.y < cl_top.height / 1.5) {
+                    if (fl_bottom.y < iv_clbg.height / 1.5) {
                         ElasticSlide(fl_bottom.y, 0, 300, fl_bottom, object : slideCallBack {
                             override fun callback(percent: Float) {
                                 iv_clbg.scaleX = percent
@@ -92,7 +97,7 @@ class MyPage : BaseActivity() {
                             }
                         })
                     } else {
-                        ElasticSlide(fl_bottom.y, cl_top.height, 300, fl_bottom, object : slideCallBack {
+                        ElasticSlide(fl_bottom.y, iv_clbg.height, 300, fl_bottom, object : slideCallBack {
                             override fun callback(percent: Float) {
                                 iv_clbg.scaleX = percent
                                 iv_clbg.scaleY = percent

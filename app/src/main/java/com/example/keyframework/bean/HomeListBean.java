@@ -1,8 +1,11 @@
 package com.example.keyframework.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class HomeListBean {
+public class HomeListBean implements Parcelable {
 
     /**
      * toplist : [{"client":"6","device":"6","topplat":"6","newsid":457492,"title":"云日历iOS版1.02更新：iPad适配、第8个小组件、海量更新","postdate":"2019-11-17T14:31:31.407","orderdate":"0001-01-01T00:00:00","description":"@软媒 今天为云日历iOS版添加了第8个小组件，迄今为止，世界范围内，应该没有其他同类App支持如此众多的小组件。我们今天更适配了iPadOS，所有小组件也能在iPad设备中完美使用，今天的更新太多了，详见\u2014\u2014","image":"http://img.ithome.com/newsuploadfiles/thumbnail/2019/11/457492_240.jpg?r=1573972291407","hitcount":21909,"commentcount":468,"cid":58,"sid":0,"url":"https://www.ithome.com/0/457/492.htm"},{"client":"5","device":"5","topplat":"5","newsid":457216,"title":"云日历安卓版1.02更新：工具小部件+大量改进和修正","postdate":"2019-11-15T15:13:57","orderdate":"0001-01-01T00:00:00","description":"@软媒 今天发布云日历安卓版本的1.02，对大家反馈的问题进行了大量改进和修正，虽然是蓝图中的第一阶段产品，但目前云日历已经有着三大痛点：集成海量的功能订阅+海量的小组件/小部件、跨越所有常见设备的云端数据全同步、永久免费/纯净/无广告\u2026\u2026","image":"http://img.ithome.com/newsuploadfiles/thumbnail/2019/11/457216_240.jpg?r=1573803140083","hitcount":13869,"commentcount":369,"cid":72,"sid":0,"url":"https://www.ithome.com/0/457/216.htm"},{"client":"1,2,3,7,4","device":"1,2,3,7,4","topplat":"1,2,3,7,4","newsid":455589,"title":"云日历，1.0，全平台，软媒制造，翩然而至。","postdate":"2019-11-08T13:04:28","orderdate":"0001-01-01T00:00:00","description":"云日历，把握时间。日程、天气、星座、黄历、万年历、节假日、历史上的今天、世界时钟、运势、限行日历、福彩体彩\u2026\u2026以上目之所及，只是开始，@软媒 制造。","image":"http://img.ithome.com/newsuploadfiles/thumbnail/2019/11/455589_240.jpg?r=1573356616663","hitcount":151165,"commentcount":1621,"cid":58,"sid":0,"url":"https://www.ithome.com/0/455/589.htm"}]
@@ -13,6 +16,22 @@ public class HomeListBean {
     private boolean lapin;
     private List<ToplistBean> toplist;
     private List<NewslistBean> newslist;
+
+    protected HomeListBean(Parcel in) {
+        lapin = in.readByte() != 0;
+    }
+
+    public static final Creator<HomeListBean> CREATOR = new Creator<HomeListBean>() {
+        @Override
+        public HomeListBean createFromParcel(Parcel in) {
+            return new HomeListBean(in);
+        }
+
+        @Override
+        public HomeListBean[] newArray(int size) {
+            return new HomeListBean[size];
+        }
+    };
 
     public boolean isLapin() {
         return lapin;
@@ -36,6 +55,16 @@ public class HomeListBean {
 
     public void setNewslist(List<NewslistBean> newslist) {
         this.newslist = newslist;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (lapin ? 1 : 0));
     }
 
     public static class ToplistBean {
@@ -184,7 +213,7 @@ public class HomeListBean {
         }
     }
 
-    public static class NewslistBean {
+    public static class NewslistBean implements Parcelable{
         /**
          * newsid : 457666
          * title : 语音识别大拿Daniel Povey将出任小米集团语音首席科学家
@@ -214,6 +243,34 @@ public class HomeListBean {
         private String url;
         private int aid;
         private List<String> imagelist;
+
+        protected NewslistBean(Parcel in) {
+            newsid = in.readInt();
+            title = in.readString();
+            postdate = in.readString();
+            orderdate = in.readString();
+            description = in.readString();
+            image = in.readString();
+            hitcount = in.readInt();
+            commentcount = in.readInt();
+            cid = in.readInt();
+            sid = in.readInt();
+            url = in.readString();
+            aid = in.readInt();
+            imagelist = in.createStringArrayList();
+        }
+
+        public static final Creator<NewslistBean> CREATOR = new Creator<NewslistBean>() {
+            @Override
+            public NewslistBean createFromParcel(Parcel in) {
+                return new NewslistBean(in);
+            }
+
+            @Override
+            public NewslistBean[] newArray(int size) {
+                return new NewslistBean[size];
+            }
+        };
 
         public int getNewsid() {
             return newsid;
@@ -317,6 +374,28 @@ public class HomeListBean {
 
         public void setImagelist(List<String> imagelist) {
             this.imagelist = imagelist;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(newsid);
+            dest.writeString(title);
+            dest.writeString(postdate);
+            dest.writeString(orderdate);
+            dest.writeString(description);
+            dest.writeString(image);
+            dest.writeInt(hitcount);
+            dest.writeInt(commentcount);
+            dest.writeInt(cid);
+            dest.writeInt(sid);
+            dest.writeString(url);
+            dest.writeInt(aid);
+            dest.writeStringList(imagelist);
         }
     }
 }

@@ -6,34 +6,54 @@
     android:layout_height="match_parent"
     android:background="#000">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_top"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintTop_toTopOf="parent">
-
         <ImageView
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/iv_clbg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
             android:scaleType="fitXY"
             android:transitionName="sharedView_iv">
 
         </ImageView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
+
         android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
         android:layout_height="800dp"
         android:layout_marginTop="300dp"
-        android:background="#18818D"
+        android:background="#84A0A0"
         android:maxHeight="300dp"
-        android:transitionName="sharedView_layout"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tv_title_mypage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="sans-serif"
+            android:textColor="#CCCCCC"
+            android:textSize="30sp"
+            android:text="aaaaa"
+            android:transitionName="sharedView_title"
+            android:textStyle="bold"  />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/tv_details_mypage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="dddddd"
+            android:textColor="#393939"
+            android:textSize="@dimen/news_time_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/iv_head"
+            app:layout_constraintRight_toRightOf="parent" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
