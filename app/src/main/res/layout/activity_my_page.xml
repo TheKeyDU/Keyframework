@@ -34,9 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:fontFamily="sans-serif"
-            android:textColor="#CCCCCC"
-            android:textSize="30sp"
-            android:text="aaaaa"
+            android:textColor="#464445"
+            android:textSize="14dp"
             android:transitionName="sharedView_title"
             android:textStyle="bold"  />
 

@@ -1,6 +1,7 @@
 package com.maosong.component.Base;
 
 import android.app.Activity;
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,12 +10,18 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.ChangeBounds;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.itkey.component.R;
@@ -26,6 +33,7 @@ import com.maosong.component.view.impl.BaseViewImpl;
 import com.maosong.tools.AppLifeCircleUtil;
 import com.maosong.tools.LogUtil;
 import com.maosong.tools.SPUtils;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,7 +48,7 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState ) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         activity = this;
@@ -48,28 +56,35 @@ public abstract class BaseActivity extends ImmersionActivity implements BaseView
         AppLifeCircleUtil.getInstance().pushActivity(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ARouter.getInstance().inject(this);
-        if (getContentViewRes()!=0)
-        {
-        setContentView(getContentViewRes());
+        if (getContentViewRes() != 0) {
+            setContentView(getContentViewRes());
         }
+        initSupportShareElement();
         initView();
         initDate();
     }
 
+    private void initSupportShareElement() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        }
+    }
+
     public abstract void initView();
+
     public abstract void initDate();
 
     private void initInner() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.layout_simple_empty_view, null, false);
         TextView tv = mEmptyView.findViewById(R.id.tv_empty_text);
-        mBaseViewImpl=new BaseViewImpl(this);
+        mBaseViewImpl = new BaseViewImpl(this);
 
     }
-public boolean jumpActivity(String path )
-{
-    ARouter.getInstance().build(path).navigation();
-    return true;
-}
+
+    public boolean jumpActivity(String path) {
+        ARouter.getInstance().build(path).navigation();
+        return true;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -82,7 +97,7 @@ public boolean jumpActivity(String path )
         isAlive = false;
     }
 
-    public abstract   int getContentViewRes();
+    public abstract int getContentViewRes();
 
 
     @Override
@@ -202,11 +217,6 @@ public boolean jumpActivity(String path )
     }
 
 
-
-
-
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent messageEvent) {
         if (messageEvent instanceof ForceFinishEvent) {
@@ -238,8 +248,6 @@ public boolean jumpActivity(String path )
     public void showTipMessage(String msg) {
         mBaseViewImpl.showTipMessage(msg);
     }
-
-
 
 
 }

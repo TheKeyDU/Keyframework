@@ -4,7 +4,9 @@ import android.animation.ValueAnimator
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.keyframework.R
@@ -27,18 +29,19 @@ class MyPage : BaseActivity() {
 
     @JvmField
     @Autowired(name = "src")
-     var mBundle: Bundle? =null
-
-
+    var mBundle: Bundle? = null
 
 
     override fun initView() {
         cl_root.postDelayed({
             SynchronizaitonLayout()
         }, 1)
-       // iv_clbg.setImageBitmap(mBundle!!.getParcelable<Bitmap>("src"))
-        iv_clbg.setImageDrawable(resources.getDrawable(R.drawable.bg_round_count))
-        fl_bottom.visibility=View.VISIBLE
+        // iv_clbg.setImageDrawable(resources.getDrawable(R.drawable.bg_round_count))
+        fl_bottom.visibility = View.VISIBLE
+        val slideTransition = Slide(Gravity.BOTTOM)
+        slideTransition.duration = 400
+        window.setEnterTransition(slideTransition)
+        window.setExitTransition(slideTransition)
     }
 
     override fun initDate() {
@@ -60,10 +63,10 @@ class MyPage : BaseActivity() {
         topW = iv_clbg.width
         bottomH = fl_bottom.height
         bottomW = fl_bottom.width
-        var bean= mBundle!!.getParcelable<HomeListBean.NewslistBean>("bean")
+        var bean = mBundle!!.getParcelable<HomeListBean.NewslistBean>("bean")
         tv_details_mypage.setText(bean?.description)
         tv_title_mypage.setText(bean?.title)
-
+        iv_clbg.setImageBitmap(mBundle!!.getParcelable<Bitmap>("bitmap"))
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

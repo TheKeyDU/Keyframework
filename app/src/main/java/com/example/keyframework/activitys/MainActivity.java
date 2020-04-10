@@ -28,6 +28,8 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.transition.ChangeBounds;
+import androidx.transition.TransitionInflater;
 import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
@@ -36,7 +38,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Vibrator;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -241,6 +245,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             alpha = alpha > 1 ? 1 : alpha;
             toolbar.setAlpha(alpha);*/
         });
+
+
+// Defines enter transition only for shared element
         fragments.add(homeFragment);
 
         //fragments.add(new HomeFragment());
