@@ -43,6 +43,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
@@ -160,7 +161,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initListener();
         setStatbarColor();
 
+    /*    coordinatorLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+                onTouchEvent(new MotionEvent.obtain());
+            }
+        }, 1000);*/
     }
 
     private void setStatbarColor() {

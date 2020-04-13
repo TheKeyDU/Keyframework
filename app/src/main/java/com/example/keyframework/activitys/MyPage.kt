@@ -2,11 +2,8 @@ package com.example.keyframework.activitys
 
 import android.animation.ValueAnimator
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.transition.Slide
 import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.keyframework.R
@@ -38,10 +35,7 @@ class MyPage : BaseActivity() {
         }, 1)
         // iv_clbg.setImageDrawable(resources.getDrawable(R.drawable.bg_round_count))
         fl_bottom.visibility = View.VISIBLE
-        val slideTransition = Slide(Gravity.BOTTOM)
-        slideTransition.duration = 400
-        window.setEnterTransition(slideTransition)
-        window.setExitTransition(slideTransition)
+
     }
 
     override fun initDate() {

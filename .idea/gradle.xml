@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/jpush" />
             <option value="$PROJECT_DIR$/myticwatch" />
             <option value="$PROJECT_DIR$/wearface" />
+            <option value="$PROJECT_DIR$/websocketdemo" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
