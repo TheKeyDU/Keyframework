@@ -1,6 +1,5 @@
 package com.itkey.websocketdemo.websocket;
 
-import android.net.Uri;
 import android.util.Log;
 
 import okhttp3.Response;
@@ -14,59 +13,63 @@ import okio.ByteString;
 public class MyWebSocketWebSocketListener extends WebSocketListener {
     private static WebSocket mWebSocketClinet = null;
     private static MyWebSocketWebSocketListener mMyWebSocketClient = null;
-    private static OnConnectSuccess onConnectSuccess;
-    private void BindWebSocket(WebSocket mWebSocket) {
+    private static ConnectCallBack connectCallBack;
 
-        if (mWebSocketClinet == null) {
-            mWebSocketClinet = mWebSocket;
-        }
+    private void BindWebSocket(WebSocket mWebSocket) {
+        mWebSocketClinet = mWebSocket;
+
     }
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
         super.onOpen(webSocket, response);
         BindWebSocket(webSocket);
-        onConnectSuccess.onConnectSuccsee();
+        connectCallBack.onConnectSuccsee();
         webSocket.send("onOpen");
-        Log.e("onOpen", response.toString());
+        Log.e("onOpen ~~", response.toString());
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         super.onMessage(webSocket, text);
-        Log.e("onMessage", text);
+        connectCallBack.onMessage(text);
+        Log.e("onMessage ~~", text);
 
     }
 
     @Override
     public void onMessage(WebSocket webSocket, ByteString bytes) {
         super.onMessage(webSocket, bytes);
-        Log.e("onMessage bytes:", bytes.toString());
+        connectCallBack.onBase64Message(bytes);
+        Log.e("onMessage bytes ~~:", bytes.toString());
     }
 
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
         super.onClosing(webSocket, code, reason);
-        Log.e("onClosing ", reason);
-
+        connectCallBack.onClosing(webSocket, code, reason);
+        Log.e("onClosing ~~", reason);
     }
 
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
         super.onClosed(webSocket, code, reason);
-        Log.e("webSocket ", reason);
+        connectCallBack.onClose(webSocket, code, reason);
+        webSocket = null;
+        Log.e("onClosed ~~", reason);
     }
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         super.onFailure(webSocket, t, response);
-        Log.e("onFailure ", t.toString());
+        connectCallBack.onFailure(webSocket, t, response);
+        Log.e("onFailure ~~", t.toString());
 
     }
 
-    public static MyWebSocketWebSocketListener getInstance(OnConnectSuccess onSuccess) {
+    public static MyWebSocketWebSocketListener getInstance(ConnectCallBack onSuccess) {
         if (mMyWebSocketClient == null) {
-            onConnectSuccess=onSuccess;
+            connectCallBack = onSuccess;
             mMyWebSocketClient = new MyWebSocketWebSocketListener();
 
             return mMyWebSocketClient;
@@ -85,7 +88,17 @@ public class MyWebSocketWebSocketListener extends WebSocketListener {
 
     }
 
-    public interface OnConnectSuccess {
+    public interface ConnectCallBack {
         void onConnectSuccsee();
+
+        void onMessage(String text);
+
+        void onBase64Message(ByteString BS);
+
+        void onClose(WebSocket webSocket, int code, String reason);
+
+        void onClosing(WebSocket webSocket, int code, String reason);
+
+        void onFailure(WebSocket webSocket, Throwable t, Response response);
     }
 }

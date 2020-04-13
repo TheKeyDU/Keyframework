@@ -1,53 +1,56 @@
 package com.itkey.websocketdemo
 
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import com.itkey.websocketdemo.presenter.ShowWebSocket.ShowWebSocketPresenterImpl
+import com.itkey.websocketdemo.presenter.ShowWebSocket.ShowWebSocketView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URI
-import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
-import okhttp3.Request
-import com.itkey.websocketdemo.websocket.MyWebSocketWebSocketListener
-import okhttp3.WebSocket
+
+class MainActivity : AppCompatActivity(),ShowWebSocketView{
+    override fun onConnectSuccseeView() {
+    }
+
+    @SuppressLint("WrongConstant")
+    override fun onMessageView(text: String?) {
+        Toast.makeText(this,text,1000).show();
+    }
+
+    override fun onCloseView() {
+    }
+
+    @SuppressLint("WrongConstant")
+    override fun onFailureView(t: Throwable?) {
+        Toast.makeText(this,"error! $t",1000).show();
+    }
 
 
-class MainActivity : AppCompatActivity() {
     lateinit var uri: URI
     lateinit var SB: StringBuilder
     var a = 1;
-    lateinit var mOkHttpClient: OkHttpClient;
-    lateinit var mWebSocketClinet: WebSocket ;
+    lateinit var showWebSocketPresenterImpl: ShowWebSocketPresenterImpl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        initOkhttp();
+        showWebSocketPresenterImpl=ShowWebSocketPresenterImpl(this,this)
+        showWebSocketPresenterImpl?.onConnect()
+
         fab.setOnClickListener {
             Snackbar.make(fab, "sent", 1000).setAction("ok", null).show()
-            mWebSocketClinet.send("hello")
+            showWebSocketPresenterImpl?.sent("hhhhh")
 
         }
     }
 
-    private fun initOkhttp() {
-        mOkHttpClient= OkHttpClient.Builder()
-                .readTimeout(3, TimeUnit.SECONDS)//设置读取超时时间
-                .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
-                .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
-                .build();
-        val request = Request.Builder().url("ws://echo.websocket.org").build()
-        mOkHttpClient.newWebSocket(request,MyWebSocketWebSocketListener.getInstance {
-            mWebSocketClinet=MyWebSocketWebSocketListener.getWebSocketInstance()
 
-        })
-        mOkHttpClient.dispatcher().executorService().shutdown();
 
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

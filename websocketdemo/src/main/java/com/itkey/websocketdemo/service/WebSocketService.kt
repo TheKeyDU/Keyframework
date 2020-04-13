@@ -7,6 +7,8 @@ import android.os.IBinder
 class WebSocketService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {
+
         return null
     }
+
 }
