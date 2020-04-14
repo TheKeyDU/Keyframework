@@ -6,19 +6,44 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.Toast
-import com.itkey.websocketdemo.presenter.ShowWebSocket.ShowWebSocketPresenterImpl
-import com.itkey.websocketdemo.presenter.ShowWebSocket.ShowWebSocketView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.itkey.websocketdemo.adapter.MessageAdapter
+import com.itkey.websocketdemo.bean.MessageBean
+import com.itkey.websocketdemo.mvp.ShowWebSocket.ShowWebSocketPresenterImpl
+import com.itkey.websocketdemo.mvp.ShowWebSocket.ShowWebSocketView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import java.net.URI
 
-class MainActivity : AppCompatActivity(),ShowWebSocketView{
-    override fun onConnectSuccseeView() {
+class MainActivity : AppCompatActivity(), ShowWebSocketView {
+    lateinit var MessageAdapter: MessageAdapter
+    lateinit var date: ArrayList<MessageBean>
+    override fun onSentSuccess(str: String?) {
+        MessageAdapter.data.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME){})
+        MessageAdapter.notifyDataSetChanged()
+
+    }
+
+    override fun onSentError(str: String?) {
+
     }
 
     @SuppressLint("WrongConstant")
+    override fun onConnectSuccseeView() {
+      //  Toast.makeText(this,"连接成功",1000).show()
+        initMessageRecylerView()
+
+    }
+
     override fun onMessageView(text: String?) {
-        Toast.makeText(this,text,1000).show();
+     //   Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
+        MessageAdapter.data.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER){})
+        MessageAdapter.notifyDataSetChanged()
+
+
     }
 
     override fun onCloseView() {
@@ -26,30 +51,36 @@ class MainActivity : AppCompatActivity(),ShowWebSocketView{
 
     @SuppressLint("WrongConstant")
     override fun onFailureView(t: Throwable?) {
-        Toast.makeText(this,"error! $t",1000).show();
+        Toast.makeText(this, "error! $t", 1000).show();
     }
 
 
-    lateinit var uri: URI
-    lateinit var SB: StringBuilder
-    var a = 1;
     lateinit var showWebSocketPresenterImpl: ShowWebSocketPresenterImpl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        showWebSocketPresenterImpl=ShowWebSocketPresenterImpl(this,this)
+        showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(this, this)
         showWebSocketPresenterImpl?.onConnect()
-
         fab.setOnClickListener {
-            Snackbar.make(fab, "sent", 1000).setAction("ok", null).show()
-            showWebSocketPresenterImpl?.sent("hhhhh")
-
+            var mes=et_message.text.toString()
+            if (!mes.equals("")) {
+                showWebSocketPresenterImpl?.sent(mes)
+              //  Snackbar.make(rec_messages, mes, 1000).setAction("ok", null).show()
+            }
         }
     }
 
+    private fun initMessageRecylerView() {
+        date = ArrayList<MessageBean>()
+        MessageAdapter = MessageAdapter(date)
+        MessageAdapter.data.add(object : MessageBean("init", null, null, MessageBean.TYPE_OTHER){})
+        val ll=LinearLayoutManager(this)
+        ll.orientation=RecyclerView.VERTICAL
+        rec_messages.layoutManager = ll
+        rec_messages.adapter = MessageAdapter
 
-
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

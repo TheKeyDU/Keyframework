@@ -1,12 +1,14 @@
-package com.itkey.websocketdemo.presenter.ShowWebSocket
+package com.itkey.websocketdemo.mvp.ShowWebSocket
 
 import android.app.Activity
+import android.util.Log
 import com.itkey.websocketdemo.websocket.MyWebSocketWebSocketListener
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 /**
@@ -24,7 +26,7 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
                 .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
                 .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
                 .build();
-        val request = Request.Builder().url("ws://echo.websocket.org").build()
+        val request = Request.Builder().url("ws://121.40.165.18:8800").build()
         mOkHttpClient.newWebSocket(request, MyWebSocketWebSocketListener.getInstance(object : MyWebSocketWebSocketListener.ConnectCallBack {
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
@@ -65,7 +67,17 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
     }
 
 
-    override fun sent(str: String) {
-        mWebSocketClinet.send(str)
+    override fun sent(str: String): String? {
+        try {
+            mWebSocketClinet.send(str)
+            mView.onSentError(str)
+
+            Log.e("sent~~", str)
+            return "ok"
+        } catch (e: Exception) {
+            Log.e("sent error~~", e.toString())
+            mView.onSentError(e.toString())
+            return e.toString()
+        }
     }
 }
