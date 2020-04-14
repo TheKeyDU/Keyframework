@@ -17,31 +17,37 @@ import com.itkey.websocketdemo.mvp.ShowWebSocket.ShowWebSocketView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.net.URI
+import java.net.URL
 
 class MainActivity : AppCompatActivity(), ShowWebSocketView {
     lateinit var MessageAdapter: MessageAdapter
     lateinit var date: ArrayList<MessageBean>
+    lateinit var url: String
     override fun onSentSuccess(str: String?) {
-        MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME){})
+        MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME) {})
         MessageAdapter.notifyDataSetChanged()
 
     }
 
     @SuppressLint("WrongConstant")
     override fun onSentError(str: String?) {
-        Toast.makeText(this,"发送失败",1000).show()
+        Toast.makeText(this, "发送失败", 1000).show()
+        MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_SYSYTEM) {})
+        MessageAdapter.notifyDataSetChanged()
 
     }
 
     @SuppressLint("WrongConstant")
     override fun onConnectSuccseeView() {
-        Toast.makeText(this,"连接成功",1000).show()
+        MessageAdapter.list.add(object : MessageBean("连接成功", null, null, MessageBean.TYPE_SYSYTEM) {})
+        MessageAdapter.notifyDataSetChanged()
+        Toast.makeText(this, "连接成功", 1000).show()
 
     }
 
     override fun onMessageView(text: String?) {
-         Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
-        MessageAdapter.list.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER){})
+        Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
+        MessageAdapter.list.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER) {})
         MessageAdapter.notifyDataSetChanged()
 
 
@@ -49,12 +55,15 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
 
     @SuppressLint("WrongConstant")
     override fun onCloseView() {
-        Toast.makeText(this,"断开",1000).show()
+        MessageAdapter.list.add(object : MessageBean("连接关闭", null, null, MessageBean.TYPE_SYSYTEM) {})
+        MessageAdapter.notifyDataSetChanged()
+        Toast.makeText(this, "断开", 1000).show()
 
     }
 
     @SuppressLint("WrongConstant")
     override fun onFailureView(t: Throwable?) {
+        MessageAdapter.list.add(object : MessageBean("onFailureView", null, null, MessageBean.TYPE_SYSYTEM) {})
         Toast.makeText(this, "error! $t", 1000).show();
     }
 
@@ -65,16 +74,26 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         initMessageRecylerView()
+        initWebSocketConnect()
+    }
 
-        showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(this, this)
+    private fun initWebSocketConnect() {
+        url =  "ws://www.panjianghong.cn:8080/websocket"
+        showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(url, this, this)
         showWebSocketPresenterImpl?.onConnect()
+        initLisenter()
+
+    }
+
+    private fun initLisenter() {
         fab.setOnClickListener {
-            var mes=et_message.text.toString()
+            var mes = et_message.text.toString()
             if (!mes.equals("")) {
                 showWebSocketPresenterImpl?.sent(mes)
-              //  Snackbar.make(rec_messages, mes, 1000).setAction("ok", null).show()
+                //  Snackbar.make(rec_messages, mes, 1000).setAction("ok", null).show()
             }
         }
+
     }
 
     override fun onDestroy() {
@@ -85,8 +104,8 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
     private fun initMessageRecylerView() {
         date = ArrayList<MessageBean>()
         MessageAdapter = MessageAdapter(date)
-        val ll=LinearLayoutManager(this)
-        ll.orientation=RecyclerView.VERTICAL
+        val ll = LinearLayoutManager(this)
+        ll.orientation = RecyclerView.VERTICAL
         rec_messages.layoutManager = ll
         rec_messages.adapter = MessageAdapter
 
@@ -108,8 +127,13 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
                 MessageAdapter.notifyDataSetChanged()
 
             }
+            R.id.action_close_websocket->{
+                if (showWebSocketPresenterImpl!=null)
+                {
+                    showWebSocketPresenterImpl.closeConnect()
+                }
+            }
 
-            else -> super.onOptionsItemSelected(item)
         }
         return true
     }

@@ -29,7 +29,10 @@ class MessageAdapter constructor(var list: ArrayList<MessageBean>) : RecyclerVie
                 var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_receive, parent, false);
                 return ReceiveMessageViewHoler(view)
             }
-
+            MessageBean.TYPE_SYSYTEM -> {
+                var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_system, parent, false);
+                return SystemMessageViewHoler(view)
+            }
             else -> {
                 var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
                 return ReceiveMessageViewHoler(view)
@@ -53,6 +56,11 @@ class MessageAdapter constructor(var list: ArrayList<MessageBean>) : RecyclerVie
                 holder.tv.setText(list[position].message)
 
             }
+            MessageBean.TYPE_SYSYTEM -> {
+                holder as SystemMessageViewHoler
+                holder.tv.setText(list[position].message)
+
+            }
 
             else -> {
             }
@@ -72,6 +80,14 @@ class MessageAdapter constructor(var list: ArrayList<MessageBean>) : RecyclerVie
 
         init {
             tv = itemView.findViewById<TextView>(R.id.tv_rec)
+        }
+    }
+
+    internal inner class SystemMessageViewHoler(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tv: TextView
+
+        init {
+            tv = itemView.findViewById<TextView>(R.id.tv_system)
         }
     }
 }

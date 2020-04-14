@@ -1,6 +1,7 @@
 package com.itkey.websocketdemo.mvp.ShowWebSocket
 
 import android.app.Activity
+import android.net.Uri
 import android.util.Log
 import com.itkey.websocketdemo.websocket.MyWebSocketWebSocketListener
 import okhttp3.OkHttpClient
@@ -8,13 +9,15 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
+import retrofit2.http.Url
 import java.lang.Exception
+import java.net.URL
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by Administrator on 2020/4/13 16:14
  */
-class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Activity) : ShowWebSocketPresenter {
+class ShowWebSocketPresenterImpl(val uri:String,val mView: ShowWebSocketView, val Activity: Activity) : ShowWebSocketPresenter {
 
     lateinit var mWebSocketClinet: WebSocket;
     lateinit var mOkHttpClient: OkHttpClient;
@@ -25,7 +28,7 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
                 .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
                 .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
                 .build();
-        val request = Request.Builder().url("ws://www.panjianghong.cn:8080/websocket").build()
+        val request = Request.Builder().url(uri).build()
         mOkHttpClient.newWebSocket(request, MyWebSocketWebSocketListener.getInstance(object : MyWebSocketWebSocketListener.ConnectCallBack {
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
@@ -69,7 +72,7 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
     {
         if (mWebSocketClinet!=null)
         {
-            mWebSocketClinet.close(1,"?")
+            mWebSocketClinet.close(1000,"byebye")
         }
 
     }

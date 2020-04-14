@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_close_websocket"
+        android:orderInCategory="100"
+        android:title="@string/action_close"
+        app:showAsAction="never" />
 </menu>
