@@ -26,7 +26,7 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
                 .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
                 .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
                 .build();
-        val request = Request.Builder().url("ws://121.40.165.18:8800").build()
+        val request = Request.Builder().url("ws://www.panjianghong.cn:8080/websocket").build()
         mOkHttpClient.newWebSocket(request, MyWebSocketWebSocketListener.getInstance(object : MyWebSocketWebSocketListener.ConnectCallBack {
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
@@ -70,7 +70,7 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
     override fun sent(str: String): String? {
         try {
             mWebSocketClinet.send(str)
-            mView.onSentError(str)
+            mView.onSentSuccess(str)
 
             Log.e("sent~~", str)
             return "ok"

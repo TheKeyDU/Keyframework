@@ -22,31 +22,35 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
     lateinit var MessageAdapter: MessageAdapter
     lateinit var date: ArrayList<MessageBean>
     override fun onSentSuccess(str: String?) {
-        MessageAdapter.data.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME){})
+        MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME){})
         MessageAdapter.notifyDataSetChanged()
 
     }
 
+    @SuppressLint("WrongConstant")
     override fun onSentError(str: String?) {
+        Toast.makeText(this,"发送失败",1000).show()
 
     }
 
     @SuppressLint("WrongConstant")
     override fun onConnectSuccseeView() {
-      //  Toast.makeText(this,"连接成功",1000).show()
-        initMessageRecylerView()
+        Toast.makeText(this,"连接成功",1000).show()
 
     }
 
     override fun onMessageView(text: String?) {
-     //   Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
-        MessageAdapter.data.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER){})
+         Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
+        MessageAdapter.list.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER){})
         MessageAdapter.notifyDataSetChanged()
 
 
     }
 
+    @SuppressLint("WrongConstant")
     override fun onCloseView() {
+        Toast.makeText(this,"断开",1000).show()
+
     }
 
     @SuppressLint("WrongConstant")
@@ -60,6 +64,8 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        initMessageRecylerView()
+
         showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(this, this)
         showWebSocketPresenterImpl?.onConnect()
         fab.setOnClickListener {
@@ -74,7 +80,6 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
     private fun initMessageRecylerView() {
         date = ArrayList<MessageBean>()
         MessageAdapter = MessageAdapter(date)
-        MessageAdapter.data.add(object : MessageBean("init", null, null, MessageBean.TYPE_OTHER){})
         val ll=LinearLayoutManager(this)
         ll.orientation=RecyclerView.VERTICAL
         rec_messages.layoutManager = ll
@@ -95,6 +100,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> {
+                MessageAdapter.notifyDataSetChanged()
 
             }
 

@@ -25,7 +25,6 @@ public class MyWebSocketWebSocketListener extends WebSocketListener {
         super.onOpen(webSocket, response);
         BindWebSocket(webSocket);
         connectCallBack.onConnectSuccsee();
-        webSocket.send("onOpen");
         Log.e("onOpen ~~", response.toString());
     }
 
