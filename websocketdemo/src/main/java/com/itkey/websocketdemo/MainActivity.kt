@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        showWebSocketPresenterImpl.closeConnect()
+    }
+
     private fun initMessageRecylerView() {
         date = ArrayList<MessageBean>()
         MessageAdapter = MessageAdapter(date)

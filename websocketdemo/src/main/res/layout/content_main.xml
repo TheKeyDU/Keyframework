@@ -9,10 +9,11 @@
     tools:showIn="@layout/activity_main">
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/rec_messages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:maxHeight="500dp">
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 

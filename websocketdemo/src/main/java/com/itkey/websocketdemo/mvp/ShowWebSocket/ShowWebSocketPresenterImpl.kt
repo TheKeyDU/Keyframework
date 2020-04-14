@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit
  */
 class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Activity) : ShowWebSocketPresenter {
 
-    lateinit var uiThread: Thread
     lateinit var mWebSocketClinet: WebSocket;
     lateinit var mOkHttpClient: OkHttpClient;
     private fun initOkhttp() {
@@ -66,6 +65,14 @@ class ShowWebSocketPresenterImpl(val mView: ShowWebSocketView, val Activity: Act
         initOkhttp()
     }
 
+    fun closeConnect()
+    {
+        if (mWebSocketClinet!=null)
+        {
+            mWebSocketClinet.close(1,"?")
+        }
+
+    }
 
     override fun sent(str: String): String? {
         try {
