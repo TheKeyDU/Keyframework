@@ -15,4 +15,6 @@ public interface ShowWebSocketView {
     void onSentError(String str);
 
     void onSentSuccess(String str);
+
+    void onConnecting(String string);
 }

@@ -1,5 +1,6 @@
 package com.itkey.websocketdemo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,11 @@ class MessageAdapter constructor(var list: ArrayList<MessageBean>) : RecyclerVie
 
     override fun getItemViewType(position: Int): Int {
         return list.get(position).type
+    }
+
+    fun moveAllDate() {
+        for (i in 0..(list.size-1))
+       list.removeAt(0)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

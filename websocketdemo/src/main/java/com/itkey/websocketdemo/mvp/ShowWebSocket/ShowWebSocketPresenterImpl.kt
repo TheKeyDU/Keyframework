@@ -17,10 +17,11 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Administrator on 2020/4/13 16:14
  */
-class ShowWebSocketPresenterImpl(val uri:String,val mView: ShowWebSocketView, val Activity: Activity) : ShowWebSocketPresenter {
+class ShowWebSocketPresenterImpl(val uri: String, val mView: ShowWebSocketView, val Activity: Activity) : ShowWebSocketPresenter {
 
     lateinit var mWebSocketClinet: WebSocket;
     lateinit var mOkHttpClient: OkHttpClient;
+    var isConnectSuccess = false
     private fun initOkhttp() {
 
         mOkHttpClient = OkHttpClient.Builder()
@@ -33,7 +34,7 @@ class ShowWebSocketPresenterImpl(val uri:String,val mView: ShowWebSocketView, va
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
                 Activity.runOnUiThread { mView.onConnectSuccseeView() }
-
+                isConnectSuccess = true;
             }
 
             override fun onMessage(text: String?) {
@@ -44,15 +45,19 @@ class ShowWebSocketPresenterImpl(val uri:String,val mView: ShowWebSocketView, va
             }
 
             override fun onClose(webSocket: WebSocket?, code: Int, reason: String?) {
+                isConnectSuccess = false
+
                 Activity.runOnUiThread { mView.onCloseView() }
 
             }
 
             override fun onClosing(webSocket: WebSocket?, code: Int, reason: String?) {
+                isConnectSuccess = false
+
             }
 
             override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: Response?) {
-
+                isConnectSuccess = false
                 Activity.runOnUiThread { mView.onFailureView(t) }
 
             }
@@ -68,26 +73,31 @@ class ShowWebSocketPresenterImpl(val uri:String,val mView: ShowWebSocketView, va
         initOkhttp()
     }
 
-    fun closeConnect()
-    {
-        if (mWebSocketClinet!=null)
-        {
-            mWebSocketClinet.close(1000,"byebye")
+    fun closeConnect() {
+        isConnectSuccess = false
+
+        if (mWebSocketClinet != null) {
+            mWebSocketClinet.close(1000, "byebye")
         }
 
     }
 
     override fun sent(str: String): String? {
         try {
-            mWebSocketClinet.send(str)
-            mView.onSentSuccess(str)
+            if (isConnectSuccess) {
+                mWebSocketClinet.send(str)
+                mView.onSentSuccess(str)
 
-            Log.e("sent~~", str)
-            return "ok"
+                Log.e("sent~~", str)
+                return "ok"
+            } else {
+                mView.onConnecting("还在连接中")
+            }
         } catch (e: Exception) {
             Log.e("sent error~~", e.toString())
             mView.onSentError(e.toString())
             return e.toString()
         }
+        return null
     }
 }

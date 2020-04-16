@@ -6,8 +6,10 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.itkey.websocketdemo.adapter.MessageAdapter
@@ -16,16 +18,22 @@ import com.itkey.websocketdemo.mvp.ShowWebSocket.ShowWebSocketPresenterImpl
 import com.itkey.websocketdemo.mvp.ShowWebSocket.ShowWebSocketView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.net.URI
-import java.net.URL
+import kotlin.collections.ArrayList
+
 
 class MainActivity : AppCompatActivity(), ShowWebSocketView {
+
     lateinit var MessageAdapter: MessageAdapter
     lateinit var date: ArrayList<MessageBean>
     lateinit var url: String
     override fun onSentSuccess(str: String?) {
         MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME) {})
         MessageAdapter.notifyDataSetChanged()
+
+    }
+
+    override fun onConnecting(string: String?) {
+        Snackbar.make(fab, "onConnecting", 1000).setAction("ok", null).show()
 
     }
 
@@ -49,6 +57,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         Snackbar.make(fab, text.toString(), 1000).setAction("ok", null).show()
         MessageAdapter.list.add(object : MessageBean(text, null, null, MessageBean.TYPE_OTHER) {})
         MessageAdapter.notifyDataSetChanged()
+        rec_messages.scrollToPosition(MessageAdapter.list.size - 1)
 
 
     }
@@ -74,15 +83,18 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         initMessageRecylerView()
-        initWebSocketConnect()
+        initWebSocketConnect("ws://121.40.165.18:8800")
     }
 
-    private fun initWebSocketConnect() {
-        url =  "ws://www.panjianghong.cn:8080/websocket"
-        showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(url, this, this)
+    private fun initWebSocketConnect(mUrl: String) {
+        showWebSocketPresenterImpl = ShowWebSocketPresenterImpl(mUrl, this, this)
         showWebSocketPresenterImpl?.onConnect()
         initLisenter()
+    }
 
+    private fun SetUrl(mUrl: String) {
+        showWebSocketPresenterImpl.closeConnect()
+        initWebSocketConnect(mUrl)
     }
 
     private fun initLisenter() {
@@ -118,20 +130,47 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         return true
     }
 
+    @SuppressLint("WrongConstant")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> {
+                var et = EditText(this)
+                et.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("修改url").setView(et).setPositiveButton("确定") { dialog, which ->
+                    val Url = et.text.toString()
+                    if (Url != null) {
+                        initWebSocketConnect(Url)
+                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(this, "不能空", 1000).show()
+                    }
+                }
+                builder.setNegativeButton("取消") { dilog, which ->
+                    dilog.dismiss()
+                }
+                builder.show()
+                MessageAdapter.moveAllDate()
                 MessageAdapter.notifyDataSetChanged()
 
             }
-            R.id.action_close_websocket->{
-                if (showWebSocketPresenterImpl!=null)
-                {
+            R.id.action_close_websocket -> {
+                if (showWebSocketPresenterImpl != null) {
                     showWebSocketPresenterImpl.closeConnect()
+                    MessageAdapter.moveAllDate()
+                    MessageAdapter.notifyDataSetChanged()
                 }
+            }
+            R.id.delete_all -> {
+
+                MessageAdapter.moveAllDate()
+                MessageAdapter.notifyDataSetChanged()
+                Toast.makeText(this, "不能空", 1000).show()
+
             }
 
         }
