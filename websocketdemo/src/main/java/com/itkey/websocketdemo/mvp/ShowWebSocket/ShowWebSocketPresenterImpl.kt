@@ -33,8 +33,9 @@ class ShowWebSocketPresenterImpl(val uri: String, val mView: ShowWebSocketView, 
         mOkHttpClient.newWebSocket(request, MyWebSocketWebSocketListener.getInstance(object : MyWebSocketWebSocketListener.ConnectCallBack {
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
-                Activity.runOnUiThread { mView.onConnectSuccseeView() }
                 isConnectSuccess = true;
+
+                Activity.runOnUiThread { mView.onConnectSuccseeView() }
             }
 
             override fun onMessage(text: String?) {
@@ -74,10 +75,15 @@ class ShowWebSocketPresenterImpl(val uri: String, val mView: ShowWebSocketView, 
     }
 
     fun closeConnect() {
-        isConnectSuccess = false
 
-        if (mWebSocketClinet != null) {
+
+        if (mWebSocketClinet==null && isConnectSuccess) {
             mWebSocketClinet.close(1000, "byebye")
+            mView.onCloseView()
+            isConnectSuccess = false
+        } else {
+            mView.onConnecting("还在连接中")
+
         }
 
     }

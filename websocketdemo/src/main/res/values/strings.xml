@@ -3,4 +3,5 @@
     <string name="action_settings">Set Url</string>
     <string name="action_close">close websocket</string>
     <string name="delete_all">delete all message list</string>
+    <string name="re_connect">rest connect</string>
 </resources>

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
 
     lateinit var MessageAdapter: MessageAdapter
     lateinit var date: ArrayList<MessageBean>
-    lateinit var url: String
+      var WebSocketUrl: String="ws://www.panjianghong.cn:8080/websocket"
     override fun onSentSuccess(str: String?) {
         MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME) {})
         MessageAdapter.notifyDataSetChanged()
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         initMessageRecylerView()
-        initWebSocketConnect("ws://121.40.165.18:8800")
+        initWebSocketConnect(WebSocketUrl)
     }
 
     private fun initWebSocketConnect(mUrl: String) {
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
         initLisenter()
     }
 
-    private fun SetUrl(mUrl: String) {
+    private fun reSetUrl(mUrl: String) {
         showWebSocketPresenterImpl.closeConnect()
         initWebSocketConnect(mUrl)
     }
@@ -144,8 +144,10 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
                 builder.setTitle("修改url").setView(et).setPositiveButton("确定") { dialog, which ->
                     val Url = et.text.toString()
                     if (Url != null) {
-                        initWebSocketConnect(Url)
+                        reSetUrl(Url)
                         dialog.dismiss()
+                        MessageAdapter.moveAllDate()
+                        MessageAdapter.notifyDataSetChanged()
                     } else {
                         Toast.makeText(this, "不能空", 1000).show()
                     }
@@ -154,15 +156,13 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
                     dilog.dismiss()
                 }
                 builder.show()
-                MessageAdapter.moveAllDate()
-                MessageAdapter.notifyDataSetChanged()
+
 
             }
             R.id.action_close_websocket -> {
                 if (showWebSocketPresenterImpl != null) {
                     showWebSocketPresenterImpl.closeConnect()
-                    MessageAdapter.moveAllDate()
-                    MessageAdapter.notifyDataSetChanged()
+
                 }
             }
             R.id.delete_all -> {
@@ -171,6 +171,9 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
                 MessageAdapter.notifyDataSetChanged()
                 Toast.makeText(this, "不能空", 1000).show()
 
+            }
+            R.id.re_connect->{
+                reSetUrl(WebSocketUrl)
             }
 
         }
