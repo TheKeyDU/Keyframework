@@ -21,15 +21,15 @@ class ShowWebSocketPresenterImpl(val uri: String, val mView: ShowWebSocketView, 
 
     lateinit var mWebSocketClinet: WebSocket;
     lateinit var mOkHttpClient: OkHttpClient;
+    var request = Request.Builder().url(uri).build();
     var isConnectSuccess = false
     private fun initOkhttp() {
 
         mOkHttpClient = OkHttpClient.Builder()
-                .readTimeout(3, TimeUnit.SECONDS)//设置读取超时时间
-                .writeTimeout(3, TimeUnit.SECONDS)//设置写的超时时间
-                .connectTimeout(3, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(10, TimeUnit.SECONDS)//设置读取超时时间
+                .writeTimeout(10, TimeUnit.SECONDS)//设置写的超时时间
+                .connectTimeout(10, TimeUnit.SECONDS)//设置连接超时时间
                 .build();
-        val request = Request.Builder().url(uri).build()
         mOkHttpClient.newWebSocket(request, MyWebSocketWebSocketListener.getInstance(object : MyWebSocketWebSocketListener.ConnectCallBack {
             override fun onConnectSuccsee() {
                 mWebSocketClinet = MyWebSocketWebSocketListener.getWebSocketInstance()
@@ -64,6 +64,10 @@ class ShowWebSocketPresenterImpl(val uri: String, val mView: ShowWebSocketView, 
             }
         }))
         mOkHttpClient.dispatcher().executorService().shutdown();
+    }
+    fun reSetUrL(str:String)
+    {
+
     }
 
     override fun onMessage() {

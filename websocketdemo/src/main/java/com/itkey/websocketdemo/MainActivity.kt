@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), ShowWebSocketView {
 
     lateinit var MessageAdapter: MessageAdapter
     lateinit var date: ArrayList<MessageBean>
-      var WebSocketUrl: String="ws://www.panjianghong.cn:8080/websocket"
+      var WebSocketUrl: String="ws://192.168.1.143:81"
     override fun onSentSuccess(str: String?) {
         MessageAdapter.list.add(object : MessageBean(str, null, null, MessageBean.TYPE_ME) {})
         MessageAdapter.notifyDataSetChanged()
