@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getApplicationContext();
                 Intent i=getPackageManager().getLaunchIntentForPackage("com.huage.wangyuedriver");
                 startActivity(i);
             }
