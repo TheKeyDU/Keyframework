@@ -24,7 +24,7 @@ import java.util.Random;
 public class StarTrailsView extends View {
     private String mExampleString; // TODO: use a default from R.string...
 
-    public ArrayList<TrailsLinesBean> Arcs = null;
+    public ArrayList<TrailsLinesBean> lines = null;
     public Point CenterPoint = null;
     private Paint StarTrailsPaint;
     private int Width;
@@ -32,15 +32,13 @@ public class StarTrailsView extends View {
     private RectF rectF;
     private Point point1;
     private Point point2;
-    private int StartAngle;
-    private int EndAngle;
     private int FPS = 60;
     private int MaxRadius;
     private int MaxArcNumber = 50;
     private long INTERVALS = 1000 / FPS;
     private Random random = new Random();
-    public int TargetArcPostion = 0;
-    public int TargetArcRadius = 0;
+    public int TargetArcPostion = 20;
+    public int TargetArcRadius = 200;
 
     public StarTrailsView(Context context) {
         super(context);
@@ -66,19 +64,17 @@ public class StarTrailsView extends View {
                 R.styleable.StarTrailsView_exampleString);
         a.recycle();
         StarTrailsPaint = new TextPaint();
-        StarTrailsPaint.setARGB(100, 100, 0, 0);
+       // StarTrailsPaint.setARGB(100, 100, 0, 0);
         StarTrailsPaint.setStyle(Paint.Style.STROKE);
         StarTrailsPaint.setStrokeWidth(5);
         StarTrailsPaint.setAntiAlias(true);
         CenterPoint = new Point(0, 0);
-        Arcs = new ArrayList<>();
+        lines = new ArrayList<>();
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 Width = getWidth();
                 Height = getHeight();
-                StartAngle = 0;
-                EndAngle = 0;
                 point1 = new Point(0, 0);
                 point2 = new Point(Width, Height);
                 rectF = new RectF(point1.x, point1.y, point2.x, point2.y);
@@ -87,6 +83,7 @@ public class StarTrailsView extends View {
                     MaxRadius = Math.max(Width, Height) / 2;
                     TrailsLinesBean.CenterPoint = CenterPoint;
                     TrailsLinesBean.SrceenWithAndHeigh = new Point(Width, Height);
+                    initRandomPoints();
                 }
             }
         });
@@ -98,27 +95,53 @@ public class StarTrailsView extends View {
     }
 
     public void initRandomPoints() {
-        Arcs.add(new TrailsLinesBean(TargetArcRadius + random.nextInt(20),
-                0,
-                0,
-                1, 1
 
-        ));
+        for (int i = 0; i <= TargetArcPostion; i++) {
+            TargetArcRadius+=random.nextInt(20);
+            lines.add(new TrailsLinesBean(TargetArcRadius + random.nextInt(20),
+                    0,
+                    0,
+                    1)
 
+            );
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawArc(rectF, StartAngle, EndAngle, false, StarTrailsPaint);
-        EndAngle++;
+        drawAllArcLines(canvas, lines, StarTrailsPaint);
+        lenththenAllLines(lines);
         postInvalidateDelayed(INTERVALS);
 
     }
 
-    public void drawCustomArc(Canvas canvas, Point point1, Point point2, int startAngle, int EndAngle, Boolean UseCenter, int PaintColor) {
-        rectF.set(point1.x, point1.y, point2.x, point2.y);
-        StarTrailsPaint.setColor(PaintColor);
-        canvas.drawArc(rectF, startAngle, EndAngle, UseCenter, StarTrailsPaint);
+    private void lenththenAllLines(ArrayList<TrailsLinesBean> lines) {
+        for (int i = 0; i < lines.size(); i++) {
+            int end = lines.get(i).getEndAngle();
+
+            if (end < 360) {
+                end = end + lines.get(i).getTime();
+                lines.get(i).setEndAngle(end);
+            }
+            else return;
+
+        }
     }
+
+    private void drawAllArcLines(Canvas canvas, ArrayList<TrailsLinesBean> lines, Paint paint) {
+        for (int i = 0; i < lines.size(); i++) {
+            float left = lines.get(i).getRectPonintTopLeft().x;
+            float top = lines.get(i).getRectPonintTopLeft().y;
+            float right = lines.get(i).getRectPonintBottomRight().x;
+            float bottom = lines.get(i).getRectPonintTopLeft().y;
+            float startAngle = lines.get(i).getStartAngle();
+            float sweepAngle = lines.get(i).getEndAngle();
+            int color = lines.get(i).getRandomColor();
+            paint.setColor(color);
+            canvas.drawArc(left, top, right, bottom, startAngle, sweepAngle, false, paint);
+        }
+    }
+
+
 }
