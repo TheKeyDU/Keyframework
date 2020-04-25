@@ -17,7 +17,7 @@ public class TrailsLinesBean {
         Radius = radius;
     }
 
-    public int getStartAngle() {
+    public float getStartAngle() {
         return StartAngle;
     }
 
@@ -25,7 +25,7 @@ public class TrailsLinesBean {
         StartAngle = startAngle;
     }
 
-    public int getEndAngle() {
+    public float getEndAngle() {
         return EndAngle;
     }
 
@@ -33,7 +33,7 @@ public class TrailsLinesBean {
         EndAngle = endAngle;
     }
 
-    public int getTime() {
+    public float getTime() {
         return Time;
     }
 
@@ -42,18 +42,22 @@ public class TrailsLinesBean {
     }
 
 
-    public TrailsLinesBean(int radius, int startAngle, int endAngle, int time) {
+    public TrailsLinesBean(int radius, int startAngle, int endAngle, float time) {
+        Random random = new Random();
+
         Radius = radius;
         StartAngle = startAngle;
         EndAngle = endAngle;
         Time = time;
+        RandomColor = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
-        if (CenterPoint != null && SrceenWithAndHeigh != null) {
-            Random random = new Random();
-            RectPonintTopLeft = new Point((SrceenWithAndHeigh.x / 2 - radius), (SrceenWithAndHeigh.y / 2 - radius));
-            RectPonintBottomRight = new Point((SrceenWithAndHeigh.x / 2 + radius), (SrceenWithAndHeigh.y / 2 + radius));
-            RandomColor = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        caculateLTBR();
+    }
 
+    public void caculateLTBR() {
+        if (CenterPoint != null) {
+            RectPonintTopLeft = new Point((CenterPoint.x / 2 - Radius), (CenterPoint.y / 2 - Radius));
+            RectPonintBottomRight = new Point((CenterPoint.x / 2 + Radius), (CenterPoint.y / 2 + Radius));
         } else {
             System.out.println("屏幕中心点未赋值！");
         }
@@ -69,9 +73,9 @@ public class TrailsLinesBean {
 
     private int RandomColor;
     private int Radius = 0;
-    private int StartAngle = 0;
-    private int EndAngle = 0;
-    private int Time;
+    private float StartAngle = 0;
+    private float EndAngle = 0;
+    private float Time;
 
     public Point getRectPonintTopLeft() {
         return RectPonintTopLeft;
@@ -92,5 +96,4 @@ public class TrailsLinesBean {
     private Point RectPonintTopLeft;
     private Point RectPonintBottomRight;
     public static Point CenterPoint = null;
-    public static Point SrceenWithAndHeigh = null;
 }
