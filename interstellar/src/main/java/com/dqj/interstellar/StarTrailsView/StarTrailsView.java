@@ -37,7 +37,7 @@ public class StarTrailsView extends View {
     private int MaxArcNumber = 50;
     private long INTERVALS = 1000 / FPS;
     private Random random = new Random();
-    public int TargetArcPostion = 20;
+    public int TargetArcPostion = 60;
     public int TargetArcRadius = 200;
 
     public StarTrailsView(Context context) {
@@ -67,6 +67,7 @@ public class StarTrailsView extends View {
        // StarTrailsPaint.setARGB(100, 100, 0, 0);
         StarTrailsPaint.setStyle(Paint.Style.STROKE);
         StarTrailsPaint.setStrokeWidth(5);
+        StarTrailsPaint.setTextSize(30);
         StarTrailsPaint.setAntiAlias(true);
         CenterPoint = new Point(0, 0);
         lines = new ArrayList<>();
@@ -101,7 +102,7 @@ public class StarTrailsView extends View {
             lines.add(new TrailsLinesBean(TargetArcRadius + random.nextInt(20),
                     0,
                     0,
-                    1)
+                    3)
 
             );
         }
@@ -134,12 +135,20 @@ public class StarTrailsView extends View {
             float left = lines.get(i).getRectPonintTopLeft().x;
             float top = lines.get(i).getRectPonintTopLeft().y;
             float right = lines.get(i).getRectPonintBottomRight().x;
-            float bottom = lines.get(i).getRectPonintTopLeft().y;
+            float bottom = lines.get(i).getRectPonintBottomRight().y;
             float startAngle = lines.get(i).getStartAngle();
             float sweepAngle = lines.get(i).getEndAngle();
             int color = lines.get(i).getRandomColor();
             paint.setColor(color);
             canvas.drawArc(left, top, right, bottom, startAngle, sweepAngle, false, paint);
+            //canvas.drawPoint(lines.get(i).getRectPonintBottomRight().x,lines.get(i).getRectPonintBottomRight().y,paint);
+        /*    canvas.drawText(i+"",right,lines.get(i).getRectPonintBottomRight().y,paint);
+            canvas.drawText("s"+startAngle,right,top,paint);
+            canvas.drawText("e"+sweepAngle,left,bottom,paint);
+           // canvas.drawPoint(lines.get(i).getRectPonintTopLeft().x,lines.get(i).getRectPonintTopLeft().y,paint);
+            canvas.drawText(i+"",lines.get(i).getRectPonintTopLeft().x,lines.get(i).getRectPonintTopLeft().y,paint);*/
+            canvas.drawPoint(TrailsLinesBean.CenterPoint.x,TrailsLinesBean.CenterPoint.y,paint);
+
         }
     }
 
