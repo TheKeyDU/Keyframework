@@ -21,7 +21,7 @@ public class TrailsLinesBean {
         return StartAngle;
     }
 
-    public void setStartAngle(int startAngle) {
+    public void setStartAngle(float startAngle) {
         StartAngle = startAngle;
     }
 
@@ -29,7 +29,7 @@ public class TrailsLinesBean {
         return EndAngle;
     }
 
-    public void setEndAngle(int endAngle) {
+    public void setEndAngle(float endAngle) {
         EndAngle = endAngle;
     }
 
@@ -42,7 +42,7 @@ public class TrailsLinesBean {
     }
 
 
-    public TrailsLinesBean(int radius, int startAngle, int endAngle, float time) {
+    public TrailsLinesBean(int radius, float startAngle, float endAngle, float time) {
         Random random = new Random();
 
         Radius = radius;

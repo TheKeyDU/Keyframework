@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -77,7 +79,7 @@ public class StarTrailsView extends View {
                 Width = getWidth();
                 Height = getHeight();
                 if (Width != 0 && Height != 0) {
-                    initCenterPoint(Width / 2, Height / 2);
+                    initCenterPoint(Width, Height);
                     TrailsLinesBean.CenterPoint = CenterPoint;
                     initRandomPoints();
                 }
@@ -91,17 +93,17 @@ public class StarTrailsView extends View {
     }
 
     public void initRandomPoints() {
-        int start = random.nextInt(90);
-        int lenth = random.nextInt(40);
-        for (int i = 0; i <= TargetArcPostion; i++) {
-            TargetArcRadius += random.nextInt(20);
-            float time = (random.nextInt(10) + 1) / 10;
+        float start = random.nextInt(40);
+        float lenth = random.nextInt(40);
+        for (int i = 0; i < 100; i++) {
+            float time = (random.nextInt(10) + 1) / 10f;
             lines.add(new TrailsLinesBean(TargetArcRadius,
                     start,
                     start + lenth,
                     time)
 
             );
+            TargetArcRadius += random.nextInt(20);
         }
     }
 
@@ -109,9 +111,24 @@ public class StarTrailsView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawAllArcLines(canvas, lines, StarTrailsPaint);
-        lenththenAllLines(lines);
+        linesLenthThen(lines);
         postInvalidateDelayed(INTERVALS);
 
+    }
+
+    private void linesLenthThen(ArrayList<TrailsLinesBean> lines) {
+        for (int i=0;i<lines.size();i++)
+        {
+            TrailsLinesBean trailsLinesBean=lines.get(i);
+            float start=trailsLinesBean.getStartAngle();
+            float end=trailsLinesBean.getEndAngle();
+            float time=trailsLinesBean.getTime();
+            start+=time;
+            end+=time;
+            lines.get(i).setStartAngle(start);
+            lines.get(i).setEndAngle(end);
+            lines.get(i).caculateLTBR();
+        }
     }
 
     @Override
@@ -132,7 +149,6 @@ public class StarTrailsView extends View {
                 TrailsLinesBean.CenterPoint.y += offsety;
                 MoveX = (int) event.getX();
                 MoveY = (int) event.getY();
-
                 break;
 
             }
@@ -146,19 +162,6 @@ public class StarTrailsView extends View {
     }
 
 
-    private void lenththenAllLines(ArrayList<TrailsLinesBean> lines) {
-        for (int i = 0; i < lines.size(); i++) {
-            lines.get(i).caculateLTBR();
-
-            float end = lines.get(i).getEndAngle();
-            float start = lines.get(i).getStartAngle();
-            end = (end >= 360) ? end % 360 + lines.get(i).getTime() : end + lines.get(i).getTime();
-            start = (start >= 360) ? start % 360 + lines.get(i).getTime() : start + lines.get(i).getTime();
-            lines.get(i).setEndAngle((int) end);
-            lines.get(i).setStartAngle((int) start);
-
-        }
-    }
 
     private void drawAllArcLines(Canvas canvas, ArrayList<TrailsLinesBean> lines, Paint paint) {
         for (int i = 0; i < lines.size(); i++) {
@@ -177,7 +180,8 @@ public class StarTrailsView extends View {
             canvas.drawText("e"+sweepAngle,left,bottom,paint);
            // canvas.drawPoint(lines.get(i).getRectPonintTopLeft().x,lines.get(i).getRectPonintTopLeft().y,paint);
             canvas.drawText(i+"",lines.get(i).getRectPonintTopLeft().x,lines.get(i).getRectPonintTopLeft().y,paint);*/
-            canvas.drawPoint(TrailsLinesBean.CenterPoint.x, TrailsLinesBean.CenterPoint.y, paint);
+           // canvas.drawPoint(TrailsLinesBean.CenterPoint.x, TrailsLinesBean.CenterPoint.y, paint);
+
 
         }
     }
