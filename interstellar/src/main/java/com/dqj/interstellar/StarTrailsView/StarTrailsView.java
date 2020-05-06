@@ -3,22 +3,16 @@ package com.dqj.interstellar.StarTrailsView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
-import android.os.Message;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.dqj.interstellar.R;
-import com.dqj.interstellar.StartsPonitBean;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,8 +31,8 @@ public class StarTrailsView extends View {
     private int FPS = 60;
     private long INTERVALS = 1000 / FPS;
     private Random random = new Random();
-    public int TargetArcPostion = 1;
-    public int TargetArcRadius = 100;
+    public int TargetArcPostion = 200;
+    public int TargetArcRadius = 10;
     private int MoveX;
     private int MoveY;
     private boolean ChangeOnce = true;
@@ -97,11 +91,12 @@ public class StarTrailsView extends View {
     }
 
     public void initRandomPoints() {
-        float start = random.nextInt(40);
-        float lenth = random.nextInt(40);
+
         for (int i = 0; i < TargetArcPostion; i++) {
-            // float time = (random.nextInt(10) + 1) / 10f;
-            float time = 1;
+            float start = random.nextInt(320);
+            float lenth = random.nextInt(40);
+             float time = (random.nextInt(10) + 1) / 10f;
+           // float time = 1;
             lines.add(new TrailsLinesBean(TargetArcRadius,
                     start,
                     start + lenth,
@@ -117,7 +112,7 @@ public class StarTrailsView extends View {
         super.onDraw(canvas);
         drawAllArcLines(canvas, lines, StarTrailsPaint);
         linesLenthThen(lines);
-            postInvalidateDelayed(INTERVALS);
+        postInvalidateDelayed(INTERVALS);
 
     }
 
@@ -129,10 +124,11 @@ public class StarTrailsView extends View {
             float time = trailsLinesBean.getTime();
             start += time;
             end += time;
+            start = start > 360 ? start % 360 : start;
+            end = end > 360 ? end % 360 : end;
             lines.get(i).setStartAngle(start);
             lines.get(i).setEndAngle(end);
             Log.e("起点终点" + i, lines.get(i).getStartAngle() + "     " + lines.get(i).getEndAngle());
-            lines.get(i).caculateLTBR();
         }
     }
 
@@ -178,7 +174,9 @@ public class StarTrailsView extends View {
             int color = lines.get(i).getRandomColor();
             paint.setColor(color);
             canvas.drawArc(left, top, right, bottom, startAngle, sweepAngle, false, paint);
-            canvas.drawText("start:"+startAngle+" end"+sweepAngle,(int)left-100,(int)top-100,paint);
+            lines.get(i).caculateLTBR();
+
+            //     canvas.drawText("start:"+startAngle+" end"+sweepAngle,(int)left-100,(int)top-100,paint);
             //canvas.drawPoint(lines.get(i).getRectPonintBottomRight().x,lines.get(i).getRectPonintBottomRight().y,paint);
         /*    canvas.drawText(i+"",right,lines.get(i).getRectPonintBottomRight().y,paint);
             canvas.drawText("s"+startAngle,right,top,paint);
