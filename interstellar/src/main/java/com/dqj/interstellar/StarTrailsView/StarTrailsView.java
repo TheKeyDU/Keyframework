@@ -31,12 +31,12 @@ public class StarTrailsView extends View {
     private int FPS = 60;
     private long INTERVALS = 1000 / FPS;
     private Random random = new Random();
-    public int TargetArcPostion = 200;
+    public int TargetArcPostion = 600;
     public int TargetArcRadius = 10;
     private int MoveX;
     private int MoveY;
     private boolean ChangeOnce = true;
-
+    float speed[] = {0.02f, 0.04f,0.08f,  0.15f, 0.6f, 1f,2f,4f,0.1f,0.5f,5f,2f};
     public StarTrailsView(Context context) {
         super(context);
         init(null, 0);
@@ -75,7 +75,7 @@ public class StarTrailsView extends View {
                     Width = getWidth();
                     Height = getHeight();
                     if (Width != 0 && Height != 0) {
-                        initCenterPoint(Width, Height);
+                      //  initCenterPoint(Width, Height);
                         TrailsLinesBean.CenterPoint = CenterPoint;
                         initRandomPoints();
                         ChangeOnce = false;
@@ -93,17 +93,17 @@ public class StarTrailsView extends View {
     public void initRandomPoints() {
 
         for (int i = 0; i < TargetArcPostion; i++) {
-            float start = random.nextInt(320);
-            float lenth = random.nextInt(40);
-             float time = (random.nextInt(10) + 1) / 10f;
-           // float time = 1;
+            float start = random.nextInt(360);
+            float lenth = random.nextInt(30);
+              float time =  speed[random.nextInt(speed.length-1)];
+         //  float time = random.nextInt(10);
             lines.add(new TrailsLinesBean(TargetArcRadius,
                     start,
-                    start + lenth,
+                     lenth,
                     time)
 
             );
-            TargetArcRadius += random.nextInt(20);
+            TargetArcRadius += random.nextInt(10);
         }
     }
 
@@ -123,7 +123,7 @@ public class StarTrailsView extends View {
             float end = trailsLinesBean.getEndAngle();
             float time = trailsLinesBean.getTime();
             start += time;
-            end += time;
+            //end += time;
             start = start > 360 ? start % 360 : start;
             end = end > 360 ? end % 360 : end;
             lines.get(i).setStartAngle(start);
