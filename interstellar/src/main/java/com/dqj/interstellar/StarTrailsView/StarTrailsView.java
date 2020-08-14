@@ -28,7 +28,7 @@ public class StarTrailsView extends View {
     private Paint StarTrailsPaint;
     private int Width;
     private int Height;
-    private int FPS = 60;
+    private int FPS = 120;
     private long INTERVALS = 1000 / FPS;
     private Random random = new Random();
     public int TargetArcPostion = 600;
